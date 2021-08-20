@@ -54,7 +54,7 @@ class BidController extends Controller
             return redirect()->route('project.show', $request->project_id)->with('error', 'You Dont have enough Bids to bid on this Project!');
         }
     }
-
+    
     public function update(Request $request, $id)
     {
         // dd($request);
