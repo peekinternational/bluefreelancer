@@ -3,7 +3,7 @@
         <nav class="navbar navbar-expand-lg navbar-dark py-1">
             <div class="container">
                 <div class="navbar-brand">
-                    <a href="index.html">
+                    <a href="/">
                         <img src="{{ url('assets/img/logo/logo-light.png') }}" width="256" alt="Bluefreelancer">
                     </a>
                 </div>
@@ -28,15 +28,17 @@
                                     <i class="fa fa-tasks mr-2"></i>
                                     Start a Project
                                 </a>
-                                <a href="./post-contest.html" class="dropdown-item border-bottom border-light">
+                                <a href="{{ route('post-contest') }}"
+                                    class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-hourglass-start mr-2"></i>
                                     Start a Contest
                                 </a>
-                                <a href="./showcase.html" class="dropdown-item border-bottom border-light">
+                                <a href="{{ route('showcase.index') }}"
+                                    class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-picture-o mr-2"></i>
                                     Showcase
                                 </a>
-                                <a href="./browse-directory.html" class="dropdown-item">
+                                <a href="/browse/directory" class="dropdown-item">
                                     <i class="fa fa-mouse-pointer mr-2"></i>
                                     Browse a Directory
                                 </a>
@@ -61,17 +63,19 @@
                                     <i class="fa fa-tasks mr-2"></i>
                                     Browse Project
                                 </a>
-                                <a href="./contest-list.html" class="dropdown-item border-bottom border-light">
+                                <a href="{{ route('contest-listing') }}"
+                                    class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-hourglass-start mr-2"></i>
                                     Browse Contest
                                 </a>
-                                <a href="./showcase.html" class="dropdown-item border-bottom border-light">
+                                <a href="{{ route('showcase.index') }}"
+                                    class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-picture-o mr-2"></i>
                                     Showcase
                                 </a>
-                                <a href="./browse-directory.html" class="dropdown-item">
+                                <a href="/browse/category" class="dropdown-item">
                                     <i class="fa fa-mouse-pointer mr-2"></i>
-                                    Browse a Directory
+                                    Browse a Category
                                 </a>
                             </div>
                         </li>
@@ -89,7 +93,7 @@
                                     Manage
                                 </div>
 
-                                <a href="{{ route('my-project.employer') }}"
+                                <a href="{{ route('my-project.employer.open-projects') }}"
                                     class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-tasks mr-2"></i>
                                     My Project
@@ -217,8 +221,8 @@
                                 </div>
 
                                 <div class="overflow-auto" style="height: 15rem;">
-                                    @if (App\Models\Notification::all()->count())
-                                        @foreach (App\Models\Notification::all() as $item)
+                                    @if (App\Models\Notification::count())
+                                        @foreach (App\Models\Notification::orderByDesc('created_at')->get() as $item)
                                             @if ($item->to == auth()->id())
                                                 <a href="#"
                                                     class="dropdown-item border-top border-light position-relative px-3">
@@ -252,26 +256,18 @@
                                 </div>
 
                                 <div class="overflow-auto" style="height: 15rem;">
-                                    <a href="#" class="dropdown-item border-top border-light position-relative p-3">
-                                        <i class="fa fa-desktop font-size-lg align-middle mr-2"></i>
-                                        Android Lantcer website
-                                    </a>
-                                    <a href="#" class="dropdown-item border-top border-light position-relative p-3">
-                                        <i class="fa fa-desktop font-size-lg align-middle mr-2"></i>
-                                        Android Lantcer website
-                                    </a>
-                                    <a href="#" class="dropdown-item border-top border-light position-relative p-3">
-                                        <i class="fa fa-desktop font-size-lg align-middle mr-2"></i>
-                                        Android Lantcer website
-                                    </a>
-                                    <a href="#" class="dropdown-item border-top border-light position-relative p-3">
-                                        <i class="fa fa-desktop font-size-lg align-middle mr-2"></i>
-                                        Android Lantcer website
-                                    </a>
-                                    <a href="#" class="dropdown-item border-top border-light position-relative p-3">
-                                        <i class="fa fa-desktop font-size-lg align-middle mr-2"></i>
-                                        Android Lantcer website
-                                    </a>
+                                    @if (App\Models\Project::count())
+                                        @foreach (App\Models\Project::orderByDesc('created_at')->limit(10)->get(['project_id', 'title'])
+    as $item)
+                                            <a href="{{ route('project.show', $item->project_id) }}"
+                                                class="dropdown-item border-top border-light position-relative p-3">
+                                                <i class="fa fa-desktop font-size-lg align-middle mr-2"></i>
+                                                {{ $item->title }}
+                                            </a>
+                                        @endforeach
+                                    @else
+                                        <span class="text-danger">Ops! 404 not found.</span>
+                                    @endif
                                 </div>
                             </div>
                         </li>

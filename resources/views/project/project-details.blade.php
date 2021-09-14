@@ -138,7 +138,8 @@
                                         <h5 class="card-title mb-3">Deliver In:</h5>
 
                                         <div class="input-group mb-3">
-                                            <input type="number" class="form-control" placeholder="3" name="days" required>
+                                            <input type="number" class="form-control" placeholder="3" name="days"
+                                                required>
                                             <div class="input-group-append">
                                                 <div class="input-group-text">Days</div>
                                             </div>
@@ -226,12 +227,16 @@
 
                     <div class="pt-1">
                         <ul class="list-inline">
-                            @foreach (Illuminate\Support\Str::of($project->skills)->explode(',') as $skill)
-                                <li
-                                    class="list-inline-item badge font-size-ms font-weight-bold text-primary border shadow-sm py-2 px-3">
-                                    {{ App\Models\User::skillTitle($skill)->title }}
-                                </li>
-                            @endforeach
+                            @if ($project->skills)
+                                @foreach (Illuminate\Support\Str::of($project->skills)->explode(',') as $skill)
+                                    <li
+                                        class="list-inline-item badge font-size-ms font-weight-bold text-primary border shadow-sm py-2 px-3">
+                                        {{ App\Models\User::skillTitle($skill)->title }}
+                                    </li>
+                                @endforeach
+                            @else
+                                <li><span class="text-danger">No Skills Found!.</span></li>
+                            @endif
                         </ul>
                     </div>
                     @if ($project->image)
@@ -266,7 +271,7 @@
 
                     <div class="media p-4">
                         <img class="avatar-bordered rounded-circle shadow-lg"
-                            src="{{ url('uploads/users/' . $project->user->id . '/images/' . $project->user->img) }}"
+                            src="{{ $project->user->img == '' ? url('assets/img/pages/default.png') : url('uploads/users/' . $project->user->id . '/images/' . $project->user->img) }}"
                             width="128" alt="User thumbnail">
 
                         <div class="media-body ml-3">
@@ -330,7 +335,7 @@
 
                 <div class="row">
                     <div class="col-md-6 d-none d-md-block">
-                        <div class="font-weight-bold text-white">Project selection by type 
+                        <div class="font-weight-bold text-white">Project selection by type
                             {{-- ({{ $bidsSeleProjCount }}) --}}
                         </div>
                     </div>
@@ -353,7 +358,7 @@
                                 <div class="col-md-6 mb-3 mb-md-0">
                                     <div class="media">
                                         <img class="rounded-xl mr-1"
-                                            src="{{ url('uploads/users/' . $item->user->id . '/images/' . $item->user->img) }}"
+                                            src="{{ $item->user->img == '' ? url('assets/img/pages/default.png') : url('uploads/users/' . $item->user->id . '/images/' . $item->user->img) }}"
                                             width="64" alt="{{ $item->user->username }}">
                                         <div class="media-body pl-3">
                                             <h6 class="font-weight-bold mb-1">
@@ -393,7 +398,7 @@
                                                         id="proposalAppBtn">Approve</button>
                                                 </li>
                                                 <li class="list-inline-item">
-                                                    <button onclick="return confirm('Are you Sure?')" type="submit"
+                                                    <button  type="submit"
                                                         class="btn btn-sm btn-danger mx-2"
                                                         id="proposalRejBtn">Reject</button>
                                                 </li>
@@ -408,10 +413,70 @@
                                     @endif
                                 </div>
                             </div>
+                            {{-- <div class="row"> --}}
+
+                            @if ($item->milestones->count())
+                                @if ($item->user_id == auth()->id())
+                                    <h5><strong>Milestones:</strong></h5>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <h6><strong>Name</strong></h6>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <h6><strong>Amount</strong></h6>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <h6><strong>Status</strong></h6>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <h6><strong>Actions</strong></h6>
+                                        </div>
+                                    </div>
+                                    @foreach ($item->milestones as $milestone)
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <span>{{ $milestone->name }}</span>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <span>{{ $milestone->amount }}</span>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <span>
+                                                    @if ($milestone->status == 1)
+                                                        Requested
+                                                    @elseif($milestone->status == 2)
+                                                        Deposit
+                                                    @elseif($milestone->status == 3)
+                                                        Rejected By Project Owner
+                                                    @endif
+                                                </span>
+                                            </div>
+                                            <div class="col-md-4 row">
+                                                <form action="{{ route('milestone.destory', $milestone->id) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    <input type="submit" value="Cancel" class="btn btn-dark mx-2"
+                                                        onclick="return confirm('Are you sure you want to cancel this milestone?')">
+                                                </form>
+                                                @if ($milestone->status == 2)
+                                                    <form action="#">
+                                                        <input type="submit" value="Dispute" class="btn btn-danger mx-2">
+                                                    </form>
+                                                @endif
+
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    @endforeach
+                                @endif
+                            @else
+                                <span class="text-danger">Ops! no milestone found...</span>
+                            @endif
+                            {{-- </div> --}}
                         @endif
                     @endforeach
                 @else
-                <span class="text-danger">Ops 404 not Found!</span>
+                    <span class="text-danger">Ops 404 not Found!</span>
                 @endif
             </div>
         </div>
@@ -443,8 +508,8 @@
                                 <div class="col-md-6 mb-3 mb-md-0">
                                     <div class="media">
                                         <img class="rounded-xl mr-1"
-                                            src="{{ url('uploads/users/' . $item->user->id . '/images/' . $item->user->img) }}"
-                                            width="64" alt="Sarfaraz">
+                                            src="{{ $item->user->img == '' ? url('assets/img/pages/default.png') : url('uploads/users/' . $item->user->id . '/images/' . $item->user->img) }}"
+                                            width="64" alt="user">
                                         <div class="media-body pl-3">
                                             <h6 class="font-weight-bold mb-1">
                                                 <a href="#">{{ $item->user->username }}</a>

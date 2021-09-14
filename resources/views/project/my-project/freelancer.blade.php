@@ -212,12 +212,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination pagination-sm justify-content-center">
-                                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                            </ul>
-                        </nav>
+                        {{-- {{ $workProjects->links() }} --}}
                     </div>
 
                     <div class="tab-pane fade" id="nav-past-project2" role="tabpanel"
@@ -265,18 +260,33 @@
                                         <th class="text-nowrap" scope="col">MY ENTRIES</th>
                                         <th class="text-nowrap" scope="col">PRIZE</th>
                                         <th class="text-nowrap" scope="col">DEADLINE</th>
-                                        <th class="text-nowrap" scope="col">ACTION</th>
+                                        {{-- <th class="text-nowrap" scope="col">ACTION</th> --}}
                                     </tr>
                                 </thead>
-
-                                <tbody></tbody>
-
-                                <caption>
-                                    <button class="btn btn-light btn-block">
-                                        You have not bid on any project please click <a href="#">Browse Projects</a> to view
-                                        all posted projects.
-                                    </button>
-                                </caption>
+                                @if ($activeContest->count())
+                                    <tbody>
+                                        @foreach ($activeContest as $item)
+                                            <tr>
+                                                <td class="text-nowrap">{{ $item->contest->title }}</td>
+                                                <td class="text-nowrap">{{ $item->contestEntries->count() }}</td>
+                                                <td class="text-nowrap">
+                                                    {{ App\Models\User::find($item->contest->user_id)->username }}</td>
+                                                <td class="text-nowrap">{{ $item->title }}</td>
+                                                <td class="text-nowrap">{{ $item->amount }}</td>
+                                                <td class="text-nowrap">
+                                                    {{ $item->created_at->addDays($item->days)->format('M d, Y') }}</td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                @else
+                                    <caption>
+                                        <button class="btn btn-light btn-block">
+                                            You have not bid on any project please click <a href="#">Browse Projects</a> to
+                                            view
+                                            all posted projects.
+                                        </button>
+                                    </caption>
+                                @endif
                             </table>
                         </div>
                         <nav aria-label="Page navigation">
@@ -303,14 +313,43 @@
                                     </tr>
                                 </thead>
 
-                                <tbody></tbody>
-
-                                <caption>
-                                    <button class="btn btn-light btn-block">
-                                        You have not bid on any project please click <a href="#">Browse Projects</a> to view
-                                        all posted projects.
-                                    </button>
-                                </caption>
+                                @if ($pastContest->count())
+                                    <tbody>
+                                        @foreach ($pastContest as $item)
+                                            <tr>
+                                                <td class="text-nowrap">{{ $item->contest->title }}</td>
+                                                <td class="text-nowrap">{{ $item->contestEntries->count() }}</td>
+                                                <td class="text-nowrap">
+                                                    {{ App\Models\User::find($item->contest->user_id)->username }}
+                                                </td>
+                                                <td class="text-nowrap">
+                                                    @foreach ($item->contestEntries as $entry)
+                                                        @if ($entry->status == 2)
+                                                            {{ App\Models\User::find($entry->user_id)->username }}
+                                                        @endif
+                                                    @endforeach
+                                                </td>
+                                                <td class="text-nowrap">
+                                                    {{ $item->amount }}
+                                                </td>
+                                                <td class="text-nowrap">
+                                                    {{ $item->updated_at->format('M d, Y') }}
+                                                </td>
+                                                <td class="text-nowrap">
+                                                    COMPLETED
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                @else
+                                    <caption>
+                                        <button class="btn btn-light btn-block">
+                                            You have not bid on any project please click <a href="#">Browse Projects</a> to
+                                            view
+                                            all posted projects.
+                                        </button>
+                                    </caption>
+                                @endif
                             </table>
                         </div>
                         <nav aria-label="Page navigation">

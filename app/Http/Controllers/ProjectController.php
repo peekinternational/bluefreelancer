@@ -84,10 +84,10 @@ class ProjectController extends Controller
     public function show($id)
     {
         $project = Project::where('project_id', $id)->with('user')->first();
-        $bidsOnProject = Bid::where('project_id', $id)->with('user')->get();
+        $bidsOnProject = Bid::where('project_id', $id)->with(['user', 'milestones'])->get();
         // $bidsSeleProjCount = Bid::where('project_id', $id)->orWhere('status', '=', 2)->orWhere('status', '=', 3)->get();
         $bidsOnProjCount = Bid::where('project_id', $id)->where('status', 1)->with('user')->count();
-        // dd($bidsSeleProjCount);
+        // dd($bidsOnProject);
         return view('project.project-details', [
             'project' => $project,
             'bidsOnProject' => $bidsOnProject,

@@ -8,13 +8,16 @@ var quill = new Quill('#quill-editor', {
 const imgInp = document.getElementById('imageUploader');
 const imgOut = document.getElementById('imgOutput');
 const imgOverlay = document.getElementById('imageOverlay');
-imgInp.onchange = evt => {
-    const [file] = imgInp.files;
-    if (file) {
-        imgOverlay.classList.add('show');
-        imgOut.src = URL.createObjectURL(file);
+if (imgInp) {
+    imgInp.onchange = evt => {
+        const [file] = imgInp.files;
+        if (file) {
+            imgOverlay.classList.add('show');
+            imgOut.src = URL.createObjectURL(file);
+        }
     }
 }
+
 var milestoneCount = 1;
 function addMilestoneRow() {
     $('#milestoneInputBlock').append(
@@ -69,9 +72,26 @@ $("#search_project_skills").select2({
         }
     }
 });
-
+$("#search_contest_skills").select2({
+    placeholder: 'You can find a list of contest registered with the expertise.',
+    tags: true,
+    createTag: function (params) {
+        return {
+            newTag: false
+        }
+    }
+});
 $("#post_project_skills").select2({
-    placeholder: 'Please Add Your Portfolio Skills',
+    placeholder: 'Please Add Your Porject Skills',
+    tags: true,
+    createTag: function (params) {
+        return {
+            newTag: false
+        }
+    }
+});
+$("#post_contest_skills").select2({
+    placeholder: 'Please Add Your Contest Skills',
     tags: true,
     createTag: function (params) {
         return {
@@ -259,9 +279,19 @@ $("#post_project_form").on("submit", function () {
     $('#selected_post_project_skills').val($('#post_project_skills').val());
     $('#project_description').val($('#quill-editor .ql-editor').html());
 });
+$("#post_contest_form").on("submit", function () {
+    $('#selected_post_contest_skills').val($('#post_contest_skills').val());
+    $('#contest_description').val($('#quill-editor .ql-editor').html());
+});
 $("#update_project_form").on("submit", function () {
     $('#update_project_description').val($('#quill-editor .ql-editor').html());
 });
+$("#update_contest_form").on("submit", function () {
+    $('#update_contest_description').val($('#quill-editor .ql-editor').html());
+});
 $("#projectSearchForm").on("submit", function () {
     $('#selected_search_project_skills').val($('#search_project_skills').val());
+});
+$("#contestSearchForm").on("submit", function () {
+    $('#selected_search_contest_skills').val($('#search_contest_skills').val());
 });

@@ -15,7 +15,7 @@
         @endif
     </h5>
     <p class="font-size-xs">{{ $cert->organization }}</p>
-    <p class="font-size-ms">{{ $cert->issue_date }}</p>
+    <p class="font-size-ms">{{ $cert->issue_date->format('M d, Y') }}</p>
     <p class="card-text bold">{{ $cert->description }}</p>
 </div>
 

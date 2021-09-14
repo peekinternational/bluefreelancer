@@ -1,7 +1,7 @@
 jQuery(document).ready(function ($) {
-    // ============================
+    // =============================
     // ======= MODELS Logics =======
-    // ============================
+    // =============================
 
     // Hourly Rate Model
     $("#hourly-save-btn").click(function (e) {
@@ -549,7 +549,6 @@ jQuery(document).ready(function ($) {
     $('body').on('click', '#exp_UpModal_btn', function () {
         var exp_id = $(this).data('id');
         $.get('/profile/experience/edit/' + exp_id, function (data) {
-            // console.log(data);
             $('#exp_id').val(data.id);
             $('#title_update').val(data.title);
             $('#companyname_update').val(data.companyname);
@@ -621,6 +620,7 @@ jQuery(document).ready(function ($) {
     $.get('/category', function (data) {
         data.forEach(ele => {
             $('#project_select_category').append('<option value="' + ele.id + '" >' + ele.title + '</option>');
+            $('#contest_select_category').append('<option value="' + ele.id + '" >' + ele.title + '</option>');
         });
     });
 
@@ -632,7 +632,16 @@ jQuery(document).ready(function ($) {
                 $('#project_select_subcategory').append('<option value="' + ele.id + '" >' + ele.title + '</option>');
             });
         })
+    });
 
+    $("#contest_select_category").change(function (e) {
+        $('#contest_select_subcategory').empty();
+        $('#contest_select_subcategory').css('display', 'inline');
+        $.get('/subcategory/show/' + $(this).val(), function (data) {
+            data.forEach(ele => {
+                $('#contest_select_subcategory').append('<option value="' + ele.id + '" >' + ele.title + '</option>');
+            });
+        })
     });
 
     $.get('/profile/skill', function (data) {
@@ -640,7 +649,9 @@ jQuery(document).ready(function ($) {
             $('#select_top_skills').append('<option value="' + ele.id + '" class="select2-results__option select2-results__option--selectable select2-results__option--selected">' + ele.title + '</option>');
             $('#select_port_skills').append('<option value="' + ele.id + '" class="select2-results__option select2-results__option--selectable select2-results__option--selected">' + ele.title + '</option>');
             $('#post_project_skills').append('<option value="' + ele.id + '" class="select2-results__option select2-results__option--selectable select2-results__option--selected">' + ele.title + '</option>');
+            $('#post_contest_skills').append('<option value="' + ele.id + '" class="select2-results__option select2-results__option--selectable select2-results__option--selected">' + ele.title + '</option>');
             $('#search_project_skills').append('<option value="' + ele.id + '" class="select2-results__option select2-results__option--selectable select2-results__option--selected">' + ele.title + '</option>');
+            $('#search_contest_skills').append('<option value="' + ele.id + '" class="select2-results__option select2-results__option--selectable select2-results__option--selected">' + ele.title + '</option>');
             $('#search_freelancer_skills').append('<option value="' + ele.id + '" class="select2-results__option select2-results__option--selectable select2-results__option--selected">' + ele.title + '</option>');
         });
     })
@@ -666,10 +677,175 @@ jQuery(document).ready(function ($) {
     $('body').on('click', '#proposalRejBtn', function () {
         var proposal_id = $('#proposal_id').val();
         $.get('/project/my-project/' + proposal_id + '/proposal/reject', function (data) {
-            toastr.error('Successfully Rejected!', data);
+            console.log(data);
+            toastr.error('Successfully Rejected!');
             $('#proposalOptionRow').css('display', 'none');
             $('#projectSeleLastCol').append('<button class="btn btn-sm btn-danger mx-2 disabled">You Rejected it!</button>');
         })
     });
+    // ===================================================================================
+    $('body').on('click', '#showcase_detail_btn', function () {
+        var showcase_id = $(this).data('id');
+        var user_id = $(this).data('user');
+        $.get('/showcase/show/' + showcase_id, function (data) {
+            $('#showcase_image_detail').attr('src', 'uploads/showcases/' + data.img);
+            $('#showcase_title_detail').html(data.title);
+            $('#showcase_category_detail').html(data.cate);
+            $('#showcase_description_detail').html(data.description);
+            $('#showcase_likes_count').html(data.showcase_likes.length);
+            $('#showcase_liked_btn').attr('data-id', showcase_id);
+            $('#showcase_unliked_btn').attr('data-id', showcase_id);
 
+            if (data.showcase_likes.length == 0) {
+                $('#showcase_unliked_btn').css('display', 'inline');
+            }
+            data.showcase_likes.forEach(ele => {
+                if (ele.user_id == user_id) {
+                    $('#showcase_liked_btn').css('display', 'inline');
+                    $('#showcase_unliked_btn').css('display', 'none');
+                } else {
+                    $('#showcase_unliked_btn').css('display', 'inline');
+                    $('#showcase_liked_btn').css('display', 'none');
+                }
+            });
+            $('#showcase_user_detail').html(data.user.username + ' - ' + data.user.country);
+            $('#quikViewModal').modal('show');
+        })
+    });
+
+    // ===================================================================================
+
+    $('body').on('click', '#showcase_liked_btn', function () {
+        var showcase_id = $(this).data('id');
+        $.get('/showcase/unlike/' + showcase_id, function (data) {
+            if (data) {
+                $('#showcase_liked_btn').css('display', 'none');
+                $('#showcase_unliked_btn').css('display', 'inline');
+                var likes = Number($('#showcase_likes_count').html());
+                $('#showcase_likes_count').html(likes - 1)
+                toastr.success('Successfully Un-Liked!');
+            }
+        });
+    });
+    $('body').on('click', '#showcase_unliked_btn', function () {
+        var showcase_id = $(this).data('id');
+        $.get('/showcase/like/' + showcase_id, function (data) {
+            if (data) {
+                $('#showcase_liked_btn').css('display', 'inline');
+                $('#showcase_unliked_btn').css('display', 'none');
+                var likes = Number($('#showcase_likes_count').html());
+                $('#showcase_likes_count').html(likes + 1)
+                toastr.success('Successfully Liked!');
+            }
+        });
+    });
+    // ===================================================================================
+    $('body').on('click', '#contest_entry_detail_btn', function () {
+        var contest_id = $(this).data('id');
+        $.get('/contest/entry/detail/' + contest_id, function (data) {
+            // console.log(data);
+            $('#contest_entry_image').attr('src', '../uploads/contest/entry/' + data.file);
+            $('#contest_entry_title').html(data.title);
+            $('#contest_entry_userFullname').html(data.user.name);
+            $('#contest_entry_username').html('@' + data.user.username);
+            $('#contest_entry_detail').html(data.detail);
+            $('#contest_entry_detail_modal').modal('show');
+        })
+    });
+    // ==============================
+    // ======= Project Offer ========
+    // ==============================
+    $("#projectOfferBtn").click(function (e) {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        e.preventDefault();
+        var formData = new FormData();
+        formData.append('title', $('#projectOfferTitle').val());
+        formData.append('description', $('#projectOfferDescription').val());
+        formData.append('currency', $('#projectOfferCurrency').val());
+        formData.append('fixedRate', $('#projectOfferFixedRate').val());
+        formData.append('budget', $('#projectOfferBudget').val());
+        console.log($('#projectOfferTitle').val());
+        $.ajax({
+            type: 'POST',
+            url: '/project/offer/' + $('#projectOfferOutsourcer').val(),
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                toastr.success('Project Offer Send Successfully!');
+                // window.location.replace('/profile?outsourcer=' + $('#projectOfferOutsourcer').val());
+                console.log(data);
+                $('#projOfferMilestoneProjectId').val(data.bid.project_id);
+                $('#projOfferMilestoneUserId').val(data.bid.user_id);
+                $('#projOfferMilestoneBidId').val(data.bid.id);
+                $('#payment-after-consulantation').attr('href', '/project-details/' + data.bid.project_id);
+                jQuery('#projectOfferMilestoneModal').modal('show');
+            },
+            error: function (data) {
+                console.log(data);
+                if (data.responseJSON.errors.title) {
+                    toastr.error(data.responseJSON.errors.title);
+                }
+                if (data.responseJSON.errors.description) {
+                    toastr.error(data.responseJSON.errors.description);
+                }
+                if (data.responseJSON.errors.currency) {
+                    toastr.error(data.responseJSON.errors.currency);
+                }
+                if (data.responseJSON.errors.budget) {
+                    toastr.error(data.responseJSON.errors.budget);
+                }
+                if (data.responseJSON.errors.fixedRate) {
+                    toastr.error(data.responseJSON.errors.fixedRate);
+                }
+                else {
+                    toastr.error("Please try again later!", "Server Error");
+                }
+            }
+        });
+    });
+
+    $("#projectOfferMilestoneDepositPayment").click(function (e) {
+        // console.log("asdasdasd");
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        e.preventDefault();
+        var formData = new FormData();
+        formData.append('projOfferMsProjectId', $('#projOfferMilestoneProjectId').val());
+        formData.append('projOfferMsUserId', $('#projOfferMilestoneUserId').val());
+        formData.append('projOfferMsBidId', $('#projOfferMilestoneBidId').val());
+        formData.append('projOfferMsAmount', $('#projOfferMilestoneAmount').val());
+        formData.append('projOfferMsDescription', $('#projOfferMilestoneDescription').val());
+        $.ajax({
+            type: 'POST',
+            url: '/project/offer/milestone-deposit',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                toastr.success('Project Payment Deposit Successfully!');
+                window.location.replace('/project-details/' + data.project_id);
+                // console.log(data);
+            },
+            error: function (data) {
+                console.log(data);
+                if (data.responseJSON.errors.projOfferMsAmount) {
+                    toastr.error(data.responseJSON.errors.projOfferMsAmount);
+                }
+                if (data.responseJSON.errors.projOfferMsDescription) {
+                    toastr.error(data.responseJSON.errors.projOfferMsDescription);
+                }
+                else {
+                    toastr.error("Please try again later!", "Server Error");
+                }
+            }
+        });
+    });
 });

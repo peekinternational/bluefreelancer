@@ -57,9 +57,9 @@
                                 role="tab" aria-controls="nav-past-project" aria-selected="false">Past Project</a>
                             <a class="nav-link py-2" id="nav-active-contest-tab" data-toggle="tab"
                                 href="#nav-active-contest" role="tab" aria-controls="nav-active-contest"
-                                aria-selected="false">Active Contest</a>
+                                aria-selected="false">Open Contest</a>
                             <a class="nav-link py-2" id="nav-past-contest-tab" data-toggle="tab" href="#nav-past-contest"
-                                role="tab" aria-controls="nav-past-contest" aria-selected="false">Past Contest</a>
+                                role="tab" aria-controls="nav-past-contest" aria-selected="false">Awarded Contest</a>
                         </div>
                     </div>
                 </div>
@@ -129,8 +129,7 @@
                                                         onchange="window.location.href=this.value;">
                                                         <option selected value="{{ route('my-project.employer') }}">
                                                             Select</option>
-                                                        <option
-                                                            value="{{ route('project.manage', $item->project_id) }}">
+                                                        <option value="{{ route('project.manage', $item->project_id) }}">
                                                             View Applicant
                                                         </option>
                                                     </select>
@@ -211,7 +210,8 @@
                         </nav>
                     </div>
 
-                    <div class="tab-pane fade" id="nav-past-project" role="tabpanel" aria-labelledby="nav-past-project-tab">
+                    <div class="tab-pane fade" id="nav-past-project" role="tabpanel"
+                        aria-labelledby="nav-past-project-tab">
                         <div class="table-responsive">
                             <table class="table font-size-sm">
                                 <thead class="thead-dark">
@@ -256,15 +256,30 @@
                                         <th class="text-nowrap" scope="col">DEADLINE</th>
                                     </tr>
                                 </thead>
-
-                                <tbody></tbody>
-
-                                <caption>
-                                    <button class="btn btn-light btn-block">
-                                        You have not bid on any project please click <a href="#">Browse Projects</a> to view
-                                        all posted projects.
-                                    </button>
-                                </caption>
+                                @if ($openContests->count())
+                                    <tbody>
+                                        @foreach ($openContests as $item)
+                                            <tr>
+                                                <td class="text-nowrap py-3">{{ $item->title }}</td>
+                                                <td class="text-nowrap py-3">
+                                                    {{ $item->contestEntries->count() }}
+                                                </td>
+                                                <td class="text-nowrap py-3">{{ $item->budget }}</td>
+                                                <td class="text-nowrap py-3">
+                                                    {{ $item->created_at->addDays($item->days)->format('M d, Y') }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                @else
+                                    <caption>
+                                        <button class="btn btn-light btn-block">
+                                            You have not bid on any project please click <a href="#">Browse Projects</a> to
+                                            view
+                                            all posted projects.
+                                        </button>
+                                    </caption>
+                                @endif
                             </table>
                         </div>
                         <nav aria-label="Page navigation">
@@ -275,7 +290,8 @@
                         </nav>
                     </div>
 
-                    <div class="tab-pane fade" id="nav-past-contest" role="tabpanel" aria-labelledby="nav-past-contest-tab">
+                    <div class="tab-pane fade" id="nav-past-contest" role="tabpanel"
+                        aria-labelledby="nav-past-contest-tab">
                         <div class="table-responsive">
                             <table class="table font-size-sm">
                                 <thead class="thead-dark">
@@ -288,14 +304,35 @@
                                     </tr>
                                 </thead>
 
-                                <tbody></tbody>
+                                @if ($awardedContests->count())
+                                    <tbody>
+                                        @foreach ($awardedContests as $item)
+                                            <tr>
+                                                <td class="text-nowrap py-3">{{ $item->title }}</td>
+                                                <td lass="text-nowrap py-3">
+                                                    {{ App\Models\User::find($item->contestEntryCompleted->user_id)->username }}
+                                                </td>
+                                                <td class="text-nowrap py-3">
+                                                    {{ $item->contestEntryCompleted->title }}
+                                                </td>
+                                                <td class="text-nowrap py-3">
+                                                    {{ $item->contestEntryCompleted->amount }}
+                                                </td>
+                                                <td class="text-nowrap py-3">
+                                                    {{ $item->updated_at->format('M d, Y') }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
 
-                                <caption>
+                                    </tbody>
+                                @else
+                                    caption>
                                     <button class="btn btn-light btn-block">
                                         You have not bid on any project please click <a href="#">Browse Projects</a> to view
                                         all posted projects.
                                     </button>
-                                </caption>
+                                    </caption>
+                                @endif
                             </table>
                         </div>
                         <nav aria-label="Page navigation">

@@ -16,7 +16,7 @@
         @endif
     </h5>
     <p class="font-size-xs">{{ $exp->companyname }}</p>
-    <p class="font-size-ms">{{ $exp->started_at }} to {{ $exp->work_status ? 'Continue' : $exp->completion_at }}</p>
+    <p class="font-size-ms">{{ $exp->started_at->format('M d, Y') }} to {{ $exp->work_status ? 'Continue' : $exp->completion_at->format('M d, Y') }}</p>
     <p class="card-text">{{ $exp->summary }}</p>
 </div>
 {{-- Experience Update Modal --}}

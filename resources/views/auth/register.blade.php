@@ -145,14 +145,14 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-secondary btn-block"><span translate="signin"
-                                            class="ng-scope">Sign In</span></button>
+                                    <button type="submit" class="btn btn-secondary btn-block"><span translate="signup"
+                                            class="ng-scope">Sign Up</span></button>
                                 </div>
 
                                 <div class="form-group">
                                     <i class="fa fa-user mr-2" aria-hidden="true"></i>
                                     <span>Already have an account</span>?&nbsp;
-                                    <a href="signin.html">Sign In</a>
+                                    <a href="/login">Sign In</a>
                                 </div>
                             </fieldset>
                         </form>

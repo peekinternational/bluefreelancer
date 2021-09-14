@@ -56,8 +56,9 @@
                 </ul>
             </div>
         @endif
-        
+
         <div class="tab-content" id="pills-tabContent">
+
             <div class="tab-pane fade show active" id="pills-proposal" role="tabpanel" aria-labelledby="pills-proposal-tab">
                 <div class="col-md-9 px-0 mx-auto">
                     <ul class="list-unstyled">
@@ -69,7 +70,7 @@
                                             <div class="row">
                                                 <div class="col-3 col-md-2">
                                                     <img class="img-fluid"
-                                                        src="{{ url('uploads/users/' . $item->user->id . '/images/' . $item->user->img) }}"
+                                                        src="{{ $item->user->img == '' ? url('assets/img/pages/default.png') : url('uploads/users/' . $item->user->id . '/images/' . $item->user->img) }}"
                                                         width="96">
                                                 </div>
                                                 <div class="col-xs-10 col-md-6">
@@ -104,7 +105,7 @@
                                                             <input type="submit" value="Send Request"
                                                                 class="btn btn-info btn-sm">
                                                             <input type="hidden" name="proposal_project_id"
-                                                                value="{{ request()->route('project_id') }}">
+                                                                value="{{ request()->route('id') }}">
                                                             <input type="hidden" name="proposal_user_id"
                                                                 value="{{ $item->user->id }}">
                                                         </form>
@@ -135,14 +136,62 @@
                                             </div>
                                         </div>
                                         <div class="card-footer d-block">
-                                            <h6><strong>Description</strong></h6>
-                                            <p class="font-size-sm mb-0">
-                                                {{ $item->proposal != '' ? $item->proposal : 'No Description' }}
-                                            </p>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <h6><strong>Description:</strong></h6>
+                                                    <p class="font-size-sm mb-0">
+                                                        {{ $item->proposal != '' ? $item->proposal : 'No Description' }}
+                                                    </p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    @if ($item->milestones->count())
+                                                        <h6><strong>Milestones:</strong></h6>
+                                                        <div class="row">
+                                                            <div class="col-md-5">
+                                                                <h6><strong>Name</strong></h6>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <h6><strong>Amount</strong></h6>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <h6><strong>Status</strong></h6>
+                                                            </div>
+                                                        </div>
+                                                        @foreach ($item->milestones as $milestone)
+                                                            <div class="row">
+                                                                <div class="col-md-5">
+                                                                    <span>{{ $milestone->name }}</span>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <span>{{ $milestone->amount }}</span>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <span>
+                                                                        @if ($milestone->status == 1)
+                                                                            Requested
+                                                                        @elseif($milestone->status == 2)
+                                                                            Deposit
+                                                                        @elseif($milestone->status == 3)
+                                                                            Rejected By Project Owner
+                                                                        @endif
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                            <hr>
+                                                        @endforeach
+                                                    @else
+                                                        <span class="text-danger">Ops! no milestone found...</span>
+                                                    @endif
+
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </li>
                             @endforeach
+                        @else
+                            <span class="text-danger">Ops! 404 not Found</span>
                         @endif
                     </ul>
                 </div>
@@ -154,13 +203,13 @@
                         <ul class="list-unstyled">
                             @if ($proposals->count())
                                 @foreach ($proposals as $item)
-                                    @if ($item->status == 3)
+                                    @if ($item->status == 2 || $item->status == 3)
                                         <li class="mb-4">
                                             <div class="card card-bordered card-body rounded-xl">
                                                 <div class="row mb-4">
                                                     <div class="col-3 col-md-2">
                                                         <img class="img-fluid"
-                                                            src="{{ url('uploads/users/' . $item->user->id . '/images/' . $item->user->img) }}"
+                                                            src="{{ $item->user->img == '' ? url('assets/img/pages/default.png') : url('uploads/users/' . $item->user->id . '/images/' . $item->user->img) }}"
                                                             width="96">
                                                     </div>
                                                     <div class="col-10">
@@ -176,6 +225,30 @@
                                                     </div>
                                                 </div>
 
+                                                <form action="{{ route('milestone.deposit') }}" method="post"
+                                                    class="my-4">
+                                                    @csrf
+                                                    <input type="hidden" name="deposit_project_id"
+                                                        value="{{ request()->route('id') }}">
+                                                    <input type="hidden" name="deposit_user_id"
+                                                        value="{{ $item->user->id }}">
+                                                    <input type="hidden" name="deposit_bid_id" value="{{ $item->id }}">
+                                                    <div class="row">
+                                                        <div class="col-md-5">
+                                                            <input type="text" name="deposit_name" id=""
+                                                                class="form-control" placeholder="Deposit Description">
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <input type="text" name="deposit_amount"
+                                                                placeholder="Deposit Amount" class="form-control">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input type="submit" name="milestone-deposit"
+                                                                value="Deposit Milestone" class="btn btn-primary">
+                                                        </div>
+                                                    </div>
+                                                </form>
+
                                                 <div class="card border-0 bg-primary mb-4">
                                                     <div class="card-header">
                                                         <ul class="nav nav-pills nav-pills-light">
@@ -184,53 +257,94 @@
                                                         </ul>
                                                     </div>
                                                 </div>
-
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th scope="col">Amount Requested</th>
-                                                            <th scope="col">Contents</th>
-                                                            <th scope="col">Status</th>
-                                                            <th scope="col">Action</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        @if ($item->milestones->count())
+                                                @if ($item->milestones->count())
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Amount Requested</th>
+                                                                <th scope="col">Contents</th>
+                                                                <th scope="col">Status</th>
+                                                                <th scope="col">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
                                                             @php($total = 0)
                                                             @foreach ($item->milestones as $milestone)
+                                                            @if ($milestone->status == 2 || $milestone->status == 1)
+                                                                @php($total += $milestone->amount)
+                                                            @endif
+                                                                
                                                                 <tr>
                                                                     <td>
-                                                                        <div class="custom-control custom-checkbox">
-                                                                            <input type="checkbox"
-                                                                                class="custom-control-input"
-                                                                                id="customCheck1">
-                                                                            <label class="custom-control-label"
-                                                                                for="customCheck1">
-                                                                                {{ $project->currency == 'USD' ? '$' : '₩' }}{{ $milestone->amount }}</label>
-                                                                        </div>
+                                                                        {{ $project->currency == 'USD' ? '$' : '₩' }}{{ $milestone->amount }}
                                                                     </td>
-                                                                    @php($total += $milestone->amount)
                                                                     <td>{{ $milestone->name }}</td>
-                                                                    <td>Requested</td>
                                                                     <td>
-                                                                        <input class="btn btn-primary" type="button"
-                                                                            value="Paying">
+                                                                        @if ($milestone->status == 1)
+                                                                            Requested
+                                                                        @elseif($milestone->status == 2)
+                                                                            Deposit
+                                                                        @elseif($milestone->status == 3)
+                                                                            Rejected By Project Owner
+                                                                        @endif
+                                                                    </td>
+                                                                    <td>
+                                                                        @if ($milestone->status == 1)
+                                                                            <form
+                                                                                action="{{ route('milestone.depositOrReject', $milestone->id) }}"
+                                                                                method="post">
+                                                                                @csrf
+                                                                                <input type="hidden" name="project_id"
+                                                                                    value="{{ request()->route('id') }}">
+                                                                                <input type="submit"
+                                                                                    class="btn btn-success bt-xs"
+                                                                                    name="deposit" value="Deposit">
+                                                                                <input type="submit"
+                                                                                    class="btn btn-danger bt-xs"
+                                                                                    name="reject" value="Reject">
+                                                                            </form>
+                                                                        @elseif($milestone->status == 2)
+                                                                            <form
+                                                                                action="#"
+                                                                                method="post">
+                                                                                @csrf
+                                                                                <input type="hidden" name="project_id"
+                                                                                    value="{{ request()->route('id') }}">
+                                                                                <input type="submit"
+                                                                                    class="btn btn-success bt-xs"
+                                                                                    name="amount_release"
+                                                                                    value="Amount Release">
+                                                                                <input type="submit"
+                                                                                    class="btn btn-danger bt-xs"
+                                                                                    name="dispute" value="Dispute">
+                                                                            </form>
+                                                                        @endif
                                                                     </td>
                                                                 </tr>
                                                             @endforeach
-                                                        @endif
-                                                    </tbody>
-                                                </table>
-                                                <p><strong>Total:
-                                                        {{ $project->currency == 'USD' ? '$' : '₩' }}{{ $total }}</strong>
-                                                </p>
+                                                        </tbody>
+                                                    </table>
+                                                    <p>
+                                                        <strong>Total:
+                                                            {{ $project->currency == 'USD' ? '$' : '₩' }}{{ $total }}</strong>
+                                                    </p>
+                                                @else
+                                                    <table>
+                                                        <tr>
+                                                            <td>
+                                                                <span class="text-danger">Ops! no milestone
+                                                                    found...</span>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+
+                                                @endif
                                             </div>
                                         </li>
                                     @endif
                                 @endforeach
                             @endif
                         </ul>
-
                     </div>
 
                     <div class="col-lg-4">
@@ -266,7 +380,8 @@
                                     <div class="icon border-danger mx-1">
                                         <i class="fa fa-check text-danger"></i>
                                     </div>
-                                    <span class="text-info"><strong>Please note that if you request a direct money transfer
+                                    <span class="text-info"><strong>Please note that if you request a direct money
+                                            transfer
                                             from a freelancer to avoid a fee, the client is at a considerable
                                             risk.</strong></span>
                                 </li>
@@ -305,8 +420,8 @@
                                                     :</strong>
                                             </h6>
                                             <div class="col-md-4 pl-md-0">
-                                                <input type="text" class="form-control form-control-sm" name="project_title"
-                                                    value="{{ $project->title }}">
+                                                <input type="text" class="form-control form-control-sm"
+                                                    name="project_title" value="{{ $project->title }}">
                                             </div>
                                         </div>
 
@@ -315,21 +430,24 @@
                                                     :</strong>
                                             </h6>
                                             <div class="font-size-sm">
-                                                {{ App\Models\Category::find($project->main_category)->title }}</div>
+                                                {{ $project->main_category ? App\Models\Category::find($project->main_category)->title : 'No Category' }}
+                                            </div>
                                         </div>
 
                                         <div class="d-flex align-items-center mb-3">
                                             <h6 class="font-size-sm flex-shrink-0 mb-0 mr-3"><strong>Project Sub Category
                                                     :</strong></h6>
                                             <div class="font-size-sm">
-                                                {{ App\Models\SubCategory::find($project->sub_category)->title }}</div>
+                                                {{ $project->sub_category ? App\Models\SubCategory::find($project->sub_category)->title : 'No Sub Category' }}
+                                            </div>
                                         </div>
 
                                         <div class="d-flex align-items-center mb-3">
                                             <h6 class="font-size-sm flex-shrink-0 mb-0 mr-3"><strong>Project Currency
                                                     :</strong>
                                             </h6>
-                                            <div class="font-size-sm">{{ $project->currency == 'USD' ? 'USD' : 'KRW' }}
+                                            <div class="font-size-sm">
+                                                {{ $project->currency == 'USD' ? 'USD' : 'KRW' }}
                                             </div>
                                         </div>
 
@@ -384,11 +502,6 @@
                                                     <span class="ql-formats">
                                                         <select class="ql-align"></select>
                                                     </span>
-                                                    {{-- <span class="ql-formats">
-                                                    <button class="ql-link"></button>
-                                                    <button class="ql-image"></button>
-                                                    <button class="ql-video"></button>
-                                                </span> --}}
                                                     <span class="ql-formats">
                                                         <button class="ql-clean"></button>
                                                     </span>
@@ -502,7 +615,8 @@
                                             </div>
 
                                             <div class="col-md-7">
-                                                <p class="font-size-ms">If you do not register your project, the freelancers
+                                                <p class="font-size-ms">If you do not register your project, the
+                                                    freelancers
                                                     you support will not be able to see the amount and content of other
                                                     freelancers.</p>
                                             </div>
@@ -529,7 +643,8 @@
                                             <div class="col-md-7">
                                                 <h5 class="font-size-sm font-weight-bold">Using chat is an indicator of the
                                                     high success of the project. Unlimited chats by registration</h5>
-                                                <p class="font-size-ms">A confidentiality agreement is a contract between a
+                                                <p class="font-size-ms">A confidentiality agreement is a contract between
+                                                    a
                                                     client and a freelancer to maintain the confidential information
                                                     required to perform the project work. <a href="#"
                                                         class="btn btn-sm btn-danger font-size-xs py-1">Caution <i
@@ -556,7 +671,8 @@
                                             </div>
 
                                             <div class="col-md-7">
-                                                <p class="font-size-ms">This service is a service that allows freelancers to
+                                                <p class="font-size-ms">This service is a service that allows freelancers
+                                                    to
                                                     quickly process your project, including quick response of your project,
                                                     urgent project, error (bug), change, updates.</p>
                                             </div>
@@ -591,6 +707,9 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
     </section>
+
 @endsection
