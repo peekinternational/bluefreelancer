@@ -21,7 +21,7 @@
                 <hr>
                 <h2 class="h5 font-weight-bold pt-3 mb-4">My Skills</h2>
                 <div class="form-group pb-3">
-                    <select class="custom-select" data-toggle="select"  id="search_project_skills" multiple>
+                    <select class="custom-select" data-toggle="select" id="search_project_skills" multiple>
                         {{-- Coming Option From Ajax.js (AJAX CALL) --}}
                     </select>
                     <input type="hidden" name="search_project_by_skills" id="selected_search_project_skills" required>
@@ -57,11 +57,13 @@
                                                 </h5>
                                                 <p class="font-size-sm">{!! Illuminate\Support\Str::of($proj->description)->limit(255) !!}</p>
                                                 <ul class="list-inline">
-                                                    @foreach (Illuminate\Support\Str::of($proj->skills)->explode(',') as $skill)
-                                                        <li class="list-inline-item font-size-sm text-info mx-2">
-                                                            {{ App\Models\User::skillTitle($skill)->title }}
-                                                        </li>
-                                                    @endforeach
+                                                    @if ($proj->skills)
+                                                        @foreach (Illuminate\Support\Str::of($proj->skills)->explode(',') as $skill)
+                                                            <li class="list-inline-item font-size-sm text-info mx-2">
+                                                                {{ App\Models\User::skillTitle($skill)->title }}
+                                                            </li>
+                                                        @endforeach
+                                                    @endif
                                                 </ul>
                                                 <span class="badge badge-info">Featured</span>
                                             </div>

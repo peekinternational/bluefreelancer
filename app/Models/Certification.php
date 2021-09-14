@@ -12,9 +12,10 @@ class Certification extends Model
         'name',
         'organization',
         'description',
-        'issue_Date',
+        'issue_date',
         'user_id',
     ];
+    protected $dates = ['issue_date'];
 
     public function user()
     {

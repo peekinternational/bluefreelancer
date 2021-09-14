@@ -13,8 +13,8 @@
     </div>
 
     <div class="container text-right py-5">
-        <a href="./my-showcase.html" class="btn btn-secondary mr-1">My Showcase</a>
-        <a href="./showcase-registration.html" class="btn btn-secondary">Showcase Registration</a>
+        <a href="/showcases" class="btn btn-secondary mr-1">Showcase Home</a>
+        <a href="{{ route('showcase.create') }}" class="btn btn-secondary">Showcase Registration</a>
     </div>
 
     <section class="container pb-5">

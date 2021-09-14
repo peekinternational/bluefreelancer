@@ -28,6 +28,7 @@ class RegisterController extends Controller
             'usertype' => $request->usertype,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'bids' => 300,
         ]);
 
         auth()->attempt($request->only('username','email', 'password'));

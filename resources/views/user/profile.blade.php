@@ -32,14 +32,6 @@
             margin-top: 0px !important;
         }
 
-        /* .skill_tag {
-                                                                                                                                            background: #8ba753;
-                                                                                                                                            padding: 3px;
-                                                                                                                                            border-radius: 5px;
-                                                                                                                                            color: #fff;
-                                                                                                                                            font-weight: 600;
-                                                                                                                                        } */
-
     </style>
     <div class="bg-secondary text-center bg-cover py-5"
         style="height: 380px; background-image: url({{ $user->cover_img == '' ? url('assets/img/pages/directory/banner-1.png') : url('uploads/users/' . $user->id . '/images/' . $user->cover_img) }});">
@@ -54,8 +46,7 @@
                     <input type="file" name="cover_img" id="cover_img"
                         style=" position: absolute;font-size: 50px;opacity: 0;right: 0;top: 0;" onchange="uploadBtn()" />
                 </div>
-                <input type="submit" value="Upload" class="btn btn-success" style="display: none;"
-                    id="upload-cover-img-btn">
+                <input type="submit" value="Upload" class="btn btn-success" style="display: none;" id="upload-cover-img-btn">
             </form>
         @endif
 
@@ -211,7 +202,8 @@
                     </div>
 
                     <div class="card-body">
-                        <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti veritatis,
+                        <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deleniti
+                            veritatis,
                             placeat perspiciatis ut voluptas, aperiam ducimus rerum provident error fugit amet rem,
                             recusandae illum in...</p>
                     </div>
@@ -324,7 +316,46 @@
 
 
             </div>
+            {{-- Project Offer Milestone Modal --}}
+            <div class="modal fade" id="projectOfferMilestoneModal" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Deposit Payment</h5>
+                            {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+             <span aria-hidden="true">&times;</span>
+         </button> --}}
+                        </div>
+                        <form method="post" action="/project/offer/milestone-deposit" id="projectOfferMilestoneForm">
+                            @csrf
+                            <div class="modal-body">
+                                <input type="hidden" name="projOfferMsProjectId" id="projOfferMilestoneProjectId">
+                                <input type="hidden" name="projOfferMsUserId" id="projOfferMilestoneUserId">
+                                <input type="hidden" name="projOfferMsBidId" id="projOfferMilestoneBidId">
+                                <label class="font-size-ms font-weight-bold" for="projOfferMilestoneAmount">Deposit
+                                    Amount:</label>
+                                <input type="text" name="projOfferMsAmount" class="form-control"
+                                    id="projOfferMilestoneAmount">
+                                <label class="font-size-ms font-weight-bold" for="projOfferMilestonDescription">Deposit
+                                    Description:</label>
+                                <input type="text" name="projOfferMsDescription" class="form-control"
+                                    id="projOfferMilestoneDescription">
 
+                            </div>
+                            <div class="modal-footer">
+                                <a href="#" id="payment-after-consulantation"
+                                    class="payment-after-consulantation btn btn-secondary">Payment After Consulantation</a>
+                                {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
+                                {{-- id="projectOfferMilestoneDepositPayment" --}}
+                                <input type="submit" id="projectOfferMilestoneDepositPayment" value="Payment"
+                                    class="btn btn-primary">
+                                {{-- <button type="button" class="btn btn-primary" id="publication-save-btn">Save changes</button> --}}
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <div class="col-md-4">
                 <div class="card card-bordered rounded-xl overflow-hidden mb-4">
                     <div class="card-body text-center">
@@ -346,43 +377,52 @@
                         <button class="btn btn-sm btn-secondary btn-block">View as Employeer
                         </button>
                         @if (request()->has('outsourcer'))
-                            <div class="card-body bg-gray-800 py-4 mt-4">
-                                <h6 class="font-weight-bold text-white border-bottom border-light pb-3 mb-3">Contact
-                                    {{ $user->username }} About Your Work Opportunity</h6>
-                                <div class="font-weight-bold text-white mb-4">Budget Amount :</div>
-                                <div class="custom-control custom-radio mb-4">
-                                    <input type="radio" id="radioFixedRate" name="fixedRate" class="custom-control-input"
-                                        checked>
-                                    <label class="custom-control-label text-white font-size-sm" for="radioFixedRate">Fixed
-                                        Rate</label>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-sm-4 form-group pr-sm-2">
-                                        <select class="custom-select">
-                                            <option value="KRW">KRW</option>
-                                            <option value="USD">USD</option>
-                                        </select>
+                            <form action="#" method="post">
+                                {{-- @csrf --}}
+                                <input type="hidden" name="" id="projectOfferOutsourcer"
+                                    value="{{ request('outsourcer') }}">
+                                <div class="card-body bg-gray-800 py-4 mt-4">
+                                    <h6 class="font-weight-bold text-white border-bottom border-light pb-3 mb-3">Contact
+                                        {{ $user->username }} About Your Work Opportunity</h6>
+                                    <div class="font-weight-bold text-white mb-4">Budget Amount :</div>
+                                    <div class="custom-control custom-radio mb-4">
+                                        <input type="radio" id="projectOfferFixedRate" name="fixedRate"
+                                            class="custom-control-input" value="1" checked>
+                                        <label class="custom-control-label text-white font-size-sm"
+                                            for="projectOfferFixedRate">Fixed
+                                            Rate</label>
                                     </div>
 
-                                    <div class="col-sm-8 form-group pl-sm-2">
-                                        <input type="number" class="form-control" placeholder="" required>
+                                    <div class="row">
+                                        <div class="col-sm-4 form-group pr-sm-2">
+                                            <select class="custom-select" name="currency" id="projectOfferCurrency">
+                                                <option value="KRW">KRW</option>
+                                                <option value="USD">USD</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="col-sm-8 form-group pl-sm-2">
+                                            <input type="number" class="form-control" placeholder="Budget" required
+                                                name="budget" id="projectOfferBudget">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Enter Title" name="title"
+                                            required id="projectOfferTitle">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <textarea class="form-control" placeholder="Enter Description" name="description"
+                                            required id="projectOfferDescription"></textarea>
+                                    </div>
+
+                                    <div class="from-group">
+                                        <input id="projectOfferBtn" type="submit" class="btn btn-primary btn-block"
+                                            value="Freelance job {{ $user->username }}">
                                     </div>
                                 </div>
-
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <textarea class="form-control" placeholder="" required></textarea>
-                                </div>
-
-                                <div class="from-group">
-                                    <button class="btn btn-primary btn-block">Freelance job
-                                        {{ $user->username }}</button>
-                                </div>
-                            </div>
+                            </form>
                         @endif
                     </div>
                 </div>
@@ -428,10 +468,12 @@
                                     <div class="media-body  ml-2 pl-1">Email Verified</div>
                                 </div>
                                 {{-- <a href="{{ route('verification.notice') }}" class="btn btn-sm btn-info">Verify</a> --}}
-                                <form action="{{ route('verification.send') }}" method="post">
-                                    @csrf
-                                    <input type="submit" class="btn btn-sm btn-info" value="Verify">
-                                </form>
+                                @if ($user->id == auth()->id())
+                                    <form action="{{ route('verification.send') }}" method="post">
+                                        @csrf
+                                        <input type="submit" class="btn btn-sm btn-info" value="Verify">
+                                    </form>
+                                @endif
                             </li>
                         @else
                             <li class="list-group-item d-flex justify-content-between">
@@ -465,10 +507,13 @@
                                         {{ App\Models\User::skillTitle($skill)->title }}</li>
                                 @endforeach
                             </ul>
+                        @else
+                            <span>No Skills</span>
                         @endif
                         <div id="skill_select_block" style="display: none;">
                             <button class="btn btn-info btn-sm" onclick="saveFun()">Save Skills</button>
-                            <select class="js-skills-tags form-control select2 select2-container select2-container--default"
+                            <select
+                                class="js-skills-tags form-control select2 select2-container select2-container--default"
                                 id="select_top_skills" multiple="multiple">
                                 @if ($user->skills)
                                     <ul class="list-inline">
@@ -499,6 +544,8 @@
                                         {{ App\Models\User::certTitle($cert)->title }}</li>
                                 @endforeach
                             </ul>
+                        @else
+                            <span>No Certifications</span>
                         @endif
                         <div id="cert_select_block" style="display: none;">
                             <button class="btn btn-info btn-sm" onclick="saveFun()">Save Certifications</button>
@@ -577,8 +624,8 @@
                         <label for="port_title">Portfolio Title:</label>
                         <input type="text" class="form-control" name="port_title" id="port_title_update" required>
                         <label for="port_description">Portfolio Description:</label>
-                        <textarea class="form-control" name="port_description_update" id="port_description_update" cols="30"
-                            rows="10" required></textarea>
+                        <textarea class="form-control" name="port_description_update" id="port_description_update"
+                            cols="30" rows="10" required></textarea>
                         <label for="port_file">Portfolio File: <small> (Uploadable files: JPG, PNG, GIF, maximum file size:
                                 2MB)</small></label>
                         <input type="file" class="form-control" name="port_image" id="port_image_update" required>
@@ -634,8 +681,8 @@
         </div>
     </div>
     {{-- Profession headline Modal --}}
-    <div class="modal fade" id="profession_headline_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="profession_headline_modal" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -646,8 +693,8 @@
                 </div>
                 <div class="modal-body">
                     <form id="profession_headline_form" method="post">
-                        <input type="text" class="form-control" name="prof_headline" value="{{ $user->prof_headline }}"
-                            id="prof_headline">
+                        <input type="text" class="form-control" name="prof_headline"
+                            value="{{ $user->prof_headline }}" id="prof_headline">
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -782,7 +829,8 @@
                         <label for="organization">Conferring Organization:</label>
                         <input type="text" name="organization" class="form-control" id="organization">
                         <label for="subjects">Detailed description of certification:</label>
-                        <textarea class="form-control" name="description" id="description" cols="30" rows="10"></textarea>
+                        <textarea class="form-control" name="description" id="description" cols="30"
+                            rows="10"></textarea>
                         <label for="issue_date">Issue Date:</label>
                         <input type="date" class="form-control" name="issue_date" id="issue_date">
                     </form>
@@ -812,7 +860,8 @@
                         <label for="pub_name">Publisher:</label>
                         <input type="text" name="pub_name" class="form-control" id="pub_name">
                         <label for="pub_summary">Summary:</label>
-                        <textarea class="form-control" name="description" id="pub_summary" cols="30" rows="10"></textarea>
+                        <textarea class="form-control" name="description" id="pub_summary" cols="30"
+                            rows="10"></textarea>
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -822,6 +871,7 @@
             </div>
         </div>
     </div>
+
     {{-- ====================== --}}
     {{-- ===== MODELS END ===== --}}
     {{-- ====================== --}}

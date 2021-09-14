@@ -11,12 +11,19 @@ use App\Http\Controllers\BidController;
 use App\Http\Controllers\BrowseController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ContestController;
+use App\Http\Controllers\ContestEntryController;
+use App\Http\Controllers\ContestHandoverController;
+use App\Http\Controllers\ContestPublicForumController;
 use App\Http\Controllers\EmployerProjectController;
 use App\Http\Controllers\FreelancerProjectController;
+use App\Http\Controllers\MilestoneController;
 use App\Http\Controllers\Project\ProjectManageController;
 use App\Http\Controllers\Project\ProposalController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectOfferController;
 use App\Http\Controllers\ShowcaseController;
+use App\Http\Controllers\ShowcaseLikeController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\controllers\User\SettingController;
 use App\Http\controllers\User\ProfileController;
@@ -27,6 +34,7 @@ use App\Http\Controllers\User\PortfolioController;
 use App\Http\Controllers\User\ProfCertificationController;
 use App\Http\controllers\User\PublicationController;
 use App\Http\controllers\User\SkillController;
+use App\Models\Contest;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 
@@ -191,9 +199,19 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/bid/update/{id}', [BidController::class, 'update'])->name('bid.update');
     // => My Project
     // ==> Employer
-    Route::get('/project/my-project/employer', [EmployerProjectController::class, 'index'])->name('my-project.employer');
+    Route::get('/project/my-project/employer', [EmployerProjectController::class, 'index'])->name('my-project.employer');   
+    Route::get('/project/my-project/employer/open-projects', [EmployerProjectController::class, 'openProject'])->name('my-project.employer.open-projects');
+    Route::get('/project/my-project/employer/work-projects', [EmployerProjectController::class, 'workProject'])->name('my-project.employer.work-projects');
+    Route::get('/project/my-project/employer/past-projects', [EmployerProjectController::class, 'pastProject'])->name('my-project.employer.past-projects');
+    Route::get('/project/my-project/employer/open-contests', [EmployerProjectController::class, 'openContest'])->name('my-project.employer.open-contests');
+    Route::get('/project/my-project/employer/awarded-contests', [EmployerProjectController::class, 'awardedContest'])->name('my-project.employer.awarded-contests');
     // ==> Freelancer
     Route::get('/project/my-project/freelancer', [FreelancerProjectController::class, 'index'])->name('my-project.freelancer');
+    Route::get('/project/my-project/freelancer/open-projects', [FreelancerProjectController::class, 'openProject'])->name('my-project.freelancer.open-projects');
+    Route::get('/project/my-project/freelancer/work-projects', [FreelancerProjectController::class, 'workProject'])->name('my-project.freelancer.work-projects');
+    Route::get('/project/my-project/freelancer/past-projects', [FreelancerProjectController::class, 'pastProject'])->name('my-project.freelancer.past-projects');
+    Route::get('/project/my-project/freelancer/active-contests', [FreelancerProjectController::class, 'activeContest'])->name('my-project.freelancer.active-contests');
+    Route::get('/project/my-project/freelancer/past-contests', [FreelancerProjectController::class, 'pastContest'])->name('my-project.freelancer.past-contests');
     // => Project Management
     // ==> Proposal
     // ===> Get All Proposal as Per Project
@@ -204,10 +222,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/project/my-project/{bid_id}/proposal/approve', [ProposalController::class, 'update'])->name('proposal.update');
     // ===> Proposal Rejected by Freelancer
     Route::get('/project/my-project/{bid_id}/proposal/reject', [ProposalController::class, 'destory'])->name('proposal.destory');
-
+    // Milestone deposit OR Reject
+    Route::post('/milestone/depositOrReject/{id}', [MilestoneController::class, 'depositOrReject'])->name('milestone.depositOrReject');
+    Route::post('/milestone/destory/{id}', [MilestoneController::class, 'destory'])->name('milestone.destory');
+    Route::post('/milestone/deposit', [MilestoneController::class, 'deposit'])->name('milestone.deposit');
     Route::get('/inbox', function () {
         return view('messages');
     })->name('inbox');
+    // ==> Project Offer
+    // Route::post('/project/offer/milestone-deposit', [MilestoneController::class, 'deposit'])->name('project-offer.milestone-deposit');
+    Route::post('/project/offer/milestone-deposit', [ProjectOfferController::class, 'milestoneDeposit'])->name('project-offer.milestone-deposit');
+    Route::post('/project/offer/{id}', [ProjectOfferController::class, 'store'])->name('project-offer.store');
     // Chat Controller
     Route::get('friendsList/{id}', [ChatController::class, 'friendsList']);
     Route::post('singleChat', [ChatController::class, 'singleChat']);
@@ -220,8 +245,42 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/showcase/registration', function () {
         return view('showcase.create');
     })->name('showcase.create');
-    // => store
     Route::post('/showcase/store', [ShowcaseController::class, 'store'])->name('showcase.store');
-    // For Logout  
+    Route::get('/showcases', [ShowcaseController::class, 'index'])->name('showcase.index');
+    Route::get('/my-showcase', [ShowcaseController::class, 'myShowcase'])->name('showcase.my-showcase');
+    Route::get('/showcase/show/{id}', [ShowcaseController::class, 'show'])->name('showcase.show');
+    Route::get('/showcase/edit/{id}', [ShowcaseController::class, 'edit'])->name('showcase.edit');
+    Route::post('/showcase/update/{id}', [ShowcaseController::class, 'update'])->name('showcase.update');
+    Route::get('/showcase/delete/{id}', [ShowcaseController::class, 'destory'])->name('showcase.destory');
+    // Showcase Like
+    Route::get('/showcase/like/{id}', [ShowcaseLikeController::class, 'store'])->name('showcase_like.store');
+    Route::get('/showcase/unlike/{id}', [ShowcaseLikeController::class, 'destory'])->name('showcase_like.destory');
+    // Contest
+    Route::get('/post-contest', function () {
+        return view('contest.post-contest');
+    })->name('post-contest');
+    Route::post('/contest/store', [ContestController::class, 'store'])->name('contest.store');
+    Route::get('/contest-listing', [ContestController::class, 'index'])->name('contest-listing');
+    Route::get('/contest-details/{id}', [ContestController::class, 'show'])->name('contest-details');
+    Route::get('/contest-edit/{id}', [ContestController::class, 'edit'])->name('contest-edit');
+    Route::post('/contest/update/{id}', [ContestController::class, 'update'])->name('contest.update');
+    Route::post('/contest/destory/{id}', [ContestController::class, 'destory'])->name('contest.destory');
+    // ==> Contest Public Forum 
+    Route::post('/contest/public-forum/store', [ContestPublicForumController::class, 'store'])->name('contest_public_forum.store');
+    //  ==> Contest Entry
+    Route::get('contest/entry/{id}', function ($id) {
+        $contest = Contest::where('contest_id', $id)->first();
+        return view('contest.contest-entry', [
+            'contest' => $contest,
+        ]);
+    });
+    Route::get('/contest/entry/detail/{id}', [ContestEntryController::class, 'show'])->name('contest-entry.detail');
+    Route::post('/contest/entry/store', [ContestEntryController::class, 'store'])->name('contest-entry.store');
+    Route::post('/contest/entry/accept/{id}', [ContestEntryController::class, 'update'])->name('contest-entry.accept');
+    // Contest Handover
+    Route::get('/contest/handover/{id}', [ContestHandoverController::class, 'index'])->name('contest-handover');
+    Route::post('/contest/handover/store/{id}', [ContestHandoverController::class, 'store'])->name('contest-handover.store');
+
+    // For Logout
     Route::get('/logout', [LogoutController::class, 'store'])->name('logout');
 });

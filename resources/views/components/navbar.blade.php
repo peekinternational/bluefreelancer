@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-white shadow-sm py-1">
         <div class="container">
             <div class="navbar-brand">
-                <a href="index.html">
+                <a href="/">
                     <img src="{{ url('assets/img/logo/logo.png') }}" width="256" alt="Bluefreelancer">
                 </a>
             </div>
@@ -22,7 +22,7 @@
                     </a>
                 </li>
                 <li class="nav-item d-none d-lg-block">
-                    <a href="{{ url('assets/post-project.html') }}"
+                    <a href="{{ url('/login') }}"
                         class="nav-link font-size-sm text-white bg-primary rounded-sm py-2 px-3">
                         <i class="fa fa-file mr-2" aria-hidden="true"></i>
                         Post Project

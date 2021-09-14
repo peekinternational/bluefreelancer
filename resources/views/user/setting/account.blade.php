@@ -88,7 +88,7 @@
                                         <label class="custom-control-label font-size-sm font-weight-bold"
                                             for="customRadioInline1">Freelancer</label>
                                     </div>
-                                    {{ auth()->user()->usertype == '2' ? 'checked' : '' }}
+                                    {{-- {{ auth()->user()->usertype == '2' ? 'checked' : '' }} --}}
                                     <div class="custom-control custom-radio custom-control-inline">
                                         <input type="radio" id="customRadioInline2" name="usertype"
                                             class="custom-control-input"

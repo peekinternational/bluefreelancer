@@ -60,8 +60,9 @@ class ProposalController extends Controller
     public function destory($id)
     {
         $proposal = Bid::find($id);
-        $proposal = $proposal->update(['status' => 0]);
         $project = Project::where('project_id', $proposal->project_id)->first();
+        $proposal = $proposal->update(['status' => 0]);
+        
         Notification::create([
             'from' => auth()->id(),
             'to' => $project->user_id,

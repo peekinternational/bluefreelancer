@@ -14,6 +14,7 @@ class Milestone extends Model
         'bid_id',
         'project_id',
         'user_id',
+        'status',
     ];
 
     public static function getMilestoneCount($project_id, $user_id)

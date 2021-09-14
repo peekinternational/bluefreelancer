@@ -19,6 +19,8 @@ class Experience extends Model
         'user_id',
     ];
 
+    protected $dates = ['started_at', 'completion_at'];
+
     public function user()
     {
         return $this->belongsTo(User::class);

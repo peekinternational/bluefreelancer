@@ -36,7 +36,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <script src="{{ url('assets/js/filepond.min.js') }}"></script>
     <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
-    {{-- <script src="{{ url('assets/js/quill.min.js') }}"></script> --}}
+    <script src="{{ url('assets/js/nouislider.min.js') }}"></script>
     <script src="{{ url('assets/js/script.js') }}"></script>
     
     <script src="{{ url('assets/js/select2.min.js') }}"></script>
