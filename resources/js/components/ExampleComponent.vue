@@ -554,6 +554,7 @@ export default {
       callData: '',
       callDisable:false,
       oncallFriend: {},
+      callstatus: 0
     };
   },
   sockets: {
@@ -815,12 +816,15 @@ export default {
       });
     },
     friendlistss: function () {
-      console.log("asdasd");
+      // console.log("asdasd");
       axios.get("friendsList/" + this.user_id).then((responce) => {
         this.friendList = responce.data;
         console.log(this.friendList);
         var url = window.location.href;
-        var conversation_id = url.substring(url.lastIndexOf("=") + 1);
+        console.log(url);
+        var conversations = url.substring(url.lastIndexOf("=") + 1);
+        var conversation_id = conversations.split("#/")[0];
+        // console.log('conversation_id',conversation_id);
         if (conversation_id) {
           const post = this.friendList
             .filter((obj) => {
@@ -828,7 +832,12 @@ export default {
             })
             .pop();
           if (post) {
+            $('.user-list-item').removeClass("active");
             $("#" + post.conversation_id).addClass("active");
+            setInterval(function(){ 
+              $('.user-list-item').removeClass("active");
+              $("#" + post.conversation_id).addClass("active"); 
+            }, 2000);
             // $('#1212577981').addClass('active');
             this.getSingleChat(post);
             var height = 0;

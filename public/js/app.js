@@ -2720,7 +2720,8 @@ var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('ht
       singlefriend: '',
       callData: '',
       callDisable: false,
-      oncallFriend: {}
+      oncallFriend: {},
+      callstatus: 0
     };
   },
   sockets: {
@@ -2964,12 +2965,14 @@ var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('ht
     friendlistss: function friendlistss() {
       var _this2 = this;
 
-      console.log("asdasd");
+      // console.log("asdasd");
       axios.get("friendsList/" + this.user_id).then(function (responce) {
         _this2.friendList = responce.data;
         console.log(_this2.friendList);
         var url = window.location.href;
-        var conversation_id = url.substring(url.lastIndexOf("=") + 1);
+        console.log(url);
+        var conversations = url.substring(url.lastIndexOf("=") + 1);
+        var conversation_id = conversations.split("#/")[0]; // console.log('conversation_id',conversation_id);
 
         if (conversation_id) {
           var post = _this2.friendList.filter(function (obj) {
@@ -2977,7 +2980,12 @@ var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('ht
           }).pop();
 
           if (post) {
-            $("#" + post.conversation_id).addClass("active"); // $('#1212577981').addClass('active');
+            $('.user-list-item').removeClass("active");
+            $("#" + post.conversation_id).addClass("active");
+            setInterval(function () {
+              $('.user-list-item').removeClass("active");
+              $("#" + post.conversation_id).addClass("active");
+            }, 2000); // $('#1212577981').addClass('active');
 
             _this2.getSingleChat(post);
 
