@@ -28,6 +28,10 @@ class ChatFriends extends Model
     {
       return $this->belongsTo(User::class, 'receiver_id');
     }
+    public function projectInfo()
+    {
+      return $this->belongsTo(Project::class, 'project_id','project_id');
+    }
     public function lastMessage()
     {
       return $this->belongsTo(ChatMessages::class, 'message_id');

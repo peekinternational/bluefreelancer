@@ -38,11 +38,12 @@
     <script src="//cdn.quilljs.com/1.3.6/quill.min.js"></script>
     {{-- <script src="{{ url('assets/js/quill.min.js') }}"></script> --}}
     <script src="{{ url('assets/js/script.js') }}"></script>
-    <script src="{{ url('js/app.js') }}"></script>
+    
     <script src="{{ url('assets/js/select2.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="{{ url('assets/js/ajax.js') }}"></script>
     <script src="{{ url('assets/js/custom-script.js') }}"></script>
+    <script src="{{ url('js/app.js') }}"></script>
     <script>
         @if (Session::has('message'))
             toastr.options =

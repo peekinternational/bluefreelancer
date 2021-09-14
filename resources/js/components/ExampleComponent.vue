@@ -1,6 +1,18 @@
 <template>
   <div class="py-5">
     <div class="message-container">
+      <audio id="outgoingcall" muted>
+        <source :src="'/incomming.mp3'" type="audio/ogg">
+        <source :src="'/incomming.mp3'" type="audio/mpeg">
+      </audio>
+      <audio id="incommingcall" muted>
+        <source :src="'/outgoing_ringtone.mp3'" type="audio/ogg">
+        <source :src="'/outgoing_ringtone.mp3'" type="audio/mpeg">
+      </audio>
+      <audio id="messagetone" muted>
+        <source :src="'/bell.mp3'" type="audio/ogg">
+        <source :src="'/bell.mp3'" type="audio/mpeg">
+      </audio>
       <div class="container">
         <div class="card">
           <div class="heading px-3 py-3 border-bottom">
@@ -79,30 +91,31 @@
                       >
                         <template v-if="userdata.id == friends.sender_id">
                           <h6 class="">
-                            {{ friends.receiver_info.name }}
+                            {{ friends.receiver_info.name }} 
                             <!-- {{ friends.receiver_info.last_name }} -->
                           </h6>
                         </template>
                         <template v-else>
                           <h6 class="">
-                            {{ friends.sender_info.name }}
+                            {{ friends.sender_info.name }} 
                             <!-- {{ friends.sender_info.last_name }} -->
                           </h6>
                         </template>
                         <div
                           :class="'lastMessageDate-' + friends.conversation_id"
                         >
-                          <!-- <small
+                          <small
                             class="text-muted"
                             v-if="friends.message_id != 0"
                             >{{
                               istoday(friends.last_message.message_date)
                             }}</small
-                          > -->
+                          >
                         </div>
                       </div>
-                      <!-- <div :class="'lastMessage-' + friends.conversation_id">
-                        <template v-if="userdata.id == friends.sender_id">
+                      <div :class="'lastMessage-' + friends.conversation_id">
+                        <span>{{ friends.project_info.title }}</span>
+                        <!-- <template v-if="userdata.id == friends.sender_id">
                           <p
                             :id="'f_typing' + friends.receiver_id"
                             v-if="friends.message_id != 0"
@@ -117,8 +130,8 @@
                           >
                             {{ friends.last_message.message_desc }}
                           </p>
-                        </template>
-                      </div> -->
+                        </template> -->
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -179,13 +192,12 @@
                         <template v-if="userdata.id == friends.sender_id">
                           <h6 class="">
                             {{ friends.receiver_info.first_name }}
-                            {{ friends.receiver_info.last_name }}
                           </h6>
                         </template>
                         <template v-else>
                           <h6 class="">
                             {{ friends.sender_info.first_name }}
-                            {{ friends.sender_info.last_name }}
+                            
                           </h6>
                         </template>
                         <div
@@ -201,7 +213,8 @@
                         </div>
                       </div>
                       <div :class="'lastMessage-' + friends.conversation_id">
-                        <template v-if="userdata.id == friends.sender_id">
+                        <span>{{ friends.project_info.title }}</span>
+                        <!-- <template v-if="userdata.id == friends.sender_id">
                           <p
                             :id="'f_typing' + friends.receiver_id"
                             v-if="friends.message_id != 0"
@@ -216,7 +229,7 @@
                           >
                             {{ friends.last_message.message_desc }}
                           </p>
-                        </template>
+                        </template> -->
                       </div>
                     </div>
                   </div>
@@ -242,15 +255,15 @@
               <div id="startchat" class="m-box" style="display: none">
                 <div class="msg-header sticky">
                   <div class="user-info">
-                    <h6>{{ friendName }}</h6>
+                    <h6><strong>{{ friendName }}</strong>   <a :href="'project-details/'+projectId">(<span>{{ projectName }}</span>)</a></h6>
                     <p>{{ friendStatus }}</p>
                   </div>
-                  <!-- <div class="other d-flex align-items-center">
-                  <button class="btn"><i class="fa fa-phone"></i></button>
-                  <button class="btn">
+                  <div class="other d-flex align-items-center">
+                  <button class="btn"  @click="videostartCall(singleChatUser,'audio')"><i class="fa fa-phone"></i></button>
+                  <button class="btn"  @click="videostartCall(singleChatUser,'video')">
                     <i class="fa fa-video-camera" aria-hidden="true"></i>
                   </button>
-                  <div class="dropdown">
+               <!--    <div class="dropdown">
                     <button
                       class="btn"
                       type="button"
@@ -269,12 +282,12 @@
                       <a class="dropdown-item" href="#">Another action</a>
                       <a class="dropdown-item" href="#">Something else here</a>
                     </div>
-                  </div>
-                </div> -->
+                  </div> -->
+                </div>
                 </div>
 
                 <div class="msg-body chat-widget-conversation">
-                  <div class="msg-text-box" v-for="chat in singleChate">
+                  <div class="msg-text-box left" v-for="chat in singleChate">
                     <div class="panel d-flex align-items-start">
                       <div class="box">
                         <template v-if="chat.sender_info.img">
@@ -330,20 +343,6 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <div class="msg-text-box right">
-                  <div class="panel d-flex align-items-end">
-                    <div class="box">
-                      <img src="images/avatar (2).svg" alt="" />
-                    </div>
-                    <div class="box rounded p-2">
-                      <div class="d-flex justify-content-between">
-                        <h6>Carl Jenkins</h6>
-                        <small class="text-uppercase ml-2">12:15 PM</small>
-                      </div>
-                      <p>Hi, Are you there?</p>
-                    </div>
-                  </div>
-                </div> -->
                   <!-- <div class="past-date">
                   <div class="dropdown-divider"></div>
                   <h6 class="text-uppercase">
@@ -361,13 +360,13 @@
                     <div id="myBar" class="myBar"></div>
                   </div>
                   <div id="image"></div>
-                  <div class="d-flex w-100">
+                  <div class="d-flex w-100 border rounded align-items-center">
                     <div class="footer-box">
                       <span class="form-field-file">
                         <label
                           for="cv-arquivo"
                           aria-label="Attach file"
-                          class="btn1"
+                          class="btn1 mt-2 ml-2"
                         >
                           <i class="fa fa-paperclip" aria-hidden="true"></i>
                         </label>
@@ -387,9 +386,42 @@
                         type="text"
                         v-model="message"
                         v-on:keyup="removecross()"
-                        class="form-control"
+                        class="form-control border-0"
                         @keyup.enter="sendMessage()"
                       />
+                      <emoji-picker @emoji="append" :search="search">
+                        <div
+                          class="emoji-invoker"
+                          slot="emoji-invoker"
+                          slot-scope="{ events: { click: clickEvent } }"
+                          @click.stop="clickEvent"
+                        >
+                          <svg height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"/>
+                          </svg>
+                        </div>
+                        <div slot="emoji-picker" slot-scope="{ emojis, insert, display }">
+                          <div class="emoji-picker" :style="{ top: display.y + 'px', left: display.x + 'px' }">
+                            <div class="emoji-picker__search">
+                              <input type="text" v-model="search" v-focus>
+                            </div>
+                            <div>
+                              <div v-for="(emojiGroup, category) in emojis" :key="category">
+                                <h5>{{ category }}</h5>
+                                <div class="emojis">
+                                  <span
+                                    v-for="(emoji, emojiName) in emojiGroup"
+                                    :key="emojiName"
+                                    @click="insert(emoji)"
+                                    :title="emojiName"
+                                  >{{ emoji }}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </emoji-picker>
                     </div>
                     <div class="footer-box">
                       <button class="btn custom-btn" @click="sendMessage()">
@@ -421,25 +453,75 @@
 
                 <div class="name-and-text">
                   <h5>{{ friendName }}</h5>
+                  <h6><strong>@{{ userName }}</strong></h6>
                   <!-- <p>top buyer | top rated seller</p> -->
+                </div>
+                <div class="all-doc-lists" v-if="check_image == 1">
+                  <h5>All documents</h5>
+                  <div class="doc-list-item">
+                    <template v-for="chat in singleChate">
+                      <template v-if="chat.message_type == '1'">
+                        <a target="_blank" :href="'images/chat_images/'+chat.message_file" class="doc-item">
+                          <img :src="'images/chat_images/'+chat.message_file" alt="" />
+                        </a>
+                      </template>
+                    </template>
+                  </div>
                 </div>
               </div>
             </div>
+                          <!-- O2O VIDEO CALL RECEIVER -->
+
+            
           </div>
         </div>
       </div>
     </div>
+    <div class="modal fade" id="videocallReceiver" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-body bg-secondary border-secondary rounded p-3">
+                    <div class="audiocall1 call-modal">
+                      <div class="center-con text-center" style="margin-bottom:120px">
+                        <div class="profile incomingName align-self-center" id="userImagename">
+                          
+                        </div>
+                        <div class="mt-4" style="margin-bottom: 100px;">
+                          <span class="title2" id="incomingName"></span><br>
+                          <h6>Incoming...</h6>
+                        </div>
+
+                        <ul class="list-inline d-flex justify-content-center">
+                          <li class="mr-2">
+                            <a class="icon-btn btn-success button-effect btn-lg is-animating" href="#" @click="o2oreceiveCall()" data-dismiss="modal">
+                              <i class="fa fa-phone"></i>
+                            </a>
+                          </li>
+                          <li>
+                            <a class="icon-btn btn-danger button-effect btn-lg is-animating cancelcall" href="#" @click="o2ostopKCall(3)">
+                              <i class="fa fa-phone"></i>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
   </div>
 </template>
 
 <script>
 import VueSocketio from "vue-socket.io";
 import socketio from "socket.io-client";
+import EmojiPicker from 'vue-emoji-picker';
 import moment from "moment";
-
+Vue.use(EmojiPicker);
+var socket = socketio.connect('https://peekvideochat.com:22000/');
 export default {
   props: ["userdata"],
   name: "App",
+  components: { EmojiPicker },
   data: function () {
     return {
       friendList: [],
@@ -450,6 +532,9 @@ export default {
       friendCountry: "",
       friendLanguage: "",
       friendStatus: "",
+      projectName: "",
+      projectId: "",
+      userName: "",
       searchFriend: "",
       post: "",
       message: "",
@@ -459,6 +544,16 @@ export default {
       searchUser: false,
       typing: false,
       showDetails: false,
+      search: '',
+      singleChatUser: '',
+      callType:'',
+      timer: undefined,
+      elapsedcallTime: 0,
+      calltimer: undefined,
+      singlefriend: '',
+      callData: '',
+      callDisable:false,
+      oncallFriend: {},
     };
   },
   sockets: {
@@ -472,21 +567,22 @@ export default {
 
     alphastarttyping(data) {
       // this.typing = true;
-      console.log('Start Typing'+ data);
-      if (data.selectFrienddata == this.user_id) {
+      console.log('Start Typing', data);
+      if (data.selectFrienddata == this.userdata.id) {
         const post2 = this.friendList
           .filter((obj) => {
-            if (data.selectFrienddata === obj.sender_id) {
+            // if (data.selectFrienddata === obj.sender_id) {
               return data.selectFrienddata === obj.sender_id;
-            } else {
-              return data.selectFrienddata === obj.receiver_id;
-            }
+            // } else {
+              // return data.selectFrienddata === obj.receiver_id;
+            // }
           })
           .pop();
-        // console.log("post2",post2);
+        console.log("post2",post2);
         if (post2) {
           if (this.friendId == data.UserId && post2.sender_id == data.UserId) {
             this.typing = true;
+            console.log('insiode if');
           } else if (
             this.friendId == data.UserId &&
             post2.receiver_id == data.UserId
@@ -519,6 +615,71 @@ export default {
         }
       }
     },
+    peekReceiveupdateCallStatus(data) {
+      console.log(data);
+      if(data.friendId == this.userdata.id && data.call == 'call'){
+          this.callData=data; 
+          var x = document.getElementById("outgoingcall");
+          
+          x.play();
+          x.muted = false;
+          x.loop = true;
+          this.checkcallstart();
+       
+          $('#videocallReceiver').modal();
+          $('#videocallReceiver').show(); // show incomingCall Modal here
+          $('#incomingName').html(data.userName);
+         var hostname=this.hostname;
+          if(data.userImage){
+            
+             $('#userImagename').html('<img class="bg-img" src="uploads/users/'+
+                              data.userId +'/images/'+data.userImage+'" alt="Avatar" />');
+          }else{
+            if(data.userName){
+              var matchess = data.userName.match(/\b(\w)/g); // ['J','S','O','N']
+              var matches = matchess.slice(0, 2);
+              var acronym = matches.join(''); // JSON
+              $('#userImagename').html('<span>'+acronym+'</span>');
+            }
+            
+          }
+
+
+      }else if(data.friendId == this.userdata._id && data.call == 'close'){
+           $('#o2ovideocall').modal('hide');
+              $('#videocallReceiver').modal('hide');
+              this.isO2Ocall=false;
+              var x = document.getElementById("outgoingcall"); console.log(x);
+              x.pause();
+              x.muted = true;
+              var incoming = document.getElementById("incommingcall");
+              incoming.pause();
+              incoming.muted = true;
+
+              this.checkreset();
+              this.checkcallstop();
+                    //this.singlefriend= this.oncallFriend;
+              this.o2ostatus = false;
+              this.callDisable=false;
+
+      }else if(data.friendId == this.userdata.id || data.userId == this.userdata.id && data.call == 'close'){
+          this.callDisable=false;
+      }
+      const myData = this.friendList.filter((obj) => {
+        return data.userId === obj._id;
+      }).pop();
+      if (myData) {
+        myData.callStatus = data.status;
+      }
+      const friendData = this.friendList.filter((obj) => {
+        return data.friendId === obj._id;
+      }).pop();
+      if (friendData) {
+        friendData.callStatus = data.status;
+      }
+
+
+    },
   },
   mounted() {
     // console.log(this.userdata);
@@ -533,8 +694,6 @@ export default {
     // this.user_names = this.userdata.username;
     this.friendlistss();
 
-    var socket = socketio("https://peekvideochat.com:22000");
-    // var socket = socketio('http://192.168.100.17:3000');
     socket.on(
       "birdsreceivemsg",
       function (data) {
@@ -588,13 +747,29 @@ export default {
         this.searchUser = false;
       }
     },
-    message: _.debounce(function () {
-      this.$socket.emit("alphastopTyping", {
-        selectFrienddata: this.singleChatUser,
-        friendId: this.friendId,
-        UserId: this.user_id,
-      });
-    }, 1500),
+    // message: _.debounce(function () {
+    //   this.$socket.emit("alphastopTyping", {
+    //     selectFrienddata: this.singleChatUser,
+    //     friendId: this.friendId,
+    //     UserId: this.user_id,
+    //   });
+    // }, 1500),
+    callstatus() {
+      if (this.callstatus > 30) {
+        this.o2ostopKCall(3);
+        // this.stopScreenShare();
+       
+        // var incoming = document.getElementById("incommingcall");
+        //  incoming.pause();
+        //  incoming.muted = true;
+        $('body').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+        $('#o2ovideocall').modal('hide');
+        $('#o2oaudiocall').modal('hide');
+
+
+      }
+    },
   },
   computed: {
     filteredUserlist() {
@@ -613,6 +788,20 @@ export default {
     },
     orderedUsers: function () {
       return _.orderBy(this.friendList, "time", "desc");
+    },
+    formattedElapsedTime() {
+      const date = new Date(null);
+      date.setSeconds(this.elapsedTime / 1000);
+      const utc = date.toUTCString();
+      return utc.substr(utc.indexOf(":") - 2, 8);
+    },
+
+    checkcallTime() {
+      const date = new Date(null);
+      date.setSeconds(this.elapsedcallTime / 1000);
+      const utc = date.toUTCString();
+      this.callstatus = utc.substr(-6, 3);
+      return utc.substr(-6, 3);
     },
   },
   methods: {
@@ -658,7 +847,7 @@ export default {
     getSingleChat: function (single) {
       this.singleChatUser = single;
       this.showDetails = true;
-      // console.log(this.singleChatUser);
+      console.log(this.singleChatUser);
       $(".user-list-item.active").removeClass("active");
       $("#" + this.singleChatUser.conversation_id).addClass("active");
       $("#selectConversation").hide();
@@ -683,6 +872,9 @@ export default {
         this.friendImage = this.singleChatUser.receiver_info.img;
         this.friendCountry = this.singleChatUser.receiver_info.country;
         this.friendStatus = this.singleChatUser.receiver_info.user_status;
+        this.projectName = this.singleChatUser.project_info.title;
+        this.projectId = this.singleChatUser.project_info.project_id;
+        this.userName = this.singleChatUser.receiver_info.username;
         // this.message_status=this.singleChatUser.message_status;
         //console.log(this.friendImage);
       } else {
@@ -693,14 +885,16 @@ export default {
         this.friendImage = this.singleChatUser.sender_info.img;
         this.friendCountry = this.singleChatUser.sender_info.country;
         this.friendStatus = this.singleChatUser.sender_info.user_status;
+        this.projectName = this.singleChatUser.project_info.title;
+        this.projectId = this.singleChatUser.project_info.project_id;
+        this.userName = this.singleChatUser.sender_info.username;
         // this.userImage=this.singleChatUser.receiver_info.profileimage;
         // this.message_status=this.singleChatUser.message_status;
         //console.log(this.friendImage);
       }
       axios
         .post("singleChat", {
-          sender_id: single.sender_id,
-          receiver_id: single.receiver_id,
+          conversation_id: single.conversation_id
         })
         .then(
           (responce) => {
@@ -733,24 +927,12 @@ export default {
         );
     },
     sendMessage: function () {
-      var socket = socketio.connect("https://peekvideochat.com:22000/");
 
       var config = {
         header: {
           "Content-Type": "multipart/form-data",
         },
       };
-      // console.log(this.friendId);
-      $("#image").text("");
-      let meeting_file = this.$refs.msg_file.files;
-      var meetingformDatas = new FormData();
-      meetingformDatas.append("file", meeting_file[0]);
-      meetingformDatas.append("message_sender", this.user_id);
-      meetingformDatas.append("message_receiver", this.friendId);
-      meetingformDatas.append("message", this.message);
-      meetingformDatas.append("conversation_id", this.conversation_id);
-      // meetingformDatas.append('message_status',this.message_status);
-
       var d = new Date($.now());
       var time =
         d.getFullYear() +
@@ -764,6 +946,19 @@ export default {
         d.getMinutes() +
         ":" +
         d.getSeconds();
+      // console.log(this.friendId);
+      $("#image").text("");
+      let meeting_file = this.$refs.msg_file.files;
+      var meetingformDatas = new FormData();
+      meetingformDatas.append("file", meeting_file[0]);
+      meetingformDatas.append("message_sender", this.user_id);
+      meetingformDatas.append("message_receiver", this.friendId);
+      meetingformDatas.append("message", this.message);
+      meetingformDatas.append("conversation_id", this.conversation_id);
+      meetingformDatas.append("message_date", time);
+      // meetingformDatas.append('message_status',this.message_status);
+
+      
       var message_type = 0;
       var filename = "";
       if (meeting_file.length > 0) {
@@ -817,8 +1012,8 @@ export default {
         });
         height += 20000;
         $(".chat-widget-conversation").animate({ scrollTop: height });
-        socket.emit("message", obj);
-        socket.emit("alphastopTyping", {
+        this.$socket.emit("message", obj);
+        this.$socket.emit("alphastopTyping", {
           selectFrienddata: this.friendId,
           UserId: this.user_id,
         });
@@ -890,6 +1085,124 @@ export default {
           }
         }
       }
+    },
+    append(emoji) {
+        this.message += emoji
+    },
+    // One2one Video Call
+    videostartCall(friends, statuscall) {
+      console.log(friends);
+      this.callType = statuscall;
+      this.singlefriend = friends;
+
+      this.$socket.emit('peekUpdateCallStatus', {
+        userId: this.userdata.id,
+        userName: this.userdata.name,
+        friendId: this.friendId,
+        friendName: this.friendName,
+        userImage: this.userdata.img,
+        status: 1,
+        statuscall: statuscall,
+        call:'call',
+        project_id: this.projectId,
+        project_name: this.singlefriend.project_info.title 
+    
+      });
+      window.open('/inbox#/o2ocall?userName='+this.userdata.name+'&friendName='+this.friendName+'&userId='+this.userdata.id+'&friendId='+this.friendId+'&receiveUser=no&callStatus='+statuscall+'&projectId='+this.singlefriend.project_id+'&projectName='+this.singlefriend.project_info.title, '_blank');
+
+
+    }, 
+    o2oreceiveCall() {
+       this.isO2Ocall=false;
+
+      var x = document.getElementById("outgoingcall");
+      x.pause();
+      x.muted = true;
+      // startCall();
+      // this.reset();
+      // this.start();
+      this.checkreset();
+      this.checkcallstop();
+      this.reset();
+      this.stop();
+      var o2oobg = {
+        reciverid:this.userdata.id,
+        friendId: this.callData.userId,
+      }
+       var projectIds = this.callData.project_id;
+      this.$socket.emit('peekO2OstarTimer', o2oobg);
+      // $('#videocallReceiver').modal('hide');
+      //    const post = this.friendList.filter((obj) => {
+      //   return this.callData.projectId === obj.project_id;
+      // }).pop();
+      // this.oncallFriend = post;
+       
+      this.callDisable=true;
+      window.open('/inbox#/o2ocall?userName='+this.callData.userName+'&friendName='+this.callData.friendName+'&userId='+this.callData.friendId+'&friendId='+this.callData.userId+'&receiveUser=yes&callId='+this.callData.callId+'&callStatus='+this.callData.statuscall+'&projectId='+projectIds+'&projectName='+this.callData.project_name,'_blank');
+       
+
+      // this.$router.push('/o2oCall?userName='+this.callData.userName+'&friendName='+this.callData.friendName+'&userId='+this.callData.friendId+'&friendId='+this.callData.userId+'&receiveUser=yes&callId='+this.callData.callId);
+     
+    
+    
+    },
+
+    //o2o-stop
+    o2ostopKCall(status) {
+
+      //this.audio.pause();
+      $('#o2ovideocall').modal('hide');
+      $('#videocallReceiver').modal('hide');
+      this.isO2Ocall=false;
+      var x = document.getElementById("outgoingcall"); console.log(x);
+      x.pause();
+      x.muted = true;
+      var incoming = document.getElementById("incommingcall");
+      incoming.pause();
+      incoming.muted = true;
+
+      this.checkreset();
+      this.checkcallstop();
+            //this.singlefriend= this.oncallFriend;
+      this.o2ostatus = false;
+
+      // $('#showcallModel' + this.oncallFriend._id).show();
+
+      var o2oobg = {
+        friendId: this.callData.userId,
+        // friendId: this.oncallFriend._id,
+        stoperId: this.userdata.id
+      }
+      console.log(o2oobg);
+      // alert('ddd');
+      this.$socket.emit('peekO2OcloseReceiverPanal', o2oobg);
+
+      this.reset();
+      this.stop();
+    
+      this.oncallFriend = {};
+    },
+    checkcallstart() {
+      this.calltimer = setInterval(() => {
+        this.elapsedcallTime += 1000;
+      }, 1000);
+    },
+    checkcallstop() {
+      clearInterval(this.calltimer);
+    },
+    checkreset() {
+      this.elapsedcallTime = 0;
+    },
+    start() {
+      this.timer = setInterval(() => {
+        this.elapsedTime += 1000;
+      }, 1000);
+    },
+    stop() {
+      clearInterval(this.timer);
+    },
+    reset() {
+      this.elapsedTime = 0;
     },
   },
 };
@@ -1155,6 +1468,8 @@ export default {
   .footer-box:nth-child(2)
   input {
   min-height: 40px;
+  box-shadow: none;
+  padding-left: 2rem;
 }
 
 .message-container .outer-content .main-area .msg-footer .footer-box .btn {
@@ -1324,7 +1639,17 @@ export default {
   transform: unset !important;
   top: 30px !important;
 }
+.scrollable {
+  height: 100%;
+  overflow-y: auto;
+}
 
+.sticky {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
 .user-list-item {
   cursor: pointer;
 }
@@ -1357,6 +1682,106 @@ export default {
 #image {
   position: absolute;
   top: 0px;
+}
+.form-field-file .field-file {
+  display: none;
+}
+
+.form-field-file i.fa {
+  font-size: 18px;
+}
+
+.form-field-file .btn1 {
+  border: none;
+  -webkit-transition: all 1s;
+  transition: all 1s;
+  cursor: pointer;
+}
+
+.emoji-invoker {
+  position: absolute;
+  top: 2rem;
+  left: 3.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.emoji-invoker:hover {
+  transform: scale(1.1);
+}
+.emoji-invoker > svg {
+  fill: #b1c6d0;
+}
+
+.emoji-picker {
+  position: absolute;
+  z-index: 1;
+  font-family: Montserrat;
+  border: 1px solid #ccc;
+  width: 14rem;
+  height: 20rem;
+  overflow-y: scroll;
+  padding: 1rem;
+  box-sizing: border-box;
+  border-radius: 0.5rem;
+  background: #fff;
+  box-shadow: 1px 1px 8px #c7dbe6;
+  top: -296px !important;
+  left: 16px !important;
+  font-size: 14px;
+}
+.emoji-picker__search {
+  display: flex;
+  margin-bottom: 15px;
+}
+.emoji-picker__search > input {
+  flex: 1;
+  border-radius: 10rem;
+  border: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+  outline: none;
+  font-size: 0.7rem;
+}
+.emoji-picker h5 {
+  margin-bottom: 0;
+  color: #b1b1b1;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  cursor: default;
+}
+.emoji-picker .emojis {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.emoji-picker .emojis:after {
+  content: "";
+  flex: auto;
+}
+.emoji-picker .emojis span {
+  padding: 0.2rem;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.emoji-picker .emojis span:hover {
+  background: #ececec;
+  cursor: pointer;
+}
+.profile.incomingName{
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+.profile.incomingName img{
+  width: 100%;
+  border-radius: 50%;
+  height: 100%;
+}
+#videocallReceiver .modal-dialog{
+  pointer-events: all;
 }
 /* .msg-body .msg-text-box.right .panel {
       -webkit-box-orient: horizontal;

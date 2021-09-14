@@ -4,26 +4,56 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
- require('./bootstrap');
- import VueSocketio from 'vue-socket.io';
- import socketio from 'socket.io-client';
- 
- window.Vue = require('vue').default;
- window.Vue.prototype.$socket = socketio.connect('https://peekvideochat.com:22000');
- // window.Vue.use(VueSocketio,socketio('https://peekvideochat.com:22000'));
- Vue.use(new VueSocketio({
-     debug: true,
-     connection: 'https://peekvideochat.com:22000',
- }))
- window.axios = require('axios');
- window.axios.defaults.baseURL = 'http://localhost:8000/';
-//  window.axios.defaults.baseURL = 'https://www.engezli.com/';
- Vue.config.productionTip = false;
- Vue.prototype.$hostname = 'http://localhost:8000/';
-//  Vue.prototype.$hostname = 'https://www.engezli.com/';
+require('./bootstrap');
 
- Vue.component('messages', require('./components/ExampleComponent.vue').default);
- 
- const app = new Vue({
-     el: '#app',
- });
+import VueSocketio from 'vue-socket.io';
+import socketio from 'socket.io-client';
+
+
+
+window.Vue = require('vue').default;
+import VueRouter from 'vue-router'
+/**
+ * The following block of code may be used to automatically register your
+ * Vue components. It will recursively scan this directory for the Vue
+ * components and automatically register them with their "basename".
+ *
+ * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
+ */
+window.Vue.prototype.$socket = socketio.connect('https://peekvideochat.com:22000');
+Vue.use(new VueSocketio({
+    debug: true,
+    connection: 'https://peekvideochat.com:22000',
+}))
+// const files = require.context('./', true, /\.vue$/i)
+// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+
+
+Vue.use(VueRouter)
+
+
+
+const example = require('./components/ExampleComponent.vue').default;
+const example2 = require('./components/O2oCall.vue').default;
+
+const routes = [
+    {
+        path: '/',
+        component: example
+    },
+    {
+        path: '/o2ocall',
+        component: example2,
+        props: true
+    }
+];
+
+const router = new VueRouter({
+    routes
+})
+// Vue.component('example-component', require('./components/ExampleComponent.vue'));
+
+const app = new Vue({
+    el: '#app',
+    router
+});

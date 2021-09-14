@@ -42,7 +42,7 @@ class ChatController extends Controller
     }
 
     public function friendsList(Request $request, $id){
-      $getfriends = ChatFriends::with('senderInfo','receiverInfo','lastMessage')->orWhere('sender_id',$id)
+      $getfriends = ChatFriends::with('senderInfo','receiverInfo','lastMessage','projectInfo')->orWhere('sender_id',$id)
       ->orWhere('receiver_id',$id)->orderBy('id', 'DESC')->get();
       // dd($getfriends);
       return $getfriends;
@@ -67,17 +67,18 @@ class ChatController extends Controller
 
     public function singleChat(Request $request){
 
-      $receiver_id = $request->input('receiver_id');
-      $sender_id = $request->input('sender_id');
+      // $receiver_id = $request->input('receiver_id');
+      $conversation_id = $request->input('conversation_id');
 
-      $getsingleChat = ChatMessages::with('senderInfo','receiverInfo')
-      ->orWhere(function($q) use ($sender_id, $receiver_id){
-         $q->where('message_sender', $sender_id)
-           ->where('message_receiver', $receiver_id);
-    })->orWhere(function($h) use ($sender_id, $receiver_id){
-         $h->where('message_sender', $receiver_id)
-           ->where('message_receiver', $sender_id);
-    })->get();
+    //   $getsingleChat = ChatMessages::with('senderInfo','receiverInfo')
+    //   ->orWhere(function($q) use ($sender_id, $receiver_id){
+    //      $q->where('message_sender', $sender_id)
+    //        ->where('message_receiver', $receiver_id);
+    // })->orWhere(function($h) use ($sender_id, $receiver_id){
+    //      $h->where('message_sender', $receiver_id)
+    //        ->where('message_receiver', $sender_id);
+    // })->get();
+      $getsingleChat = ChatMessages::with('senderInfo','receiverInfo')->where('conversation_id', $conversation_id)->get();
       // dd($getsingleChat);
       return $getsingleChat;
 
@@ -103,7 +104,7 @@ class ChatController extends Controller
         'message_desc' => $request->input('message'),
         'message_status' => $message_status,
         'conversation_id' => $request->input('conversation_id'),
-        'message_date' => Carbon::now(),
+        'message_date' => $request->input('message_date'),
       ];
       $data['message_type'] = '0';
       if($file != ''){
@@ -126,7 +127,7 @@ class ChatController extends Controller
         $friendData['message_id'] = $Insert->id;
         $friendData['message'] = $Insert->message_desc;
         $friendData['message_status'] = $Insert->message_status;
-        $friendData['time'] = Carbon::now();
+        $friendData['time'] = $Insert->message_date;
         $updateFriend = ChatFriends::where('conversation_id', $conversation_id)->update($friendData);
       }
     }
@@ -134,13 +135,13 @@ class ChatController extends Controller
     public function friendData(Request $request, $id)
     {
       $user = User::whereid($id)->first();
-      $all_languege = json_decode($user->language_id);
-      $language = [];
-      foreach ($all_languege as  $lang) {
-        $get_lang = Engezli::get_language($lang);
-        array_push($language,$get_lang);
-      }
-      $user->languages = $language;
+      // $all_languege = json_decode($user->language_id);
+      // $language = [];
+      // foreach ($all_languege as  $lang) {
+      //   $get_lang = Engezli::get_language($lang);
+      //   array_push($language,$get_lang);
+      // }
+      // $user->languages = $language;
       return $user;
     }
 }
