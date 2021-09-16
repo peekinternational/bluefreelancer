@@ -1,20 +1,20 @@
 <template>
-  <div class="py-5">
+  <div class="py-2">
     <div class="message-container">
       <audio id="outgoingcall" muted>
-        <source :src="'/incomming.mp3'" type="audio/ogg">
-        <source :src="'/incomming.mp3'" type="audio/mpeg">
+        <source :src="'incomming.mp3'" type="audio/ogg">
+        <source :src="'incomming.mp3'" type="audio/mpeg">
       </audio>
       <audio id="incommingcall" muted>
-        <source :src="'/outgoing_ringtone.mp3'" type="audio/ogg">
-        <source :src="'/outgoing_ringtone.mp3'" type="audio/mpeg">
+        <source :src="'outgoing_ringtone.mp3'" type="audio/ogg">
+        <source :src="'outgoing_ringtone.mp3'" type="audio/mpeg">
       </audio>
       <audio id="messagetone" muted>
-        <source :src="'/bell.mp3'" type="audio/ogg">
-        <source :src="'/bell.mp3'" type="audio/mpeg">
+        <source :src="'bell.mp3'" type="audio/ogg">
+        <source :src="'bell.mp3'" type="audio/mpeg">
       </audio>
       <div class="container">
-        <div class="card">
+        <div class="card" style="height: calc(100vh - 105px);">
           <div class="heading px-3 py-3 border-bottom">
             <h3>Messages</h3>
           </div>
@@ -43,7 +43,7 @@
                       user-list-item
                       d-flex
                       align-items-center
-                      p-3
+                      py-3 px-2
                       border-bottom
                     "
                     :key="friends.conversation_id"
@@ -85,7 +85,7 @@
                         </template>
                       </template>
                     </div>
-                    <div class="box w-100 pl-3">
+                    <div class="box w-100 pl-2">
                       <div
                         class="inner-box d-flex justify-content-between mb-1"
                       >
@@ -132,6 +132,7 @@
                           </p>
                         </template> -->
                       </div>
+                      <p class="mb-0 text-right newMsg" :id="'newMsg'+friends.conversation_id" style="color: red; display: none; font-size: 14px;"><span>0</span></p>
                     </div>
                   </div>
                 </div>
@@ -143,7 +144,7 @@
                       user-list-item
                       d-flex
                       align-items-center
-                      p-3
+                      py-3 px-2
                       border-bottom
                     "
                     :key="friends.conversation_id"
@@ -185,7 +186,7 @@
                         </template>
                       </template>
                     </div>
-                    <div class="box w-100 pl-3">
+                    <div class="box w-100 pl-2">
                       <div
                         class="inner-box d-flex justify-content-between mb-1"
                       >
@@ -554,7 +555,8 @@ export default {
       callData: '',
       callDisable:false,
       oncallFriend: {},
-      callstatus: 0
+      callstatus: 0,
+      msgCount: 0
     };
   },
   sockets: {
@@ -615,6 +617,13 @@ export default {
           $("#f_typing" + data.UserId).html("type");
         }
       }
+    },
+    peekReceiverUserStatus(data) {
+      console.log(data);
+        axios.get("messsageCount/" + this.user_id).then(function(res) {
+              $('.messageCount').html(res.data);
+        })
+
     },
     peekReceiveupdateCallStatus(data) {
       console.log(data);
@@ -702,7 +711,21 @@ export default {
         if (data.message_receiver == this.userdata.id) {
           if (this.conversation_id == data.conversation_id) {
             this.singleChate.push(data);
+            axios.post('seenMessage',{'sender_id':this.userdata.id,'receiver_id':this.friendId,'conversation_id':this.conversation_id})
+             .then(responce => {
+              // console.log(responce.data);
+
+             // this.singleChate = responce.data;
+            })
           }
+          var messagetone = document.getElementById("messagetone");
+          messagetone.play();
+          messagetone.muted = false;
+          axios.get("messsageCount/" + this.user_id).then((responce) => {
+            // console.log(responce,'nooooooooootiiiiiiiiiifiiiiiiicaiiin');
+            $('.messageCount').html(responce.data);
+          });
+         
           //   this.userdec = this.friendList.filter((obj_friend) => {
           //     console.log(data.conversation_id,obj_friend.conversation_id);
           //     return data.conversation_id === obj_friend.conversation_id;
@@ -716,6 +739,17 @@ export default {
           console.log("filter_user", this.userdec);
           // setTimeout(() => this.userdec.time = new Date().toISOString(), 3000);
           this.userdec.time = new Date().toISOString();
+          // $(".user-list-item.active").removeClass("active");
+          // $("#" + this.userdec.conversation_id).addClass("active");
+            // var msgCount = 0;
+          if(this.conversation_id != this.userdec.conversation_id){
+            this.msgCount += 1;
+              // console.log(responce,'nooooooooootiiiiiiiiiifiiiiiiicaiiin');
+            $("#newMsg" + this.userdec.conversation_id).show();
+            // $("#newMsg" + this.userdec.conversation_id).html(this.msgCount);
+            
+            
+          }
           // this.userdec.last_message.message_desc = data.message_desc;
           // // var time2 = moment().format('hh:mm A');
           // console.log('.lastMessageDate-'+data.conversation_id);
@@ -832,7 +866,7 @@ export default {
             })
             .pop();
           if (post) {
-            $('.user-list-item').removeClass("active");
+            $('.user-list-item.active').removeClass("active");
             $("#" + post.conversation_id).addClass("active");
             setInterval(function(){ 
               $('.user-list-item').removeClass("active");
@@ -854,11 +888,18 @@ export default {
       });
     },
     getSingleChat: function (single) {
+
+      this.$socket.emit('peekUpdateUserSelection', {
+        selectedUser: '',
+        userId: this.user_id
+      });
+
       this.singleChatUser = single;
       this.showDetails = true;
       console.log(this.singleChatUser);
       $(".user-list-item.active").removeClass("active");
       $("#" + this.singleChatUser.conversation_id).addClass("active");
+      $("#newMsg" + this.singleChatUser.conversation_id).hide();
       $("#selectConversation").hide();
       $("#startchat").show();
       $("#single_chat").show();
@@ -934,6 +975,13 @@ export default {
             // alert("error");
           }
         );
+       
+        axios.post('seenMessage',{'sender_id':this.userdata.id,'receiver_id':this.friendId,'conversation_id':this.conversation_id})
+         .then(responce => {
+          // console.log(responce.data);
+
+         // this.singleChate = responce.data;
+        })
     },
     sendMessage: function () {
 
@@ -1042,7 +1090,7 @@ export default {
         // console.log(msg);
         // setTimeout(() => $('.lastMessage-'+this.conversation_id).html('<p>'+msg+'</p>'), 2000);
         $(".lastMessageDate-" + this.conversation_id).html(
-          '<small class="text-muted text-uppercase"> TODAY AT ' +
+          '<small class="text-muted"> TODAY AT ' +
             time2 +
             "</small>"
         );
@@ -1288,11 +1336,11 @@ export default {
 }
 
 .message-container .outer-content .sidebar .user-lists h6 {
-  font-size: 15px;
+  font-size: 13px;
 }
 
-.message-container .outer-content .sidebar .user-lists h6 small {
-  font-size: 12px;
+.user-list-item .inner-box small.text-muted {
+  font-size: 11px;
 }
 
 .message-container .outer-content .sidebar .user-lists p {
@@ -1300,7 +1348,7 @@ export default {
 }
 
 .message-container .outer-content .sidebar .msg-header {
-  padding: 15px;
+  padding: 15px 10px;
   background: #ffffff;
   -webkit-box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);
@@ -1791,6 +1839,15 @@ export default {
 }
 #videocallReceiver .modal-dialog{
   pointer-events: all;
+}
+.message-container .outer-content .m-box {
+    height: calc(100vh - 172px);
+}
+.newMsg span{
+  background: red;
+  border-radius: 50%;
+  padding: 2px;
+  font-size: 5px;
 }
 /* .msg-body .msg-text-box.right .panel {
       -webkit-box-orient: horizontal;

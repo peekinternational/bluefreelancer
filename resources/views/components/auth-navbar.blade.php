@@ -204,7 +204,7 @@
                                 class="nav-link dropdown-toggle no-caret position-relative">
                                 <i class="fa fa-comments font-size-lg" aria-hidden="true"></i>
                                 <span
-                                    class="badge badge-danger badge-notification badge-pill">{{ App\Models\ChatMessages::getUnseenMsg() }}</span>
+                                    class="badge badge-danger messageCount badge-notification badge-pill">{{ App\Models\ChatMessages::getUnseenMsg() }}</span>
                             </a>
                         </li>
 

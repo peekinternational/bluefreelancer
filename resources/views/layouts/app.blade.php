@@ -12,7 +12,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Bootstrap + Vendor CSS -->
     <link rel="stylesheet" media="screen" href="{{ url('assets/css/style.min.css') }}">
-    <link rel="stylesheet" media="screen" href="{{ url('css/app.css') }}">
+    
     <link rel="stylesheet" media="screen" href="{{ url('assets/css/select2.min.css') }}">
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -43,7 +43,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="{{ url('assets/js/ajax.js') }}"></script>
     <script src="{{ url('assets/js/custom-script.js') }}"></script>
-    <script src="{{ url('js/app.js') }}"></script>
+    
     <script>
         @if (Session::has('message'))
             toastr.options =
