@@ -241,7 +241,7 @@
             <div class="m-box main-area" id="single_chat">
               <center id="selectConversation" class="mt-5 pt-5 mt-sm-5 pt-sm-5">
                 <img
-                  src="http://203.99.61.173/demos/gigtodo35/images/chat.png"
+                  :src="'images/chat.png'"
                   width="180"
                   alt=""
                 />

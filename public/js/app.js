@@ -70683,12 +70683,7 @@ var render = function() {
                     },
                     [
                       _c("img", {
-                        attrs: {
-                          src:
-                            "http://203.99.61.173/demos/gigtodo35/images/chat.png",
-                          width: "180",
-                          alt: ""
-                        }
+                        attrs: { src: "images/chat.png", width: "180", alt: "" }
                       }),
                       _vm._v(" "),
                       _c(
