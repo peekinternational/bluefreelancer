@@ -97,7 +97,7 @@
             messagetone.play();
             messagetone.muted = false;
              $.ajax({
-                  url: "{{url('/messsageCount/')}}"+user_id,
+                  url: "{{url('/messsageCount')}}/"+user_id,
                   type: "GET"
                 }).then(function(res) {
                   $('.messageCount').html(res);
