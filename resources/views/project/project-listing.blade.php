@@ -16,13 +16,22 @@
                         </div>
                     </div>
                     <input class="form-control" type="text" name="search_project_by_title"
-                        placeholder="You can see the project list by entering the project title">
+                        placeholder="You can see the project list by entering the project title" value="{{request()->search_project_by_title ? request()->search_project_by_title  : ''}}" >
                 </div>
                 <hr>
                 <h2 class="h5 font-weight-bold pt-3 mb-4">My Skills</h2>
                 <div class="form-group pb-3">
                     <select class="custom-select" data-toggle="select" id="search_project_skills" multiple>
                         {{-- Coming Option From Ajax.js (AJAX CALL) --}}
+                        @if (request()->search_project_by_skills)
+                            <ul class="list-inline">
+                                @foreach (Illuminate\Support\Str::of(request()->search_project_by_skills)->explode(',') as $skill)
+                                    <option selected="selected" value="{{ $skill }}">
+                                        {{ App\Models\User::skillTitle($skill)->title }}
+                                    </option>
+                                @endforeach
+                            </ul>
+                        @endif
                     </select>
                     <input type="hidden" name="search_project_by_skills" id="selected_search_project_skills" required>
                 </div>

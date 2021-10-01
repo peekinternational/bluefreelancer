@@ -30,8 +30,10 @@ class ContestHandoverController extends Controller
             'contest_id' => $id,
             'user_id' => auth()->id(),
         ]);
-
+        
         if ($handover) {
+            NewFeedController::store(auth()->id(), 'You have uploaded your application and files to the ' . Contest::where('contest_id', $id)->first('title')->title . ' contest.');
+
             return redirect()->route('contest-details', $id)->with('message', 'Contest Handover File Upload Successfully!');
         }
     }

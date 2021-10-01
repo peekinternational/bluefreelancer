@@ -4,14 +4,14 @@
     <div class="bg-secondary py-4">
         <div class="container pt-2 pb-3">
             <div class="d-flex flex-column flex-md-row align-items-center">
-                <a href="./project-list.html" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
+                <a href="/project-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
                     Projects</a>
-                <a href="./contest-list.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
+                <a href="/contest-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
                     Contests</a>
-                <a href="./browse-category.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
+                <a href="/browse/category" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
                     Categories</a>
-                <a href="./showcase.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
-                <a href="./contest-post.html" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
+                <a href="/showcases" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
+                <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
             </div>
         </div>
     </div>
@@ -180,7 +180,8 @@
                                     Contest expenditure budget
                                 </div>
 
-                                <p class="font-size-sm"><i class="fa fa-warning text-danger mr-2"></i> It is recommended to
+                                <p class="font-size-sm"><i class="fa fa-warning text-danger mr-2"></i> It is recommended
+                                    to
                                     start the prize starting at 10,000 won [ten thousand won]. [Inquiry for Bluefreelancer
                                     contest prize money over 100 million won]</p>
 
@@ -215,7 +216,8 @@
                                     Contest period
                                 </div>
 
-                                <p class="font-size-sm"><i class="fa fa-warning text-danger mr-2"></i> If the winner is not
+                                <p class="font-size-sm"><i class="fa fa-warning text-danger mr-2"></i> If the winner is
+                                    not
                                     selected within 7 days of the deadline for the contest, the applicant will be paid 1 /
                                     n.
                                 </p>
@@ -288,7 +290,8 @@
                                         <h5 class="font-size-sm font-weight-bold">Confirmed from freelancers to the end of
                                             the
                                             project safely!</h5>
-                                        <p class="font-size-ms">If you use free video (video) service, you need to purchase
+                                        <p class="font-size-ms">If you use free video (video) service, you need to
+                                            purchase
                                             chat
                                             service to go to separate screen and use 1: 1 live video chat. <a href="#"
                                                 class="btn btn-sm btn-info font-size-xs py-1">Introduction <i
@@ -315,7 +318,8 @@
                                     </div>
 
                                     <div class="col-md-7">
-                                        <p class="font-size-ms">Private services are effective when looking for professional
+                                        <p class="font-size-ms">Private services are effective when looking for
+                                            professional
                                             freelancers to develop core projects that require security. <a href="#"
                                                 class="btn btn-sm btn-info font-size-xs py-1">Introduction <i
                                                     class="fa fa-caret-right ml-1"></i></a></p>
@@ -367,7 +371,8 @@
                                         <h5 class="font-size-sm font-weight-bold">Using chat is an indicator of the high
                                             success
                                             of the project. Unlimited chats by registration</h5>
-                                        <p class="font-size-ms">A confidentiality agreement is a contract between a client
+                                        <p class="font-size-ms">A confidentiality agreement is a contract between a
+                                            client
                                             and a
                                             freelancer to maintain the confidential information required to perform the
                                             project
@@ -394,7 +399,8 @@
                                     </div>
 
                                     <div class="col-md-7">
-                                        <p class="font-size-ms">This service is a service that allows freelancers to quickly
+                                        <p class="font-size-ms">This service is a service that allows freelancers to
+                                            quickly
                                             process your project, including quick response of your project, urgent project,
                                             error (bug), change, updates.</p>
                                     </div>
@@ -437,20 +443,26 @@
 
                     <div class="card-body">
                         <ul class="list-unstyled font-size-ms">
-                            <li class="d-flex mb-2"><i class="fa fa-check text-secondary mt-1 mr-1"></i> Clear and concise
+                            <li class="d-flex mb-2"><i class="fa fa-check text-secondary mt-1 mr-1"></i> Clear and
+                                concise
                                 name of your Project</li>
-                            <li class="d-flex mb-2"><i class="fa fa-check text-secondary mt-1 mr-1"></i> Detail description
+                            <li class="d-flex mb-2"><i class="fa fa-check text-secondary mt-1 mr-1"></i> Detail
+                                description
                                 of your Project</li>
-                            <li class="d-flex mb-2"><i class="fa fa-check text-secondary mt-1 mr-1"></i> Provide images or
+                            <li class="d-flex mb-2"><i class="fa fa-check text-secondary mt-1 mr-1"></i> Provide images
+                                or
                                 PDF with specification of your Project</li>
-                            <li class="d-flex mb-2"><i class="fa fa-check text-secondary mt-1 mr-1"></i> Feel free to Post
+                            <li class="d-flex mb-2"><i class="fa fa-check text-secondary mt-1 mr-1"></i> Feel free to
+                                Post
                                 the Project</li>
                             <li class="d-flex">
                                 <i class="fa fa-check text-secondary mt-1 mr-1"></i>
-                                <span>The project registration order is <b class="text-info">How the project works</b> &gt;
+                                <span>The project registration order is <b class="text-info">How the project works</b>
+                                    &gt;
                                     <b class="text-info">Current status of the project</b> &gt; <b
                                         class="text-info">Detailed business contents</b> &gt; <b
-                                        class="text-info">References and Notes</b> Refer to the example in order</span>
+                                        class="text-info">References and Notes</b> Refer to the example in
+                                    order</span>
                             </li>
                         </ul>
                     </div>
@@ -467,19 +479,23 @@
 
                     <div class="card-body">
                         <ul class="list-unstyled font-size-ms">
-                            <li class="d-flex mb-2"><i class="fa fa-check text-secondary mt-1 mr-1"></i> Set a contest prize
+                            <li class="d-flex mb-2"><i class="fa fa-check text-secondary mt-1 mr-1"></i> Set a contest
+                                prize
                                 and open a real-time public forum.</li>
-                            <li class="d-flex mb-2"><i class="fa fa-check text-secondary mt-1 mr-1"></i> In Bluefreelancer
+                            <li class="d-flex mb-2"><i class="fa fa-check text-secondary mt-1 mr-1"></i> In
+                                Bluefreelancer
                                 real-time video chat with clients chosen by the applicants through public forums to get the
                                 best results</li>
                             <li class="d-flex mb-2"><i class="fa fa-check text-secondary mt-1 mr-1"></i> The selected
                                 freelancer and client can save time, money, and results more than expected with real-time 1:
                                 2 video chatting.</li>
-                            <li class="d-flex mb-2"><i class="fa fa-check text-secondary mt-1 mr-1"></i> In case of using
+                            <li class="d-flex mb-2"><i class="fa fa-check text-secondary mt-1 mr-1"></i> In case of
+                                using
                                 chat, you can use unlimited use at any time by registration (per case) from 5,000 KRW
                                 (excluding VAT) for video chatting from the beginning to the end of the contest. Purchase of
                                 chat is free until the end of the term.</li>
-                            <li class="d-flex"><i class="fa fa-check text-secondary mt-1 mr-1"></i> For security and
+                            <li class="d-flex"><i class="fa fa-check text-secondary mt-1 mr-1"></i> For security
+                                and
                                 security reasons, video chat must use Google Chrome. Use of Internet Explorer (IE) may be
                                 restricted.</li>
                         </ul>

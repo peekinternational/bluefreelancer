@@ -61,7 +61,7 @@ class ProjectController extends Controller
         ]);
 
         if ($project) {
-            return redirect()->route('post-project')->with('message', 'Project Posted Successfully!');
+            return redirect()->route('project.show', $project->project_id)->with('message', 'Project Posted Successfully!');
         }
     }
 
@@ -78,7 +78,7 @@ class ProjectController extends Controller
         ]);
 
         if ($project) {
-            return redirect()->route('project.manage.index', $id)->with('message', 'Project Details Updated Successfully!');
+            return redirect()->route('project.manage', $id)->with('message', 'Project Details Updated Successfully!');
         }
     }
     public function show($id)

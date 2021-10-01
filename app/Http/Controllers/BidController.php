@@ -27,6 +27,9 @@ class BidController extends Controller
             'days' => 'required',
             'proposal' => 'required',
         ]);
+        if ($request->budget <= array_sum($request->milestone_amt)) {
+            return redirect()->route('project.show', $request->project_id)->with('error', 'Your Milestones Amounts are greater than your Actual Bid Amount!');
+        }
         if (auth()->user()->bids != '') {
             $bid = Bid::create([
                 'project_id' => $request->project_id,
@@ -36,7 +39,7 @@ class BidController extends Controller
                 'proposal' => $request->proposal,
                 'status' => 1,
             ]);
-            if ($request->milestone_name && $request->milestone_amt) {
+            if ($request->milestone_name[0] != null && $request->milestone_amt[0] != null) {
                 for ($i = 0; $i < count($request->milestone_name); $i++) {
                     Milestone::create([
                         'bid_id' => $bid->id,
@@ -47,14 +50,15 @@ class BidController extends Controller
                     ]);
                 }
             }
+            NewFeedController::store(auth()->id(), 'You have Bidded on ' . Project::where('project_id', $request->project_id)->first('title')->title . ' uploaded Project. There is a high possibility that you can contract with your client if you provide a reasonable cost, proposal.');
             if ($bid) {
                 return redirect()->route('project.show', $request->project_id)->with('message', 'Bid Placed Successfully!');
             }
         } else {
-            return redirect()->route('project.show', $request->project_id)->with('error', 'You Dont have enough Bids to bid on this Project!');
+            return redirect()->route('project.show', $request->project_id)->with('error', 'You dont have enough Bids to bid on this Project!');
         }
     }
-    
+
     public function update(Request $request, $id)
     {
         // dd($request);

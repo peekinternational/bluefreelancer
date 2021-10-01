@@ -40,6 +40,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'skills',
         'certs',
         'bids',
+        'notify_all_freelancers',
+        'notify_all_projects',
     ];
 
     /**

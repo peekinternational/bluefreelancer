@@ -4,14 +4,14 @@
     <div class="bg-secondary py-4">
         <div class="container pt-2 pb-3">
             <div class="d-flex flex-column flex-md-row align-items-center">
-                <a href="./project-list.html" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
+                <a href="/project-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
                     Projects</a>
-                <a href="./contest-list.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
+                <a href="/contest-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
                     Contests</a>
-                <a href="./browse-category.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
+                <a href="/browse/category" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
                     Categories</a>
-                <a href="./showcase.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
-                <a href="./contest-post.html" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
+                <a href="/showcases" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
+                <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
             </div>
         </div>
     </div>
@@ -127,7 +127,7 @@
                                     <label class="col-md-6" for="proposal">Proposal:</label>
                                     <div class="col-md-6 input-group">
                                         <textarea class="form-control" name="proposal" id="proposal" cols="30" rows="10"
-                                            placeholder="Write You Project Proposal Description" required></textarea>
+                                            placeholder="Write You Project Proposal Description" required value="{{ old('proposal') }}"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -138,8 +138,8 @@
                                         <h5 class="card-title mb-3">Deliver In:</h5>
 
                                         <div class="input-group mb-3">
-                                            <input type="number" class="form-control" placeholder="3" name="days"
-                                                required>
+                                            <input type="number" class="form-control" placeholder="3" name="days" required
+                                                value="{{ old('days') }}">
                                             <div class="input-group-append">
                                                 <div class="input-group-text">Days</div>
                                             </div>
@@ -211,12 +211,15 @@
                         </div>
 
                         <div class="col-md-4 text-md-right">
-                            @if (App\Models\Bid::isBidAvailable(auth()->id(), $project->project_id))
-                                <button class="btn btn-info btn-sm mb-2 disabled">Already Bid on this Project</button>
-                            @else
-                                <button class="btn btn-primary mb-2" data-toggle="collapse" data-target="#collapseBid">Bid
-                                    on
-                                    This Project</button>
+                            @if ($project->user_id != auth()->id())
+                                @if (App\Models\Bid::isBidAvailable(auth()->id(), $project->project_id))
+                                    <button class="btn btn-info btn-sm mb-2 disabled">Already Bid on this Project</button>
+                                @else
+                                    <button class="btn btn-primary mb-2" data-toggle="collapse"
+                                        data-target="#collapseBid">Bid
+                                        on
+                                        This Project</button>
+                                @endif
                             @endif
                         </div>
                     </div>
@@ -398,8 +401,7 @@
                                                         id="proposalAppBtn">Approve</button>
                                                 </li>
                                                 <li class="list-inline-item">
-                                                    <button  type="submit"
-                                                        class="btn btn-sm btn-danger mx-2"
+                                                    <button type="submit" class="btn btn-sm btn-danger mx-2"
                                                         id="proposalRejBtn">Reject</button>
                                                 </li>
                                             </ul>

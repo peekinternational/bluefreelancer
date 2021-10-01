@@ -39,12 +39,13 @@ class ContestEntryController extends Controller
 
         if ($entry) {
             $contest_user_id = Contest::where('contest_id', $request->entry_contest_id)->first('user_id');
-
             Notification::create([
                 'from' => auth()->id(),
                 'to' => $contest_user_id->user_id,
                 'message' => 'New Participant in your Contest!',
             ]);
+            NewFeedController::store(auth()->id(), 'You have submitted your application and files to the  ' . Contest::where('contest_id', $request->entry_contest_id)->first('title')->title . ' contest.');
+
             return redirect()->route('contest-details', $request->entry_contest_id)->with('message', 'You Successfully Participate in contest!');
         }
     }

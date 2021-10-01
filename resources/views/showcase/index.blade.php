@@ -34,25 +34,25 @@
         <div class="card card-body rounded-xl mb-4">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active" href="/showcases">All</a>
+                    <a class="nav-link {{ !request()->category ? "active" : '' }}" href="/showcases">All</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/showcases?category=Logo">Logo</a>
+                    <a class="nav-link {{ request()->category == 'Logo' ? "active" : '' }}" href="/showcases?category=Logo">Logo</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/showcases?category=Website">Website</a>
+                    <a class="nav-link {{ request()->category == 'Website' ? 'active' : '' }}" href="/showcases?category=Website">Website</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/showcases?category=Mobile Apps">Mobile Apps</a>
+                    <a class="nav-link {{ request()->category == 'Mobile Apps' ? 'active' : '' }}" href="/showcases?category=Mobile Apps">Mobile Apps</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/showcases?category=Graphic Design">Graphic Design</a>
+                    <a class="nav-link {{ request()->category == 'Graphic Design' ? 'active' : '' }}" href="/showcases?category=Graphic Design">Graphic Design</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/showcases?category=Illustration">Illustration</a>
+                    <a class="nav-link {{ request()->category == 'Illustration' ? 'active' : '' }}" href="/showcases?category=Illustration">Illustration</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/showcases?category=3D Model">3D Model</a>
+                    <a class="nav-link {{ request()->category == '3D Model' ? 'active' : '' }}" href="/showcases?category=3D Model">3D Model</a>
                 </li>
             </ul>
         </div>

@@ -16,7 +16,7 @@
                     <img src="{{ url('assets/img/pages/home/website-developmnts.jpg') }}" class="card-img-top">
                     <div class="overlay-hidden d-flex flex-column justify-content-center text-center py-4 px-5">
                         <h3 class="h5 text-white mb-4"><strong>Website Development</strong></h3>
-                        <a class="btn btn-sm btn-outline-light" href="{{ url('assets/project-post.html') }}">Post a
+                        <a class="btn btn-sm btn-outline-light" href="/post-project">Post a
                             project
                             like this</a>
                     </div>
@@ -41,7 +41,7 @@
                     <img src="{{ url('assets/img/pages/home/website-designs.jpg') }}" height="177" class="card-img-top">
                     <div class="overlay-hidden d-flex flex-column justify-content-center text-center py-4 px-5">
                         <h3 class="h5 text-white mb-4"><strong>Web Designer</strong></h3>
-                        <a class="btn btn-sm btn-outline-light" href="{{ url('assets/project-post.html') }}">Post a
+                        <a class="btn btn-sm btn-outline-light" href="/post-project">Post a
                             similar
                             contest</a>
                     </div>
@@ -66,7 +66,7 @@
                     <img src="{{ url('assets/img/pages/home/product-sourcing.jpg') }}" class="card-img-top">
                     <div class="overlay-hidden d-flex flex-column justify-content-center text-center py-4 px-5">
                         <h3 class="h5 text-white mb-4"><strong>Product Sourcing · Manufacturing</strong></h3>
-                        <a class="btn btn-sm btn-outline-light" href="{{ url('assets/project-post.html') }}">Post a
+                        <a class="btn btn-sm btn-outline-light" href="/post-project">Post a
                             project
                             like this</a>
                     </div>
@@ -91,7 +91,7 @@
                     <img src="{{ url('assets/img/pages/home/mobile-apps.jpg') }}" class="card-img-top">
                     <div class="overlay-hidden d-flex flex-column justify-content-center text-center py-4 px-5">
                         <h3 class="h5 text-white mb-4"><strong>Mobile Apps</strong></h3>
-                        <a class="btn btn-sm btn-outline-light" href="{{ url('assets/project-post.html') }}">Post a
+                        <a class="btn btn-sm btn-outline-light" href="/post-project">Post a
                             project
                             like this</a>
                     </div>
@@ -116,7 +116,7 @@
                     <img src="{{ url('assets/img/pages/home/article-writings.jpg') }}" class="card-img-top">
                     <div class="overlay-hidden d-flex flex-column justify-content-center text-center py-4 px-5">
                         <h3 class="h5 text-white mb-4"><strong>Article Writing</strong></h3>
-                        <a class="btn btn-sm btn-outline-light" href="{{ url('assets/project-post.html') }}">Post a
+                        <a class="btn btn-sm btn-outline-light" href="/post-project">Post a
                             similar
                             contest</a>
                     </div>
@@ -141,7 +141,7 @@
                     <img src="{{ url('assets/img/pages/home/website-developmnts.jpg') }}" class="card-img-top">
                     <div class="overlay-hidden d-flex flex-column justify-content-center text-center py-4 px-5">
                         <h3 class="h5 text-white mb-4"><strong>SEO (Search Engine Optimization) Marketing</strong></h3>
-                        <a class="btn btn-sm btn-outline-light" href="{{ url('assets/project-post.html') }}">Post a
+                        <a class="btn btn-sm btn-outline-light" href="/post-project">Post a
                             project like this</a>
                     </div>
                     <div class="overlay-visible text-white p-3">
@@ -165,7 +165,7 @@
                     <img src="{{ url('assets/img/pages/home/artificial-intelligence.jpg') }}" class="card-img-top">
                     <div class="overlay-hidden d-flex flex-column justify-content-center text-center py-4 px-5">
                         <h3 class="h5 text-white mb-4"><strong>Artificial intelligence</strong></h3>
-                        <a class="btn btn-sm btn-outline-light" href="{{ url('assets/project-post.html') }}">Post a
+                        <a class="btn btn-sm btn-outline-light" href="/post-project">Post a
                             project like this</a>
                     </div>
                     <div class="overlay-visible text-white p-3">
@@ -189,7 +189,7 @@
                     <img src="{{ url('assets/img/pages/home/translations.jpg') }}" class="card-img-top">
                     <div class="overlay-hidden d-flex flex-column justify-content-center text-center py-4 px-5">
                         <h3 class="h5 text-white mb-4"><strong>Interpretation / translation</strong></h3>
-                        <a class="btn btn-sm btn-outline-light" href="./project-post.html">Post a project like this</a>
+                        <a class="btn btn-sm btn-outline-light" href="/post-project">Post a project like this</a>
                     </div>
                     <div class="overlay-visible text-white p-3">
                         <p class="font-size-sm font-weight-bold mb-4">Translation · Interpretation · Language</p>
@@ -208,7 +208,7 @@
             </div>
         </div>
         <div class="col-sm-4 mx-auto">
-            <a class="btn btn-sm btn-secondary btn-block py-2" href="#">Browse Categories</a>
+            <a class="btn btn-sm btn-secondary btn-block py-2" href="/browse/category">Browse Categories</a>
         </div>
     </section>
 
@@ -217,7 +217,8 @@
             style="background-image: url({{ url('assets/img/pages/home/banner-1.jpg') }});">
             <h3 class="h5 font-weight-bold text-white">You can check the work or the work to be performed in the project /
                 contest in real time!</h3>
-            <p class="text-white mb-0">Bluefreelancer puts your trust and safety first, and all transactions for your escrow
+            <p class="text-white mb-0">Bluefreelancer puts your trust and safety first, and all transactions for your
+                escrow
                 funds are secured in real time with state-of-the-art SSL encryption.</p>
         </div>
     </section>
@@ -295,7 +296,7 @@
                 </div>
 
                 <div class="pt-3">
-                    <button class="btn btn-secondary" href="./project-post">Start a Project</button>
+                    <button class="btn btn-secondary" href="/post-project">Start a Project</button>
                 </div>
             </div>
         </div>
@@ -305,72 +306,40 @@
         <h2 class="h4 font-weight-bold pb-4">Recently posted projects</h2>
 
         <div class="row">
-            <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                <div class="card card-hover bg-light h-100">
-                    <img class="card-img-top" src="{{ url('assets/img/pages/projects/project-01.jpg') }}" alt="">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a class="stretched-link text-capitalize" href="#">Android Lantcer webs ..</a>
-                        </h5>
-                        <p class="card-text text-muted">we need a mobile developer who can developer in all android versions
-                            .....</p>
+            @if ($projects->count())
+                @foreach ($projects as $key => $item)
+                @php
+                    $imgName = $key.'.jpg';
+                @endphp
+                    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                        <div class="card card-hover bg-light h-100">
+                            <img class="card-img-top" src="{{ url('assets/img/pages/projects/'.$imgName) }}"
+                                alt="">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a class="stretched-link text-capitalize" href="#">{{ $item->title }}</a>
+                                </h5>
+                                <p class="card-text text-muted">{!! Illuminate\Support\Str::of($item->description)->limit(100) . '...' !!}</p>
+                            </div>
+                            <div class="card-footer text-warning-alt">
+                                <span>
+                                    @if ($item->min_budget && $item->max_budget)
+                                        {{ $item->currency == 'USD' ? '$' : '₩' }} {{ $item->min_budget }} -
+                                        {{ $item->currency == 'USD' ? '$' : '₩' }} {{ $item->max_budget }}
+                                    @else
+                                        @if ($item->rate_status == '1')
+                                            {{ $item->fixed_rate }}
+                                        @else
+                                            {{ $item->hourly_rate . '/Hourly' }}
+                                        @endif
+                                    @endif
+                                </span>
+                                <span>{{ $item->created_at->diffForHumans() }}</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-footer text-warning-alt">
-                        <span>$500 - $750</span>
-                        <span>2 hours ago</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                <div class="card card-hover bg-light h-100">
-                    <img class="card-img-top" src="{{ url('assets/img/pages/projects/project-02.jpg') }}" alt="">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a class="stretched-link text-capitalize" href="#">Real developer ..</a>
-                        </h5>
-                        <p class="card-text text-muted">we want real life developer to work on non real life work .....</p>
-                    </div>
-                    <div class="card-footer text-warning-alt">
-                        <span>$500 - $750</span>
-                        <span>2 hours ago</span>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                <div class="card card-hover bg-light h-100">
-                    <img class="card-img-top" src="{{ url('assets/img/pages/projects/project-01.jpg') }}" alt="">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a class="stretched-link text-capitalize" href="#">Android Lantcer webs ..</a>
-                        </h5>
-                        <p class="card-text text-muted">we need a mobile developer who can developer in all android versions
-                            .....</p>
-                    </div>
-                    <div class="card-footer text-warning-alt">
-                        <span>$500 - $750</span>
-                        <span>2 hours ago</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                <div class="card card-hover bg-light h-100">
-                    <img class="card-img-top" src="{{ url('assets/img/pages/projects/project-02.jpg') }}" alt="">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a class="stretched-link text-capitalize" href="#">Real developer ..</a>
-                        </h5>
-                        <p class="card-text text-muted">we want real life developer to work on non real life work .....</p>
-                    </div>
-                    <div class="card-footer text-warning-alt">
-                        <span>$500 - $750</span>
-                        <span>2 hours ago</span>
-                    </div>
-                </div>
-            </div>
+                @endforeach
+            @endif
         </div>
     </section>
 
@@ -378,72 +347,28 @@
         <h2 class="h4 font-weight-bold pb-4">Recently added contests</h2>
 
         <div class="row">
-            <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                <div class="card card-hover bg-light h-100">
-                    <img class="card-img-top" src="{{ url('assets/img/pages/contests/project-01.jpg') }}" alt="">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a class="stretched-link text-capitalize" href="#">Android Lantcer webs ..</a>
-                        </h5>
-                        <p class="card-text text-muted">we need a mobile developer who can developer in all android versions
-                            .....</p>
+            @if ($contests->count())
+                @foreach ($contests as $key => $item)
+                @php
+                    $imgName = $key.'.png';
+                @endphp
+                    <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
+                        <div class="card card-hover bg-light h-100">
+                            <img class="card-img-top" src="{{ url('assets/img/pages/contests/'.$imgName) }}" alt="">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a class="stretched-link text-capitalize" href="#">{{ $item->title }}</a>
+                                </h5>
+                                <p class="card-text text-muted">{!! Illuminate\Support\Str::of($item->description)->limit(100) . '...' !!}</p>
+                            </div>
+                            <div class="card-footer text-warning-alt">
+                                <span>{{$item->currency == 'USD' ? '$' : '₩'}}{{ $item->budget }}</span>
+                                <span>{{ $item->created_at->diffForHumans() }}</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-footer text-warning-alt">
-                        <span>$1500</span>
-                        <span>2 hours ago</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                <div class="card card-hover bg-light h-100">
-                    <img class="card-img-top" src="{{ url('assets/img/pages/contests/project-02.jpg') }}" alt="">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a class="stretched-link text-capitalize" href="#">Real developer ..</a>
-                        </h5>
-                        <p class="card-text text-muted">we want real life developer to work on non real life work .....</p>
-                    </div>
-                    <div class="card-footer text-warning-alt">
-                        <span>$1500</span>
-                        <span>2 hours ago</span>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                <div class="card card-hover bg-light h-100">
-                    <img class="card-img-top" src="{{ url('assets/img/pages/contests/project-01.jpg') }}" alt="">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a class="stretched-link text-capitalize" href="#">Android Lantcer webs ..</a>
-                        </h5>
-                        <p class="card-text text-muted">we need a mobile developer who can developer in all android versions
-                            .....</p>
-                    </div>
-                    <div class="card-footer text-warning-alt">
-                        <span>$1500</span>
-                        <span>2 hours ago</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                <div class="card card-hover bg-light h-100">
-                    <img class="card-img-top" src="{{ url('assets/img/pages/contests/project-02.jpg') }}" alt="">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <a class="stretched-link text-capitalize" href="#">Real developer ..</a>
-                        </h5>
-                        <p class="card-text text-muted">we want real life developer to work on non real life work .....</p>
-                    </div>
-                    <div class="card-footer text-warning-alt">
-                        <span>$1500</span>
-                        <span>2 hours ago</span>
-                    </div>
-                </div>
-            </div>
+                @endforeach
+            @endif
         </div>
     </section>
 @endsection

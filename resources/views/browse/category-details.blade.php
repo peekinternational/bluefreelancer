@@ -3,14 +3,14 @@
     <div class="bg-secondary py-4">
         <div class="container pt-2 pb-3">
             <div class="d-flex flex-column flex-md-row align-items-center">
-                <a href="./project-list.html" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
+                <a href="/project-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
                     Projects</a>
-                <a href="./contest-list.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
+                <a href="/contest-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
                     Contests</a>
-                <a href="./browse-category.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
+                <a href="/browse/category" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
                     Categories</a>
-                <a href="./showcase.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
-                <a href="./contest-post.html" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
+                <a href="/showcases" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
+                <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
             </div>
         </div>
     </div>
@@ -34,7 +34,8 @@
                     <input class="col-md-10 form-control" type="text" name="search_sub_category_by_title"
                         placeholder="Search Sub Category by Title or Name">
                     <input type="submit" value="Filter" class="ml-4 col-md-1 btn btn-info btn-sm">
-                    <a href="/browse/category-details/{{ request()->route('id') }}" class="ml-4 col-md-1 btn btn-secondary btn-sm">Clear Filter</a>
+                    <a href="/browse/category-details/{{ request()->route('id') }}"
+                        class="ml-4 col-md-1 btn btn-secondary btn-sm">Clear Filter</a>
                 </div>
             </form>
 

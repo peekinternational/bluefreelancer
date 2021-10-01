@@ -29,26 +29,57 @@ class FreelancerProjectController extends Controller
             'pastContest' => $pastContest,
         ]);
     }
-    public function openProject()
+    public function openProject(Request $request)
     {
-        $openProjects = Bid::where('status', '<', 3)->where('user_id', auth()->id())->with('project')->orderByDesc('created_at')->paginate(5);
+        $limit = $request->limit ?? 10;
+        $filter = $request->filter;
+        if ($request->filter) {
+            $openProjects = Bid::where('status', '<', 3)
+                ->where('user_id', auth()->id())
+                ->whereIn('project_id', function ($query) use ($filter) {
+                    $query->select('project_id')
+                        ->from('projects')
+                        ->where('title', 'like', '%' . $filter . '%');
+                })->with('project')->orderByDesc('created_at')->simplePaginate($limit);
+        } else {
+            $openProjects = Bid::where('status', '<', 3)
+                ->where('user_id', auth()->id())
+                ->with('project')
+                ->orderByDesc('created_at')
+                ->simplePaginate($limit);
+        }
+        // dd($openProjects);
 
         return view('project.my-project.freelancer.open-project', [
             'openProjects' => $openProjects,
 
         ]);
     }
-    public function workProject()
+    public function workProject(Request $request)
     {
-        $workProjects = Bid::where('status', 3)
-            ->where('user_id', auth()->id())
-            ->with('project', function ($query) {
-                $query->where('status', '=', '2');
-            })
-            ->with('milestones')
-            ->orderByDesc('created_at')
-            ->simplePaginate(5);
-
+        $limit = $request->limit ?? 10;
+        $filter = $request->filter;
+        if ($request->filter) {
+            $workProjects = Bid::where('status', 3)
+                ->where('user_id', auth()->id())
+                ->whereIn('project_id', function ($query) use ($filter) {
+                    $query->select('project_id')
+                        ->from('projects')
+                        ->where('title', 'like', '%' . $filter . '%');
+                })
+                ->with('project', function ($query) {
+                    $query->where('status', '=', '2');
+                })
+                ->with('milestones')
+                ->orderByDesc('created_at')
+                ->simplePaginate($limit);
+        } else {
+            $workProjects = Bid::where('status', 3)
+                ->where('user_id', auth()->id())
+                ->with('milestones')
+                ->orderByDesc('created_at')
+                ->simplePaginate($limit);
+        }
         return view('project.my-project.freelancer.work-project', [
             'workProjects' => $workProjects,
         ]);
@@ -57,18 +88,52 @@ class FreelancerProjectController extends Controller
     {
         return view('project.my-project.freelancer.past-project');
     }
-    public function activeContest()
+    public function activeContest(Request $request)
     {
-        $activeContest = ContestEntry::where('status', 1)->where('user_id', auth()->id())->with(['contest', 'ContestEntries'])->orderByDesc('created_at')->paginate(5);
-
+        $limit = $request->limit ?? 10;
+        $filter = $request->filter;
+        if ($request->filter) {
+            $activeContest = ContestEntry::where('status', 1)
+                ->where('user_id', auth()->id())
+                ->whereIn('contest_id', function ($query) use ($filter) {
+                    $query->select('contest_id')
+                        ->from('contests')
+                        ->where('title', 'like', '%' . $filter . '%');
+                })
+                ->with(['contest', 'ContestEntries'])
+                ->orderByDesc('created_at')
+                ->simplePaginate($limit);
+        } else {
+            $activeContest = ContestEntry::where('status', 1)
+                ->where('user_id', auth()->id())
+                ->with(['contest', 'ContestEntries'])
+                ->orderByDesc('created_at')
+                ->simplePaginate($limit);
+        }
         return view('project.my-project.freelancer.active-contest', [
             'activeContest' => $activeContest,
         ]);
     }
-    public function pastContest()
+    public function pastContest(Request $request)
     {
-        $pastContest = ContestEntry::where('status', 2)->with(['contest', 'ContestEntries', 'user'])->orderByDesc('created_at')->paginate(5);
-
+        $limit = $request->limit ?? 10;
+        $filter = $request->filter;
+        if ($request->filter) {
+            $pastContest = ContestEntry::where('status', 2)
+                ->whereIn('contest_id', function ($query) use ($filter) {
+                    $query->select('contest_id')
+                        ->from('contests')
+                        ->where('title', 'like', '%' . $filter . '%');
+                })
+                ->with(['contest', 'ContestEntries', 'user'])
+                ->orderByDesc('created_at')
+                ->simplePaginate($limit);
+        } else {
+            $pastContest = ContestEntry::where('status', 2)
+                ->with(['contest', 'ContestEntries', 'user'])
+                ->orderByDesc('created_at')
+                ->simplePaginate($limit);
+        }
         return view('project.my-project.freelancer.past-contest', [
             'pastContest' => $pastContest,
         ]);

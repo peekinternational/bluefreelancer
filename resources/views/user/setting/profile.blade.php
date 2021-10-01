@@ -1,19 +1,19 @@
 @extends('layouts.app')
 @section('content')
-    <div class="bg-secondary py-4">
-        <div class="container pt-2 pb-3">
-            <div class="d-flex flex-column flex-md-row align-items-center">
-                <a href="./project-list.html" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
-                    Projects</a>
-                <a href="./contest-list.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
-                    Contests</a>
-                <a href="./browse-category.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
-                    Categories</a>
-                <a href="./showcase.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
-                <a href="./contest-post.html" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
-            </div>
+<div class="bg-secondary py-4">
+    <div class="container pt-2 pb-3">
+        <div class="d-flex flex-column flex-md-row align-items-center">
+            <a href="/project-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
+                Projects</a>
+            <a href="/contest-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
+                Contests</a>
+            <a href="/browse/category" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
+                Categories</a>
+            <a href="/showcases" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
+            <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
         </div>
     </div>
+</div>
 
     <section class="container py-5">
         <div class="row">

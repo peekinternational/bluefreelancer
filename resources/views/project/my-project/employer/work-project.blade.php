@@ -1,19 +1,19 @@
 @extends('layouts.app')
 @section('content')
-    <div class="bg-secondary py-4">
-        <div class="container pt-2 pb-3">
-            <div class="d-flex flex-column flex-md-row align-items-center">
-                <a href="./project-list.html" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
-                    Projects</a>
-                <a href="./contest-list.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
-                    Contests</a>
-                <a href="./browse-category.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
-                    Categories</a>
-                <a href="./showcase.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
-                <a href="./contest-post.html" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
-            </div>
+<div class="bg-secondary py-4">
+    <div class="container pt-2 pb-3">
+        <div class="d-flex flex-column flex-md-row align-items-center">
+            <a href="/project-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
+                Projects</a>
+            <a href="/contest-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
+                Contests</a>
+            <a href="/browse/category" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
+                Categories</a>
+            <a href="/showcases" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
+            <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
         </div>
     </div>
+</div>
 
     <!-- Title -->
     <div class="bg-secondary text-center bg-cover py-5"
@@ -64,23 +64,34 @@
 
                 <div class="row py-4 d-none d-md-flex my-3">
                     <div class="col-md-8 col-lg-10">
-                        <div class="input-group">
-                            <input type="text" class="form-control">
-                            <div class="input-group-append">
-                                <button class="btn btn-secondary">
-                                    <i class="fa fa-search"></i>
-                                </button>
+                        <form action="{{ route('my-project.employer.work-projects') }}" method="get">
+                            <div class="input-group">
+                                <input type="text" class="form-control"
+                                    placeholder="You can find projects by their names / 이름으로 프로젝트를 찾을 수 있습니다." name="filter"
+                                    value="{{ request('filter') ? request('filter') : '' }}">
+                                <div class="input-group-append">
+                                    <button class="btn btn-secondary">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
+
                     </div>
 
                     <div class="col-md-4 col-lg-2">
                         <div class="input-group">
-                            <select class="custom-select">
-                                <option value="1">1 Items</option>
-                                <option value="10">10 Items</option>
-                                <option value="25">25 Items</option>
-                                <option value="50">50 Items</option>
+                            <select class="custom-select" onchange="window.location.href=this.value;">
+                                {{-- <option value="{{ route('my-project.employer.open-projects') }}?limit=1">1 Items</option> --}}
+                                <option value="{{ route('my-project.employer.work-projects') }}?limit=10"
+                                    @if (request('limit') == 10) selected @endif>10 Items
+                                </option>
+                                <option value="{{ route('my-project.employer.work-projects') }}?limit=25"
+                                    @if (request('limit') == 25) selected @endif>25 Items
+                                </option>
+                                <option value="{{ route('my-project.employer.work-projects') }}?limit=50"
+                                    @if (request('limit') == 50) selected @endif>50 Items
+                                </option>
                             </select>
                             <div class="input-group-append">
                                 <button class="btn btn-secondary">
@@ -132,7 +143,19 @@
                                                 <td class="text-nowrap py-3">
                                                     {{ App\Models\Milestone::getMilestoneCount($item->bid->project_id, $item->bid->user_id) }}
                                                 </td>
-                                                <td></td>
+                                                <td class="text-nowrap py-3" style="min-width: 10rem;">
+                                                    <select class="custom-select custom-select-sm"
+                                                        onchange="window.location.href=this.value;">
+                                                        <option selected value="{{ route('my-project.employer.work-projects') }}">
+                                                            Select</option>
+                                                        <option value="{{ route('project.manage.milestone', $item->project_id) }}">
+                                                            View Milestones
+                                                        </option>
+                                                        <option value="{{ route('project.manage.modify', $item->project_id) }}">
+                                                            Modify Project
+                                                        </option>
+                                                    </select>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     @endif
@@ -142,12 +165,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination pagination-sm justify-content-center">
-                                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                            </ul>
-                        </nav>
+                        {{ $workProjects->links('vendor.pagination.simple-bootstrap-4') }}
                     </div>
                 </div>
             </div>

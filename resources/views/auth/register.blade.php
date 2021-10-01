@@ -1,4 +1,11 @@
 @extends('layouts.app')
+<style>
+.btn-primary:not(:disabled):not(.disabled):active, .btn-check:checked+.btn-primary {
+    color: #fff;
+    background-color: #5a5d61 !important;
+    border-color: #5a5d61 !important;
+}
+</style>
 @section('content')
     <div class="container-fluid">
         <div class="row">

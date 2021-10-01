@@ -18,4 +18,34 @@ class ProjectManageController extends Controller
             'project' => $project,
         ]);
     }
+
+    public function proposal($id)
+    {
+        $proposals = Bid::where('project_id', $id)->with(['user', 'milestones'])->get();
+        $project = Project::where('project_id', $id)->first();
+        return view('project.manage.proposals', [
+            'proposals' => $proposals,
+            'project' => $project,
+        ]);
+    }
+
+    public function manage($id)
+    {
+        $proposals = Bid::where('project_id', $id)->with(['user', 'milestones'])->get();
+        $project = Project::where('project_id', $id)->first();
+        return view('project.manage.manage', [
+            'proposals' => $proposals,
+            'project' => $project,
+        ]);
+    }
+
+    public function modify($id)
+    {
+        $proposals = Bid::where('project_id', $id)->with(['user', 'milestones'])->get();
+        $project = Project::where('project_id', $id)->first();
+        return view('project.manage.modify', [
+            'proposals' => $proposals,
+            'project' => $project,
+        ]);
+    }
 }

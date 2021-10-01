@@ -37,6 +37,11 @@ class Project extends Model
         return $this->belongsTo(Bid::class, 'project_id', 'project_id');
     }
 
+    public function bidByUser()
+    {
+        return $this->belongsTo(Bid::class, 'project_id', 'project_id')->where('user_id', auth()->id())->where('status', '<', 3);
+    }
+
     public function milestones()
     {
         return $this->hasMany(Milestone::class, 'project_id', 'project_id');

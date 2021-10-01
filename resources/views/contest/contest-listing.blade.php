@@ -4,14 +4,14 @@
     <div class="bg-secondary py-4">
         <div class="container pt-2 pb-3">
             <div class="d-flex flex-column flex-md-row align-items-center">
-                <a href="./project-list.html" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
+                <a href="/project-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
                     Projects</a>
-                <a href="./contest-list.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
+                <a href="/contest-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
                     Contests</a>
-                <a href="./browse-category.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
+                <a href="/browse/category" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
                     Categories</a>
-                <a href="./showcase.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
-                <a href="./contest-post.html" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
+                <a href="/showcases" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
+                <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
             </div>
         </div>
     </div>
@@ -82,13 +82,22 @@
                         </div>
                     </div>
                     <input class="form-control" type="text" name="search_contest_by_title"
-                        placeholder="You can contest by Title">
+                        placeholder="You can contest by Title" value="{{request()->search_contest_by_title ? request()->search_contest_by_title  : ''}}">
                 </div>
                 <hr>
                 <h2 class="h5 font-weight-bold pt-3 mb-4">Expertise</h2>
                 <div class="form-group pb-3">
                     <select class="custom-select" data-toggle="select" id="search_contest_skills" multiple>
                         {{-- Coming Option From Ajax.js (AJAX CALL) --}}
+                        @if (request()->search_contest_by_skills)
+                        <ul class="list-inline">
+                            @foreach (Illuminate\Support\Str::of(request()->search_contest_by_skills)->explode(',') as $skill)
+                                <option selected="selected" value="{{ $skill }}">
+                                    {{ App\Models\User::skillTitle($skill)->title }}
+                                </option>
+                            @endforeach
+                        </ul>
+                    @endif
                     </select>
                     <input type="hidden" name="search_contest_by_skills" id="selected_search_contest_skills" required>
                 </div>

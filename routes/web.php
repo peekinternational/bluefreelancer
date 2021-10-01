@@ -4,9 +4,9 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 // Controllers
-use App\Http\controllers\Auth\RegisterController;
-use App\Http\controllers\Auth\LoginController;
-use App\Http\controllers\Auth\LogoutController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\BidController;
 use App\Http\Controllers\BrowseController;
 use App\Http\Controllers\CategoryController;
@@ -15,6 +15,7 @@ use App\Http\Controllers\ContestController;
 use App\Http\Controllers\ContestEntryController;
 use App\Http\Controllers\ContestHandoverController;
 use App\Http\Controllers\ContestPublicForumController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployerProjectController;
 use App\Http\Controllers\FreelancerProjectController;
 use App\Http\Controllers\MilestoneController;
@@ -25,16 +26,18 @@ use App\Http\Controllers\ProjectOfferController;
 use App\Http\Controllers\ShowcaseController;
 use App\Http\Controllers\ShowcaseLikeController;
 use App\Http\Controllers\SubCategoryController;
-use App\Http\controllers\User\SettingController;
-use App\Http\controllers\User\ProfileController;
-use App\Http\controllers\User\ExperienceController;
-use App\Http\controllers\User\EducationController;
-use App\Http\controllers\User\CertificationController;
+use App\Http\Controllers\SupportController;
+use App\Http\Controllers\User\SettingController;
+use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\User\ExperienceController;
+use App\Http\Controllers\User\EducationController;
+use App\Http\Controllers\User\CertificationController;
 use App\Http\Controllers\User\PortfolioController;
 use App\Http\Controllers\User\ProfCertificationController;
-use App\Http\controllers\User\PublicationController;
-use App\Http\controllers\User\SkillController;
+use App\Http\Controllers\User\PublicationController;
+use App\Http\Controllers\User\SkillController;
 use App\Models\Contest;
+use App\Models\Project;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
 
@@ -50,7 +53,12 @@ use Illuminate\Support\Facades\Crypt;
 */
 // For Home
 Route::get('/', function () {
-    return view('home');
+    $projects = Project::orderBy('created_at', 'DESC')->limit(4)->get();
+    $contests = Contest::orderBy('created_at', 'DESC')->limit(4)->get();
+    return view('home', [
+        'projects' => $projects,
+        'contests' => $contests,
+    ]);
 })->name('home');
 Route::middleware(['guest'])->group(function () {
     // For Login
@@ -83,7 +91,8 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 
 Route::middleware(['auth'])->group(function () {
-
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     // For Setting
     Route::get('/settings', function () {
         return view('user.setting');
@@ -96,6 +105,8 @@ Route::middleware(['auth'])->group(function () {
         return view('user.setting.notification');
     })->name('/setting/notification');
     Route::post('/setting/email', [SettingController::class, 'email'])->name('/setting/email');
+    Route::get('/setting/account/notify-all-freelancer', [SettingController::class, 'notifyAllFreelancers'])->name('setting.account.notify-all-freelancer');
+    Route::get('/setting/account/notify-all-projects', [SettingController::class, 'notifyAllProjects'])->name('setting.account.notify-all-projects');
     Route::get('/setting/account', function () {
         return view('user.setting.account');
     })->name('/setting/account');
@@ -182,8 +193,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/project-listing', [ProjectController::class, 'index'])->name('project-listing');
     // =>Project Details
     Route::get('/project-details/{id}', [ProjectController::class, 'show'])->name('project.show');
-    // Project Management
-    Route::get('project/{id}/manage', [ProjectManageController::class, 'index'])->name('project.manage');
+
     // ==> Category
     Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
     // ==> Sub Category
@@ -199,7 +209,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/bid/update/{id}', [BidController::class, 'update'])->name('bid.update');
     // => My Project
     // ==> Employer
-    Route::get('/project/my-project/employer', [EmployerProjectController::class, 'index'])->name('my-project.employer');   
+    Route::get('/project/my-project/employer', [EmployerProjectController::class, 'index'])->name('my-project.employer');
     Route::get('/project/my-project/employer/open-projects', [EmployerProjectController::class, 'openProject'])->name('my-project.employer.open-projects');
     Route::get('/project/my-project/employer/work-projects', [EmployerProjectController::class, 'workProject'])->name('my-project.employer.work-projects');
     Route::get('/project/my-project/employer/past-projects', [EmployerProjectController::class, 'pastProject'])->name('my-project.employer.past-projects');
@@ -213,6 +223,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/project/my-project/freelancer/active-contests', [FreelancerProjectController::class, 'activeContest'])->name('my-project.freelancer.active-contests');
     Route::get('/project/my-project/freelancer/past-contests', [FreelancerProjectController::class, 'pastContest'])->name('my-project.freelancer.past-contests');
     // => Project Management
+    Route::get('project/{id}/manage', [ProjectManageController::class, 'index'])->name('project.manage');
+    Route::get('project/{id}/manage/proposals', [ProjectManageController::class, 'proposal'])->name('project.manage.proposals');
+    Route::get('project/{id}/manage/milestone-manage', [ProjectManageController::class, 'manage'])->name('project.manage.milestone');
+    Route::get('project/{id}/manage/modify', [ProjectManageController::class, 'modify'])->name('project.manage.modify');
     // ==> Proposal
     // ===> Get All Proposal as Per Project
     Route::get('/project/my-project/{project_id}/proposal', [ProposalController::class, 'index'])->name('my-project.proposal');
@@ -280,7 +294,17 @@ Route::middleware(['auth'])->group(function () {
     // Contest Handover
     Route::get('/contest/handover/{id}', [ContestHandoverController::class, 'index'])->name('contest-handover');
     Route::post('/contest/handover/store/{id}', [ContestHandoverController::class, 'store'])->name('contest-handover.store');
-
+    // Support
+    Route::get('/support', [SupportController::class, 'index'])->name('support.index');
+    Route::get('/support/show/{category}', [SupportController::class, 'show'])->name('support.show');
+    // Fee && Charge
+    Route::get('/fee-and-charge', function () {
+        return view('fee-and-charge');
+    })->name('fee-and-charge');
+    // How to use
+    Route::get('/how-to-use', function () {
+        return view('how-to-use');
+    })->name('how-to-use');
     // For Logout
     Route::get('/logout', [LogoutController::class, 'store'])->name('logout');
 });

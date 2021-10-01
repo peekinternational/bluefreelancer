@@ -49,7 +49,7 @@ $(document).on('click', '.milestone_remove', function () {
 function addMilestoneAmt() {
     calcSum();
     if (Number(TotalMilestoneAmt) > Number($('#bidPrice').val())) {
-        alert("You Reached Your Bid Amount! If you want add another reduced it.");
+        alert("You Reached Your Actual Bid Amount Kindly reduced it.");
     } else {
         if (!$('#bidPrice').val() <= 0) {
             // calcSum();

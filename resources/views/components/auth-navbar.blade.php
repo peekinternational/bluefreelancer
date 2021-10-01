@@ -98,7 +98,7 @@
                                     <i class="fa fa-tasks mr-2"></i>
                                     My Project
                                 </a>
-                                <a href="./dashboard.html" class="dropdown-item border-bottom border-light">
+                                <a href="/dashboard" class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-th-large mr-2"></i>
                                     Dashboard
                                 </a>
@@ -122,15 +122,15 @@
                                     Get help
                                 </div>
 
-                                <a href="./support.html" class="dropdown-item border-bottom border-light">
+                                <a href="/support" class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-tasks mr-2"></i>
                                     Get Support
                                 </a>
-                                <a href="./how-to-use.html" class="dropdown-item border-bottom border-light">
+                                <a href="/how-to-use" class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-th-large mr-2"></i>
                                     How to Use
                                 </a>
-                                <a href="./fees-and-charges.html" class="dropdown-item">
+                                <a href="/fee-and-charge" class="dropdown-item">
                                     <i class="fa fa-envelope mr-2"></i>
                                     Fees and Charges
                                 </a>

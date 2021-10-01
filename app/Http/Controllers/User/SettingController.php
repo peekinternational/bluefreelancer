@@ -63,4 +63,30 @@ class SettingController extends Controller
 
         return redirect()->route('/setting/account')->with('message', 'Account Changed Successfully!');
     }
+    public function notifyAllFreelancers()
+    {
+        if (auth()->user()->notify_all_freelancers == 1) {
+            $user = User::find(auth()->id())->update(['notify_all_freelancers' => 0]);
+        } else {
+            $user = User::find(auth()->id())->update(['notify_all_freelancers' => 1]);
+        }
+        if ($user) {
+            return response()->json([
+                'status' => true,
+            ]);
+        }
+    }
+    public function notifyAllProjects()
+    {
+        if (auth()->user()->notify_all_projects == 1) {
+            $user = User::find(auth()->id())->update(['notify_all_projects' => 0]);
+        } else {
+            $user = User::find(auth()->id())->update(['notify_all_projects' => 1]);
+        }
+        if ($user) {
+            return response()->json([
+                'status' => true,
+            ]);
+        }
+    }
 }

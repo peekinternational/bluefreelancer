@@ -1,5 +1,5 @@
 @if ($paginator->hasPages())
-    <nav>
+    <nav class="flex justify-between">
         <ul class="pagination">
             {{-- Previous Page Link --}}
             @if ($paginator->onFirstPage())
@@ -8,14 +8,17 @@
                 </li>
             @else
                 <li class="page-item">
-                    <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev">@lang('pagination.previous')</a>
+                    <a class="page-link" href="{{ $paginator->previousPageUrl() }}{{ request('limit') ? '&limit=' . request('limit') : '' }}{{ request('filter') ? '&filter=' . request('limit') : '' }}"
+                        rel="prev">@lang('pagination.previous')</a>
                 </li>
             @endif
 
             {{-- Next Page Link --}}
             @if ($paginator->hasMorePages())
                 <li class="page-item">
-                    <a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next">@lang('pagination.next')</a>
+                    <a class="page-link"
+                        href="{{ $paginator->nextPageUrl() }}{{ request('limit') ? '&limit=' . request('limit') : '' }}{{ request('filter') ? '&filter=' . request('filter') : '' }}"
+                        rel="next">@lang('pagination.next')</a>
                 </li>
             @else
                 <li class="page-item disabled" aria-disabled="true">

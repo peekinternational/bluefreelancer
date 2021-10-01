@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Project;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\NewFeedController;
 use App\Models\Bid;
 use App\Models\ChatFriends;
 use App\Models\Notification;
@@ -32,12 +33,14 @@ class ProposalController extends Controller
             'sender_id' => auth()->id(),
             'receiver_id' => $request->proposal_user_id,
             'project_id' => $request->proposal_project_id,
-            'conversation_id' => time().Str::random(9),
+            'conversation_id' => time() . Str::random(9),
             'message_id' => '0',
         ]);
 
         if ($proposal_status) {
-            return redirect('/inbox?conversation='.$conversation->conversation_id)->with('message', 'Request Send Successfully!');
+            NewFeedController::store($request->proposal_user_id, 'You have been selected to awarded the ' . Project::where('project_id', $request->proposal_project_id)->first('title')->title . ' please let me know if it is approved. After accepting the project and consulting with the client, if the deposit amount requested by the client is confirmed, the outsourcing will paid the amount to client through the escrow security settlement system according to the contract conditions.');
+
+            return redirect('/inbox?conversation=' . $conversation->conversation_id)->with('message', 'Request Send Successfully!');
         }
     }
     public function update($id)
@@ -62,7 +65,7 @@ class ProposalController extends Controller
         $proposal = Bid::find($id);
         $project = Project::where('project_id', $proposal->project_id)->first();
         $proposal = $proposal->update(['status' => 0]);
-        
+
         Notification::create([
             'from' => auth()->id(),
             'to' => $project->user_id,

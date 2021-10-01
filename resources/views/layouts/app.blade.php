@@ -12,7 +12,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Bootstrap + Vendor CSS -->
     <link rel="stylesheet" media="screen" href="{{ url('assets/css/style.min.css') }}">
-    <link rel="stylesheet" media="screen" href="{{ url('css/app.css') }}">
+    {{-- <link rel="stylesheet" media="screen" href="{{ url('css/app.css') }}"> --}}
     <link rel="stylesheet" media="screen" href="{{ url('assets/css/select2.min.css') }}">
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -30,8 +30,7 @@
     <!-- JavaScript -->
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js">
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <script src="{{ url('assets/js/filepond.min.js') }}"></script>
@@ -43,7 +42,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <script src="{{ url('assets/js/ajax.js') }}"></script>
     <script src="{{ url('assets/js/custom-script.js') }}"></script>
-    <script src="{{ url('js/app.js') }}"></script>
+    {{-- <script src="{{ url('js/app.js') }}"></script> --}}
     <script>
         @if (Session::has('message'))
             toastr.options =

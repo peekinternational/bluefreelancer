@@ -549,6 +549,9 @@ jQuery(document).ready(function ($) {
     $('body').on('click', '#exp_UpModal_btn', function () {
         var exp_id = $(this).data('id');
         $.get('/profile/experience/edit/' + exp_id, function (data) {
+            // const date = new Date(data.started_at)
+            // console.log(date.toLocaleString(['af'], { year: 'numeric', month: '2-digit', day: 'numeric' }));
+            // let started_at_date = date.toLocaleString(['af'], { year: 'numeric', month: '2-digit', day: 'numeric' });
             $('#exp_id').val(data.id);
             $('#title_update').val(data.title);
             $('#companyname_update').val(data.companyname);
@@ -698,6 +701,7 @@ jQuery(document).ready(function ($) {
 
             if (data.showcase_likes.length == 0) {
                 $('#showcase_unliked_btn').css('display', 'inline');
+                $('#showcase_liked_btn').css('display', 'none');
             }
             data.showcase_likes.forEach(ele => {
                 if (ele.user_id == user_id) {
@@ -786,7 +790,7 @@ jQuery(document).ready(function ($) {
                 jQuery('#projectOfferMilestoneModal').modal('show');
             },
             error: function (data) {
-                console.log(data);
+                // console.log(data);
                 if (data.responseJSON.errors.title) {
                     toastr.error(data.responseJSON.errors.title);
                 }
@@ -848,4 +852,21 @@ jQuery(document).ready(function ($) {
             }
         });
     });
+
+    $("#account-notify-freelancer").change(function (e) {
+        $.get('/setting/account/notify-all-freelancer', function (data) {
+            if(data.status == true){
+                toastr.success('Notification set Successfully!');
+            }
+        })
+    });
+
+    $("#notifications-notify-projects").change(function (e) {
+        $.get('/setting/account/notify-all-projects', function (data) {
+            if(data.status == true){
+                toastr.success('Notification set Successfully!');
+            }
+        })
+    });
+
 });

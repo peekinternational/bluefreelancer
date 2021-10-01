@@ -3,14 +3,14 @@
     <div class="bg-secondary py-4">
         <div class="container pt-2 pb-3">
             <div class="d-flex flex-column flex-md-row align-items-center">
-                <a href="./project-list.html" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
+                <a href="/project-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
                     Projects</a>
-                <a href="./contest-list.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
+                <a href="/contest-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
                     Contests</a>
-                <a href="./browse-category.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
+                <a href="/browse/category" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
                     Categories</a>
-                <a href="./showcase.html" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
-                <a href="./contest-post.html" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
+                <a href="/showcases" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
+                <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
             </div>
         </div>
     </div>
@@ -18,27 +18,20 @@
     <section class="container py-5">
         <div class="row">
             <div class="col-3">
-                <div class="nav flex-column nav-pills sticky-top" style="top: 5rem;" 
-                    aria-orientation="vertical">
-                    <a class="nav-link px-3 py-2" 
-                        href="{{ route('/setting/profile') }}"  
-                       >
+                <div class="nav flex-column nav-pills sticky-top" style="top: 5rem;" aria-orientation="vertical">
+                    <a class="nav-link px-3 py-2" href="{{ route('/setting/profile') }}">
                         <i class="fa fa-user mr-1"></i>
                         Profile
                     </a>
-                    <a class="nav-link px-3 py-2" 
-                        href="{{ route('/setting/notification') }}"
-                    >
+                    <a class="nav-link px-3 py-2" href="{{ route('/setting/notification') }}">
                         <i class="fa fa-envelope-open mr-1"></i>
                         Notification
                     </a>
-                    <a class="nav-link px-3 py-2" 
-                        href="{{ route('/setting/password') }}" >
+                    <a class="nav-link px-3 py-2" href="{{ route('/setting/password') }}">
                         <i class="fa fa-unlock mr-1"></i>
                         Password
                     </a>
-                    <a class="nav-link px-3 py-2 active" 
-                        href="{{ route('/setting/account') }}">
+                    <a class="nav-link px-3 py-2 active" href="{{ route('/setting/account') }}">
                         <i class="fa fa-shield mr-1"></i>
                         Account
                     </a>
@@ -46,7 +39,8 @@
             </div>
             <div class="col-9">
                 <div class="tab-content bg-white" id="v-pills-tabContent">
-                    <div class="tab-pane fade show active" id="v-pills-account" role="tabpanel" aria-labelledby="v-pills-account-tab">
+                    <div class="tab-pane fade show active" id="v-pills-account" role="tabpanel"
+                        aria-labelledby="v-pills-account-tab">
                         <div class="bg-secondary text-center bg-cover py-5"
                             style="background-image: url({{ url('assets/img/dashboard/banner-1.jpg') }});">
                             <h1 class="h5 font-weight-bold text-white">Account setting</h1>
@@ -59,17 +53,19 @@
                                 @csrf
                                 <h6 class="font-weight-bold pb-2">Setting up a freelance list</h6>
 
-                                <div class="custom-control custom-switch">
+                                {{-- <div class="custom-control custom-switch">
                                     <input type="checkbox" class="custom-control-input" id="customSwitch3" checked>
                                     <label class="custom-control-label font-size-sm font-weight-bold" for="customSwitch3">I
                                         want
                                         to be registered on the freelance list so that I can hire myself for the project
                                         work.</label>
-                                </div>
+                                </div> --}}
 
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" class="custom-control-input" id="customSwitch4" checked>
-                                    <label class="custom-control-label font-size-sm font-weight-bold" for="customSwitch4">I
+                                    <input type="checkbox" class="custom-control-input" id="account-notify-freelancer"
+                                        {{ auth()->user()->notify_all_freelancers == 1 ? 'checked' : '' }}>
+                                    <label class="custom-control-label font-size-sm font-weight-bold"
+                                        for="account-notify-freelancer">I
                                         want
                                         to be notified to all freelancers after registration of project, contest,
                                         service.</label>
@@ -97,6 +93,8 @@
                                             for="customRadioInline2">Client</label>
                                     </div>
                                 </div>
+                                <p><span><b>Note:</b></span>If you want to be registered on the freelance list so that you
+                                    can hire yourself for the project work. then select yourself as a Freelancer</p>
 
                                 <hr>
 
