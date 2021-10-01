@@ -144,4 +144,37 @@ class ChatController extends Controller
       // $user->languages = $language;
       return $user;
     }
+    public function seenMessage(Request $request){
+
+      $receiver_id = $request->input('receiver_id');
+      $sender_id = $request->input('sender_id');
+      $conversation_id = $request->input('conversation_id');
+      // dd($receiver_id);
+    //   $getsingleChat = DB::table('chat_messages')
+    //    ->orWhere(function($q) use ($receiver_id){
+    //      $q->where('receiver_id', $receiver_id);
+    // })->orWhere(function($h) use ($sender_id, $receiver_id){
+    //      $h->where('sender_id', $receiver_id)
+    //        ->where('receiver_id', $sender_id);
+    // })->update(['message_status', 'seen']);
+    //   dd($getsingleChat);
+      $where = [
+        'conversation_id'=>$conversation_id,
+        'message_sender'=>$receiver_id
+      ];
+      $seenMsg = ChatMessages::where($where)->update(['message_status'=>'read']);
+
+      return $seenMsg;
+    }
+    public function messsageCount(Request $request,$id){
+
+      $receiver_id = $request->input('receiver_id');
+      $sender_id = $request->input('sender_id');
+
+      $msgCountGet = ChatMessages::where('message_receiver',$id)->where('message_status','unread')->get();
+      // dd($msgCountGet);
+      $wordCount = count($msgCountGet);
+      // dd($wordCount);
+      return $wordCount;
+    }
 }

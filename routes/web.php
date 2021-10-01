@@ -251,6 +251,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('friendsList/{id}', [ChatController::class, 'friendsList']);
     Route::post('singleChat', [ChatController::class, 'singleChat']);
     Route::post('send-message', [ChatController::class, 'send']);
+    Route::post('seenMessage',[ChatController::class, 'seenMessage']);
+    Route::get('messsageCount/{id}',[ChatController::class,'messsageCount']);
     // Browse
     Route::get('/browse/directory', [BrowseController::class, 'directory']);
     Route::get('/browse/category', [BrowseController::class, 'category']);

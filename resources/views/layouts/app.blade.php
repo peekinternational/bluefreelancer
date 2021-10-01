@@ -28,7 +28,10 @@
     {{ View::make('layouts.footer') }}
 
     <!-- JavaScript -->
-
+    <audio id="messagetone" muted>
+        <source src="{{ asset('bell.mp3')}}" type="audio/ogg">
+        <source src="{{ asset('bell.mp3')}}" type="audio/mpeg">
+      </audio>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js">
     </script>
@@ -80,6 +83,30 @@
             toastr.warning("{{ session('warning') }}");
         @endif
     </script>
+    <script src="https://peekvideochat.com:22000/socket.io/socket.io.js"></script>
+    @if(auth()->user())
+    <script type="text/javascript">
+        const socket = io.connect('https://peekvideochat.com:22000');
+        var user_id = "{{auth()->user()->id}}";
+        // alert(user_id);
+        socket.on('birdsreceivemsg', function(data) {
+          // console.log(data);
+          if( user_id == data.message_receiver){
+            var messagetone = document.getElementById("messagetone");
+            messagetone.play();
+            messagetone.muted = false;
+             $.ajax({
+                  url: "{{url('/messsageCount')}}/"+user_id,
+                  type: "GET"
+                }).then(function(res) {
+                  $('.messageCount').html(res);
+                })
+
+          }
+
+        });
+    </script>
+    @endif
 </body>
 
 </html>

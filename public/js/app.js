@@ -2677,6 +2677,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -2721,7 +2722,8 @@ var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('ht
       callData: '',
       callDisable: false,
       oncallFriend: {},
-      callstatus: 0
+      callstatus: 0,
+      msgCount: 0
     };
   },
   sockets: {
@@ -2773,6 +2775,12 @@ var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('ht
           $("#f_typing" + data.UserId).html("type");
         }
       }
+    },
+    peekReceiverUserStatus: function peekReceiverUserStatus(data) {
+      console.log(data);
+      axios.get("messsageCount/" + this.user_id).then(function (res) {
+        $('.messageCount').html(res.data);
+      });
     },
     peekReceiveupdateCallStatus: function peekReceiveupdateCallStatus(data) {
       console.log(data);
@@ -2857,18 +2865,40 @@ var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('ht
       if (data.message_receiver == this.userdata.id) {
         if (this.conversation_id == data.conversation_id) {
           this.singleChate.push(data);
-        } //   this.userdec = this.friendList.filter((obj_friend) => {
+          axios.post('seenMessage', {
+            'sender_id': this.userdata.id,
+            'receiver_id': this.friendId,
+            'conversation_id': this.conversation_id
+          }).then(function (responce) {// console.log(responce.data);
+            // this.singleChate = responce.data;
+          });
+        }
+
+        var messagetone = document.getElementById("messagetone");
+        messagetone.play();
+        messagetone.muted = false;
+        axios.get("messsageCount/" + this.user_id).then(function (responce) {
+          // console.log(responce,'nooooooooootiiiiiiiiiifiiiiiiicaiiin');
+          $('.messageCount').html(responce.data);
+        }); //   this.userdec = this.friendList.filter((obj_friend) => {
         //     console.log(data.conversation_id,obj_friend.conversation_id);
         //     return data.conversation_id === obj_friend.conversation_id;
         // }).pop();
-
 
         this.userdec = this.friendList.filter(function (obj_friend) {
           return data.conversation_id === obj_friend.conversation_id;
         }).pop();
         console.log("filter_user", this.userdec); // setTimeout(() => this.userdec.time = new Date().toISOString(), 3000);
 
-        this.userdec.time = new Date().toISOString(); // this.userdec.last_message.message_desc = data.message_desc;
+        this.userdec.time = new Date().toISOString(); // $(".user-list-item.active").removeClass("active");
+        // $("#" + this.userdec.conversation_id).addClass("active");
+        // var msgCount = 0;
+
+        if (this.conversation_id != this.userdec.conversation_id) {
+          this.msgCount += 1; // console.log(responce,'nooooooooootiiiiiiiiiifiiiiiiicaiiin');
+
+          $("#newMsg" + this.userdec.conversation_id).show(); // $("#newMsg" + this.userdec.conversation_id).html(this.msgCount);
+        } // this.userdec.last_message.message_desc = data.message_desc;
         // // var time2 = moment().format('hh:mm A');
         // console.log('.lastMessageDate-'+data.conversation_id);
         // var msg=data.message_desc;
@@ -2879,6 +2909,7 @@ var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('ht
         //   $('.lastMessageDate-'+data.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT '+time2+'</small>');
         // $('.lastMessage-'+this.userdec.conversation_id).html('<p>data ape'+data.message_desc+'</p>');
         // console.log("check notfication",$('.notificationMessage-'+data.conversation_id).text());
+
 
         var height = 0;
         $(".chat-widget-conversation").each(function (i, value) {
@@ -2980,7 +3011,7 @@ var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('ht
           }).pop();
 
           if (post) {
-            $('.user-list-item').removeClass("active");
+            $('.user-list-item.active').removeClass("active");
             $("#" + post.conversation_id).addClass("active");
             setInterval(function () {
               $('.user-list-item').removeClass("active");
@@ -3007,11 +3038,16 @@ var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('ht
     getSingleChat: function getSingleChat(single) {
       var _this3 = this;
 
+      this.$socket.emit('peekUpdateUserSelection', {
+        selectedUser: '',
+        userId: this.user_id
+      });
       this.singleChatUser = single;
       this.showDetails = true;
       console.log(this.singleChatUser);
       $(".user-list-item.active").removeClass("active");
       $("#" + this.singleChatUser.conversation_id).addClass("active");
+      $("#newMsg" + this.singleChatUser.conversation_id).hide();
       $("#selectConversation").hide();
       $("#startchat").show();
       $("#single_chat").show();
@@ -3075,6 +3111,13 @@ var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('ht
         });
       }, function (err) {
         console.log("err", err); // alert("error");
+      });
+      axios.post('seenMessage', {
+        'sender_id': this.userdata.id,
+        'receiver_id': this.friendId,
+        'conversation_id': this.conversation_id
+      }).then(function (responce) {// console.log(responce.data);
+        // this.singleChate = responce.data;
       });
     },
     sendMessage: function sendMessage() {
@@ -3165,7 +3208,7 @@ var socket = socket_io_client__WEBPACK_IMPORTED_MODULE_1___default().connect('ht
         var msg = _this4.message; // console.log(msg);
         // setTimeout(() => $('.lastMessage-'+this.conversation_id).html('<p>'+msg+'</p>'), 2000);
 
-        $(".lastMessageDate-" + _this4.conversation_id).html('<small class="text-muted text-uppercase"> TODAY AT ' + time2 + "</small>"); // this.userdec = this.friendList.filter((obj_friend) => {
+        $(".lastMessageDate-" + _this4.conversation_id).html('<small class="text-muted"> TODAY AT ' + time2 + "</small>"); // this.userdec = this.friendList.filter((obj_friend) => {
         //   // console.log(obj_friend.sender_id);
         // if (obj_friend.sender_id == this.userdata.id) {
         //   return this.friendId === obj_friend.receiver_id;
@@ -25533,7 +25576,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.message-container {\n  padding: 20px 0;\n}\n.message-container ::-webkit-scrollbar {\n  width: 4px;\n}\n.message-container ::-webkit-scrollbar-track {\n  background: #f5f5f5;\n}\n.message-container ::-webkit-scrollbar-thumb {\n  background: #007bff;\n}\n.message-container ::-webkit-scrollbar-thumb:hover {\n  background: #62646a;\n}\n.message-container .heading h3 {\n  font-size: 20px;\n}\n.message-container .outer-content {\n  width: 100%;\n  height: 500px;\n  background: #ffffff;\n  border-radius: 3px;\n  display: -ms-grid;\n  display: grid;\n  -ms-grid-columns: 3fr 6fr 3fr;\n  grid-template-columns: 3fr 6fr 3fr;\n}\n.message-container .outer-content .inner-content {\n  width: 100%;\n  height: 100%;\n}\n.message-container .outer-content .inner-content:nth-child(2) {\n  border-left: 1px solid rgba(0, 0, 0, 0.1);\n  border-right: 1px solid rgba(0, 0, 0, 0.1);\n}\n.message-container .outer-content .m-box {\n  height: 500px;\n}\n.message-container .outer-content .active {\n  border-left: 3px solid #007bff;\n  background: rgba(0, 0, 0, 0.02);\n}\n.message-container .outer-content .sidebar {\n  border-right: 1px solid rgba(0, 0, 0, 0.1);\n}\n.message-container .outer-content .sidebar .user-lists {\n  overflow-y: auto;\n  overflow-x: hidden;\n  position: relative;\n}\n.message-container .outer-content .sidebar .user-lists img {\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n}\n.message-container .outer-content .sidebar .user-lists h6 {\n  font-size: 15px;\n}\n.message-container .outer-content .sidebar .user-lists h6 small {\n  font-size: 12px;\n}\n.message-container .outer-content .sidebar .user-lists p {\n  font-size: 13px;\n}\n.message-container .outer-content .sidebar .msg-header {\n  padding: 15px;\n  background: #ffffff;\n  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);\n}\n.message-container .outer-content .sidebar .msg-header .form-group {\n  position: relative;\n  margin-bottom: 0 !important;\n}\n.message-container .outer-content .sidebar .msg-header .form-group i.fa-search {\n  position: absolute;\n  top: 50%;\n  left: 10px;\n  transform: translateY(-50%);\n  opacity: 0.6;\n}\n.message-container .outer-content .sidebar .msg-header .form-group input {\n  padding-left: 30px;\n  min-height: 40px;\n}\n.message-container .outer-content .main-area {\n  position: relative;\n  background: #fafafa;\n}\n.message-container .outer-content .main-area .msg-header {\n  padding: 15px;\n  background: #ffffff;\n  display: flex;\n  justify-content: space-between;\n  height: 70px;\n  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);\n}\n.message-container .outer-content .main-area .msg-header .user-info h6 {\n  text-transform: capitalize;\n  font-size: 16px;\n  margin-bottom: 4px;\n}\n.message-container .outer-content .main-area .msg-header .user-info p {\n  font-size: 13px;\n  text-transform: capitalize;\n}\n.message-container .outer-content .main-area .other .btn {\n  width: 30px;\n  height: 30px;\n  border-radius: 3px;\n  display: flex;\n  justify-content: center;\n  color: #007bff;\n  margin-left: 6px;\n  transition: all 0.3s ease-in-out;\n  background: rgba(0, 153, 255, 0.1);\n}\n.message-container .outer-content .main-area .other .btn:hover {\n  color: #ffffff;\n  background: #0099ff;\n}\n.message-container .outer-content .main-area .other .btn i.fa {\n  font-size: 14px;\n}\n.message-container .outer-content .main-area .msg-body {\n  height: calc(100% - 120px);\n  padding: 20px;\n  overflow-y: auto;\n}\n.message-container .outer-content .main-area .msg-body .past-date {\n  position: relative;\n  text-align: center;\n  margin: 40px 0;\n}\n.message-container .outer-content .main-area .msg-body .past-date h6 {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n}\n.message-container .outer-content .main-area .msg-body .msg-text-box {\n  margin-bottom: 30px;\n}\n.message-container .outer-content .main-area .msg-body .msg-text-box img {\n  width: 45px;\n  height: 45px;\n  border-radius: 50%;\n}\n.message-container .outer-content .main-area .msg-body .msg-text-box .box {\n  background: transparent;\n}\n.message-container\n  .outer-content\n  .main-area\n  .msg-body\n  .msg-text-box\n  .box\n  small {\n  color: #62646a;\n}\n.message-container .outer-content .main-area .msg-body .msg-text-box .box h6 {\n  font-size: 15px;\n  text-transform: capitalize;\n}\n.message-container .outer-content .main-area .msg-body .msg-text-box .box p {\n  max-width: 90%;\n  font-size: 13px;\n  margin-top: 10px;\n  color: #222325;\n}\n.message-container\n  .outer-content\n  .main-area\n  .msg-body\n  .msg-text-box\n  .box:first-child {\n  margin-right: 15px;\n}\n.message-container .outer-content .main-area .msg-footer {\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n  background: #ffffff;\n  display: flex;\n  align-items: center;\n  box-shadow: 0 -2px 3px rgba(0, 0, 0, 0.05);\n}\n.message-container\n  .outer-content\n  .main-area\n  .msg-footer\n  .footer-box:nth-child(2) {\n  padding: 0 15px 0 20px;\n  width: 100%;\n}\n.message-container\n  .outer-content\n  .main-area\n  .msg-footer\n  .footer-box:nth-child(2)\n  input {\n  min-height: 40px;\n  box-shadow: none;\n  padding-left: 2rem;\n}\n.message-container .outer-content .main-area .msg-footer .footer-box .btn {\n  color: #ffffff;\n  background: #007bff;\n  height: 40px;\n}\n.message-container .outer-content .details-pane {\n  overflow-y: auto;\n  border-left: 1px solid rgba(0, 0, 0, 0.1);\n}\n.message-container .outer-content .details-pane .details-pane-body {\n  padding: 0 25px;\n}\n.message-container .outer-content .details-pane .details-pane-body .avatar {\n  width: 80px;\n  height: 80px;\n  border-radius: 50%;\n  overflow: hidden;\n  margin: 20px auto;\n}\n.message-container .outer-content .details-pane .details-pane-body .avatar img {\n  width: 100%;\n  height: 100%;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .name-and-text {\n  text-align: center;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .name-and-text\n  h5 {\n  font-size: 15px;\n  margin-bottom: 10px;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .name-and-text\n  p {\n  font-size: 12px;\n  text-transform: capitalize;\n}\n.message-container .outer-content .details-pane .details-pane-body .table {\n  margin-top: 15px;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .table\n  tr\n  td {\n  font-size: 12px;\n  padding: 5px 0;\n  text-transform: capitalize;\n  border: 0;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .table\n  tr\n  td:last-child {\n  text-align: right;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .table\n  tr:first-child\n  td:last-child\n  span {\n  color: #ffc107;\n  font-weight: 500;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .all-doc-lists {\n  margin: 20px 0;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .all-doc-lists\n  h5 {\n  font-size: 15px;\n  text-transform: capitalize;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .all-doc-lists\n  .doc-list-item {\n  display: -ms-grid;\n  display: grid;\n  -ms-grid-columns: (1fr) [2];\n  grid-template-columns: repeat(2, 1fr);\n  grid-gap: 10px;\n  margin-top: 10px;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .all-doc-lists\n  .doc-list-item\n  .doc-item {\n  width: 100%;\n  height: 70px;\n  border-radius: 10px;\n  overflow: hidden;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .all-doc-lists\n  .doc-list-item\n  .doc-item\n  img {\n  width: 100%;\n  height: 100%;\n}\n.message-container .dropdown {\n  text-align: right;\n}\n.message-container .dropdown .nav-link {\n  padding: 0;\n}\n.message-container .dropdown .dropdown-menu {\n  right: 0 !important;\n  left: unset !important;\n  transform: unset !important;\n  top: 30px !important;\n}\n.scrollable {\n  height: 100%;\n  overflow-y: auto;\n}\n.sticky {\n  position: sticky;\n  top: 0;\n  z-index: 1;\n}\n.user-list-item {\n  cursor: pointer;\n}\n.img-thumbnail {\n  padding: 0.25rem;\n  background-color: #fff;\n  border: 1px solid #dee2e6;\n  border-radius: 0.25rem !important;\n  height: 100px !important;\n  width: 100px !important;\n}\n.typing {\n  position: absolute;\n  top: -1px;\n  left: 50px;\n}\n.myProgress {\n  width: 100%;\n  background-color: #ddd;\n  position: absolute;\n  top: 5px;\n  width: 90%;\n}\n.myBar {\n  width: 1%;\n  height: 10px;\n  background-color: #007bff;\n}\n#image {\n  position: absolute;\n  top: 0px;\n}\n.form-field-file .field-file {\n  display: none;\n}\n.form-field-file i.fa {\n  font-size: 18px;\n}\n.form-field-file .btn1 {\n  border: none;\n  transition: all 1s;\n  cursor: pointer;\n}\n.emoji-invoker {\n  position: absolute;\n  top: 2rem;\n  left: 3.5rem;\n  width: 1.5rem;\n  height: 1.5rem;\n  border-radius: 50%;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.emoji-invoker:hover {\n  transform: scale(1.1);\n}\n.emoji-invoker > svg {\n  fill: #b1c6d0;\n}\n.emoji-picker {\n  position: absolute;\n  z-index: 1;\n  font-family: Montserrat;\n  border: 1px solid #ccc;\n  width: 14rem;\n  height: 20rem;\n  overflow-y: scroll;\n  padding: 1rem;\n  box-sizing: border-box;\n  border-radius: 0.5rem;\n  background: #fff;\n  box-shadow: 1px 1px 8px #c7dbe6;\n  top: -296px !important;\n  left: 16px !important;\n  font-size: 14px;\n}\n.emoji-picker__search {\n  display: flex;\n  margin-bottom: 15px;\n}\n.emoji-picker__search > input {\n  flex: 1;\n  border-radius: 10rem;\n  border: 1px solid #ccc;\n  padding: 0.5rem 1rem;\n  outline: none;\n  font-size: 0.7rem;\n}\n.emoji-picker h5 {\n  margin-bottom: 0;\n  color: #b1b1b1;\n  text-transform: uppercase;\n  font-size: 0.8rem;\n  cursor: default;\n}\n.emoji-picker .emojis {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: space-between;\n}\n.emoji-picker .emojis:after {\n  content: \"\";\n  flex: auto;\n}\n.emoji-picker .emojis span {\n  padding: 0.2rem;\n  cursor: pointer;\n  border-radius: 5px;\n}\n.emoji-picker .emojis span:hover {\n  background: #ececec;\n  cursor: pointer;\n}\n.profile.incomingName{\n  height: 200px;\n  width: 200px;\n  border-radius: 50%;\n  margin: 0 auto;\n}\n.profile.incomingName img{\n  width: 100%;\n  border-radius: 50%;\n  height: 100%;\n}\n#videocallReceiver .modal-dialog{\n  pointer-events: all;\n}\n/* .msg-body .msg-text-box.right .panel {\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: reverse;\n      -ms-flex-direction: row-reverse;\n      flex-direction: row-reverse;\n  }\n  .msg-body .msg-text-box.right .panel .box:first-child {\n    margin-left: 15px;\n}\n.msg-body .msg-text-box.right .panel .box {\n    max-width: 450px;\n}\n.msg-body .msg-text-box.right .panel .box:last-child {\n    background: #007bff;\n}\n.msg-body .msg-text-box.right .panel .box:last-child p, .msg-body .msg-text-box.right .panel .box:last-child h6 {\n    color: #ffffff;\n}\n.message-container .outer-content .main-area .msg-body .msg-text-box.right .box small {\n    color: #ffffff;\n} */\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.message-container {\n  padding: 20px 0;\n}\n.message-container ::-webkit-scrollbar {\n  width: 4px;\n}\n.message-container ::-webkit-scrollbar-track {\n  background: #f5f5f5;\n}\n.message-container ::-webkit-scrollbar-thumb {\n  background: #007bff;\n}\n.message-container ::-webkit-scrollbar-thumb:hover {\n  background: #62646a;\n}\n.message-container .heading h3 {\n  font-size: 20px;\n}\n.message-container .outer-content {\n  width: 100%;\n  height: 500px;\n  background: #ffffff;\n  border-radius: 3px;\n  display: -ms-grid;\n  display: grid;\n  -ms-grid-columns: 3fr 6fr 3fr;\n  grid-template-columns: 3fr 6fr 3fr;\n}\n.message-container .outer-content .inner-content {\n  width: 100%;\n  height: 100%;\n}\n.message-container .outer-content .inner-content:nth-child(2) {\n  border-left: 1px solid rgba(0, 0, 0, 0.1);\n  border-right: 1px solid rgba(0, 0, 0, 0.1);\n}\n.message-container .outer-content .m-box {\n  height: 500px;\n}\n.message-container .outer-content .active {\n  border-left: 3px solid #007bff;\n  background: rgba(0, 0, 0, 0.02);\n}\n.message-container .outer-content .sidebar {\n  border-right: 1px solid rgba(0, 0, 0, 0.1);\n}\n.message-container .outer-content .sidebar .user-lists {\n  overflow-y: auto;\n  overflow-x: hidden;\n  position: relative;\n}\n.message-container .outer-content .sidebar .user-lists img {\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n}\n.message-container .outer-content .sidebar .user-lists h6 {\n  font-size: 13px;\n}\n.user-list-item .inner-box small.text-muted {\n  font-size: 11px;\n}\n.message-container .outer-content .sidebar .user-lists p {\n  font-size: 13px;\n}\n.message-container .outer-content .sidebar .msg-header {\n  padding: 15px 10px;\n  background: #ffffff;\n  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);\n}\n.message-container .outer-content .sidebar .msg-header .form-group {\n  position: relative;\n  margin-bottom: 0 !important;\n}\n.message-container .outer-content .sidebar .msg-header .form-group i.fa-search {\n  position: absolute;\n  top: 50%;\n  left: 10px;\n  transform: translateY(-50%);\n  opacity: 0.6;\n}\n.message-container .outer-content .sidebar .msg-header .form-group input {\n  padding-left: 30px;\n  min-height: 40px;\n}\n.message-container .outer-content .main-area {\n  position: relative;\n  background: #fafafa;\n}\n.message-container .outer-content .main-area .msg-header {\n  padding: 15px;\n  background: #ffffff;\n  display: flex;\n  justify-content: space-between;\n  height: 70px;\n  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);\n}\n.message-container .outer-content .main-area .msg-header .user-info h6 {\n  text-transform: capitalize;\n  font-size: 16px;\n  margin-bottom: 4px;\n}\n.message-container .outer-content .main-area .msg-header .user-info p {\n  font-size: 13px;\n  text-transform: capitalize;\n}\n.message-container .outer-content .main-area .other .btn {\n  width: 30px;\n  height: 30px;\n  border-radius: 3px;\n  display: flex;\n  justify-content: center;\n  color: #007bff;\n  margin-left: 6px;\n  transition: all 0.3s ease-in-out;\n  background: rgba(0, 153, 255, 0.1);\n}\n.message-container .outer-content .main-area .other .btn:hover {\n  color: #ffffff;\n  background: #0099ff;\n}\n.message-container .outer-content .main-area .other .btn i.fa {\n  font-size: 14px;\n}\n.message-container .outer-content .main-area .msg-body {\n  height: calc(100% - 120px);\n  padding: 20px;\n  overflow-y: auto;\n}\n.message-container .outer-content .main-area .msg-body .past-date {\n  position: relative;\n  text-align: center;\n  margin: 40px 0;\n}\n.message-container .outer-content .main-area .msg-body .past-date h6 {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n}\n.message-container .outer-content .main-area .msg-body .msg-text-box {\n  margin-bottom: 30px;\n}\n.message-container .outer-content .main-area .msg-body .msg-text-box img {\n  width: 45px;\n  height: 45px;\n  border-radius: 50%;\n}\n.message-container .outer-content .main-area .msg-body .msg-text-box .box {\n  background: transparent;\n}\n.message-container\n  .outer-content\n  .main-area\n  .msg-body\n  .msg-text-box\n  .box\n  small {\n  color: #62646a;\n}\n.message-container .outer-content .main-area .msg-body .msg-text-box .box h6 {\n  font-size: 15px;\n  text-transform: capitalize;\n}\n.message-container .outer-content .main-area .msg-body .msg-text-box .box p {\n  max-width: 90%;\n  font-size: 13px;\n  margin-top: 10px;\n  color: #222325;\n}\n.message-container\n  .outer-content\n  .main-area\n  .msg-body\n  .msg-text-box\n  .box:first-child {\n  margin-right: 15px;\n}\n.message-container .outer-content .main-area .msg-footer {\n  position: absolute;\n  bottom: 0;\n  width: 100%;\n  background: #ffffff;\n  display: flex;\n  align-items: center;\n  box-shadow: 0 -2px 3px rgba(0, 0, 0, 0.05);\n}\n.message-container\n  .outer-content\n  .main-area\n  .msg-footer\n  .footer-box:nth-child(2) {\n  padding: 0 15px 0 20px;\n  width: 100%;\n}\n.message-container\n  .outer-content\n  .main-area\n  .msg-footer\n  .footer-box:nth-child(2)\n  input {\n  min-height: 40px;\n  box-shadow: none;\n  padding-left: 2rem;\n}\n.message-container .outer-content .main-area .msg-footer .footer-box .btn {\n  color: #ffffff;\n  background: #007bff;\n  height: 40px;\n}\n.message-container .outer-content .details-pane {\n  overflow-y: auto;\n  border-left: 1px solid rgba(0, 0, 0, 0.1);\n}\n.message-container .outer-content .details-pane .details-pane-body {\n  padding: 0 25px;\n}\n.message-container .outer-content .details-pane .details-pane-body .avatar {\n  width: 80px;\n  height: 80px;\n  border-radius: 50%;\n  overflow: hidden;\n  margin: 20px auto;\n}\n.message-container .outer-content .details-pane .details-pane-body .avatar img {\n  width: 100%;\n  height: 100%;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .name-and-text {\n  text-align: center;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .name-and-text\n  h5 {\n  font-size: 15px;\n  margin-bottom: 10px;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .name-and-text\n  p {\n  font-size: 12px;\n  text-transform: capitalize;\n}\n.message-container .outer-content .details-pane .details-pane-body .table {\n  margin-top: 15px;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .table\n  tr\n  td {\n  font-size: 12px;\n  padding: 5px 0;\n  text-transform: capitalize;\n  border: 0;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .table\n  tr\n  td:last-child {\n  text-align: right;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .table\n  tr:first-child\n  td:last-child\n  span {\n  color: #ffc107;\n  font-weight: 500;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .all-doc-lists {\n  margin: 20px 0;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .all-doc-lists\n  h5 {\n  font-size: 15px;\n  text-transform: capitalize;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .all-doc-lists\n  .doc-list-item {\n  display: -ms-grid;\n  display: grid;\n  -ms-grid-columns: (1fr) [2];\n  grid-template-columns: repeat(2, 1fr);\n  grid-gap: 10px;\n  margin-top: 10px;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .all-doc-lists\n  .doc-list-item\n  .doc-item {\n  width: 100%;\n  height: 70px;\n  border-radius: 10px;\n  overflow: hidden;\n}\n.message-container\n  .outer-content\n  .details-pane\n  .details-pane-body\n  .all-doc-lists\n  .doc-list-item\n  .doc-item\n  img {\n  width: 100%;\n  height: 100%;\n}\n.message-container .dropdown {\n  text-align: right;\n}\n.message-container .dropdown .nav-link {\n  padding: 0;\n}\n.message-container .dropdown .dropdown-menu {\n  right: 0 !important;\n  left: unset !important;\n  transform: unset !important;\n  top: 30px !important;\n}\n.scrollable {\n  height: 100%;\n  overflow-y: auto;\n}\n.sticky {\n  position: sticky;\n  top: 0;\n  z-index: 1;\n}\n.user-list-item {\n  cursor: pointer;\n}\n.img-thumbnail {\n  padding: 0.25rem;\n  background-color: #fff;\n  border: 1px solid #dee2e6;\n  border-radius: 0.25rem !important;\n  height: 100px !important;\n  width: 100px !important;\n}\n.typing {\n  position: absolute;\n  top: -1px;\n  left: 50px;\n}\n.myProgress {\n  width: 100%;\n  background-color: #ddd;\n  position: absolute;\n  top: 5px;\n  width: 90%;\n}\n.myBar {\n  width: 1%;\n  height: 10px;\n  background-color: #007bff;\n}\n#image {\n  position: absolute;\n  top: 0px;\n}\n.form-field-file .field-file {\n  display: none;\n}\n.form-field-file i.fa {\n  font-size: 18px;\n}\n.form-field-file .btn1 {\n  border: none;\n  transition: all 1s;\n  cursor: pointer;\n}\n.emoji-invoker {\n  position: absolute;\n  top: 2rem;\n  left: 3.5rem;\n  width: 1.5rem;\n  height: 1.5rem;\n  border-radius: 50%;\n  cursor: pointer;\n  transition: all 0.2s;\n}\n.emoji-invoker:hover {\n  transform: scale(1.1);\n}\n.emoji-invoker > svg {\n  fill: #b1c6d0;\n}\n.emoji-picker {\n  position: absolute;\n  z-index: 1;\n  font-family: Montserrat;\n  border: 1px solid #ccc;\n  width: 14rem;\n  height: 20rem;\n  overflow-y: scroll;\n  padding: 1rem;\n  box-sizing: border-box;\n  border-radius: 0.5rem;\n  background: #fff;\n  box-shadow: 1px 1px 8px #c7dbe6;\n  top: -296px !important;\n  left: 16px !important;\n  font-size: 14px;\n}\n.emoji-picker__search {\n  display: flex;\n  margin-bottom: 15px;\n}\n.emoji-picker__search > input {\n  flex: 1;\n  border-radius: 10rem;\n  border: 1px solid #ccc;\n  padding: 0.5rem 1rem;\n  outline: none;\n  font-size: 0.7rem;\n}\n.emoji-picker h5 {\n  margin-bottom: 0;\n  color: #b1b1b1;\n  text-transform: uppercase;\n  font-size: 0.8rem;\n  cursor: default;\n}\n.emoji-picker .emojis {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: space-between;\n}\n.emoji-picker .emojis:after {\n  content: \"\";\n  flex: auto;\n}\n.emoji-picker .emojis span {\n  padding: 0.2rem;\n  cursor: pointer;\n  border-radius: 5px;\n}\n.emoji-picker .emojis span:hover {\n  background: #ececec;\n  cursor: pointer;\n}\n.profile.incomingName{\n  height: 200px;\n  width: 200px;\n  border-radius: 50%;\n  margin: 0 auto;\n}\n.profile.incomingName img{\n  width: 100%;\n  border-radius: 50%;\n  height: 100%;\n}\n#videocallReceiver .modal-dialog{\n  pointer-events: all;\n}\n.message-container .outer-content .m-box {\n    height: calc(100vh - 172px);\n}\n.newMsg span{\n  background: red;\n  border-radius: 50%;\n  padding: 2px;\n  font-size: 5px;\n}\n/* .msg-body .msg-text-box.right .panel {\n      -webkit-box-orient: horizontal;\n      -webkit-box-direction: reverse;\n      -ms-flex-direction: row-reverse;\n      flex-direction: row-reverse;\n  }\n  .msg-body .msg-text-box.right .panel .box:first-child {\n    margin-left: 15px;\n}\n.msg-body .msg-text-box.right .panel .box {\n    max-width: 450px;\n}\n.msg-body .msg-text-box.right .panel .box:last-child {\n    background: #007bff;\n}\n.msg-body .msg-text-box.right .panel .box:last-child p, .msg-body .msg-text-box.right .panel .box:last-child h6 {\n    color: #ffffff;\n}\n.message-container .outer-content .main-area .msg-body .msg-text-box.right .box small {\n    color: #ffffff;\n} */\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -70223,1026 +70266,1067 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "py-5" }, [
+  return _c("div", { staticClass: "py-2" }, [
     _c("div", { staticClass: "message-container" }, [
       _c("audio", { attrs: { id: "outgoingcall", muted: "" } }, [
-        _c("source", { attrs: { src: "/incomming.mp3", type: "audio/ogg" } }),
+        _c("source", { attrs: { src: "incomming.mp3", type: "audio/ogg" } }),
         _vm._v(" "),
-        _c("source", { attrs: { src: "/incomming.mp3", type: "audio/mpeg" } })
+        _c("source", { attrs: { src: "incomming.mp3", type: "audio/mpeg" } })
       ]),
       _vm._v(" "),
       _c("audio", { attrs: { id: "incommingcall", muted: "" } }, [
         _c("source", {
-          attrs: { src: "/outgoing_ringtone.mp3", type: "audio/ogg" }
+          attrs: { src: "outgoing_ringtone.mp3", type: "audio/ogg" }
         }),
         _vm._v(" "),
         _c("source", {
-          attrs: { src: "/outgoing_ringtone.mp3", type: "audio/mpeg" }
+          attrs: { src: "outgoing_ringtone.mp3", type: "audio/mpeg" }
         })
       ]),
       _vm._v(" "),
       _c("audio", { attrs: { id: "messagetone", muted: "" } }, [
-        _c("source", { attrs: { src: "/bell.mp3", type: "audio/ogg" } }),
+        _c("source", { attrs: { src: "bell.mp3", type: "audio/ogg" } }),
         _vm._v(" "),
-        _c("source", { attrs: { src: "/bell.mp3", type: "audio/mpeg" } })
+        _c("source", { attrs: { src: "bell.mp3", type: "audio/mpeg" } })
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "container" }, [
-        _c("div", { staticClass: "card" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "outer-content" }, [
-            _c("div", { staticClass: "m-box sidebar scrollable" }, [
-              _c("div", { staticClass: "msg-header sticky" }, [
-                _c("form", { staticClass: "form", attrs: { action: "" } }, [
-                  _c("div", { staticClass: "form-group" }, [
-                    _c("i", { staticClass: "fa fa-search" }),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.searchFriend,
-                          expression: "searchFriend"
-                        }
-                      ],
-                      staticClass: "form-control",
-                      attrs: { type: "text", placeholder: "Search" },
-                      domProps: { value: _vm.searchFriend },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.searchFriend = $event.target.value
-                        }
-                      }
-                    })
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "user-lists" }, [
-                _vm.showUsers
-                  ? _c(
-                      "div",
-                      {},
-                      _vm._l(_vm.orderedUsers, function(friends) {
-                        return _c(
-                          "div",
-                          {
-                            key: friends.conversation_id,
-                            staticClass:
-                              "\n                    user-list-item\n                    d-flex\n                    align-items-center\n                    p-3\n                    border-bottom\n                  ",
-                            attrs: { id: friends.conversation_id },
-                            on: {
-                              click: function($event) {
-                                return _vm.getSingleChat(friends)
-                              }
-                            }
-                          },
-                          [
-                            _c(
-                              "div",
-                              { staticClass: "box" },
-                              [
-                                _vm.userdata.id == friends.sender_id
-                                  ? [
-                                      friends.receiver_info.img != null
-                                        ? [
-                                            _c("img", {
-                                              attrs: {
-                                                src:
-                                                  "uploads/users/" +
-                                                  friends.receiver_info.id +
-                                                  "/images/" +
-                                                  friends.receiver_info.img,
-                                                alt: ""
-                                              }
-                                            })
-                                          ]
-                                        : [
-                                            _c("img", {
-                                              attrs: {
-                                                src:
-                                                  "assets/img/dashboard/avatar.jpg",
-                                                alt: ""
-                                              }
-                                            })
-                                          ]
-                                    ]
-                                  : [
-                                      friends.sender_info.img != null
-                                        ? [
-                                            _c("img", {
-                                              attrs: {
-                                                src:
-                                                  "uploads/users/" +
-                                                  friends.sender_info.id +
-                                                  "/images/" +
-                                                  friends.sender_info.img,
-                                                alt: ""
-                                              }
-                                            })
-                                          ]
-                                        : [
-                                            _c("img", {
-                                              attrs: {
-                                                src:
-                                                  "assets/img/dashboard/avatar.jpg",
-                                                alt: ""
-                                              }
-                                            })
-                                          ]
-                                    ]
-                              ],
-                              2
-                            ),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "box w-100 pl-3" }, [
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "inner-box d-flex justify-content-between mb-1"
-                                },
-                                [
-                                  _vm.userdata.id == friends.sender_id
-                                    ? [
-                                        _c("h6", {}, [
-                                          _vm._v(
-                                            "\n                          " +
-                                              _vm._s(
-                                                friends.receiver_info.name
-                                              ) +
-                                              " \n                          "
-                                          )
-                                        ])
-                                      ]
-                                    : [
-                                        _c("h6", {}, [
-                                          _vm._v(
-                                            "\n                          " +
-                                              _vm._s(friends.sender_info.name) +
-                                              " \n                          "
-                                          )
-                                        ])
-                                      ],
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    {
-                                      class:
-                                        "lastMessageDate-" +
-                                        friends.conversation_id
-                                    },
-                                    [
-                                      friends.message_id != 0
-                                        ? _c(
-                                            "small",
-                                            { staticClass: "text-muted" },
-                                            [
-                                              _vm._v(
-                                                _vm._s(
-                                                  _vm.istoday(
-                                                    friends.last_message
-                                                      .message_date
-                                                  )
-                                                )
-                                              )
-                                            ]
-                                          )
-                                        : _vm._e()
-                                    ]
-                                  )
-                                ],
-                                2
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  class:
-                                    "lastMessage-" + friends.conversation_id
-                                },
-                                [
-                                  _c("span", [
-                                    _vm._v(_vm._s(friends.project_info.title))
-                                  ])
-                                ]
-                              )
-                            ])
-                          ]
-                        )
-                      }),
-                      0
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                _vm.searchUser
-                  ? _c(
-                      "div",
-                      {},
-                      _vm._l(_vm.filteredUserlist, function(friends) {
-                        return _c(
-                          "div",
-                          {
-                            key: friends.conversation_id,
-                            staticClass:
-                              "\n                    user-list-item\n                    d-flex\n                    align-items-center\n                    p-3\n                    border-bottom\n                  ",
-                            attrs: { id: friends.conversation_id },
-                            on: {
-                              click: function($event) {
-                                return _vm.getSingleChat(friends)
-                              }
-                            }
-                          },
-                          [
-                            _c(
-                              "div",
-                              { staticClass: "box" },
-                              [
-                                _vm.userdata.id == friends.sender_id
-                                  ? [
-                                      friends.receiver_info.img != null
-                                        ? [
-                                            _c("img", {
-                                              attrs: {
-                                                src:
-                                                  "uploads/users/" +
-                                                  friends.receiver_info.id +
-                                                  "/images/" +
-                                                  friends.receiver_info.img,
-                                                alt: ""
-                                              }
-                                            })
-                                          ]
-                                        : [
-                                            _c("img", {
-                                              attrs: {
-                                                src:
-                                                  "assets/img/dashboard/avatar.jpg",
-                                                alt: ""
-                                              }
-                                            })
-                                          ]
-                                    ]
-                                  : [
-                                      friends.sender_info.img != null
-                                        ? [
-                                            _c("img", {
-                                              attrs: {
-                                                src:
-                                                  "uploads/users/" +
-                                                  friends.sender_info.id +
-                                                  "/images/" +
-                                                  friends.sender_info.img,
-                                                alt: ""
-                                              }
-                                            })
-                                          ]
-                                        : [
-                                            _c("img", {
-                                              attrs: {
-                                                src:
-                                                  "assets/img/dashboard/avatar.jpg",
-                                                alt: ""
-                                              }
-                                            })
-                                          ]
-                                    ]
-                              ],
-                              2
-                            ),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "box w-100 pl-3" }, [
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "inner-box d-flex justify-content-between mb-1"
-                                },
-                                [
-                                  _vm.userdata.id == friends.sender_id
-                                    ? [
-                                        _c("h6", {}, [
-                                          _vm._v(
-                                            "\n                          " +
-                                              _vm._s(
-                                                friends.receiver_info.first_name
-                                              ) +
-                                              "\n                        "
-                                          )
-                                        ])
-                                      ]
-                                    : [
-                                        _c("h6", {}, [
-                                          _vm._v(
-                                            "\n                          " +
-                                              _vm._s(
-                                                friends.sender_info.first_name
-                                              ) +
-                                              "\n                          \n                        "
-                                          )
-                                        ])
-                                      ],
-                                  _vm._v(" "),
-                                  _c(
-                                    "div",
-                                    {
-                                      class:
-                                        "lastMessageDate-" +
-                                        friends.conversation_id
-                                    },
-                                    [
-                                      friends.message_id != 0
-                                        ? _c(
-                                            "small",
-                                            { staticClass: "text-muted" },
-                                            [
-                                              _vm._v(
-                                                _vm._s(
-                                                  _vm.istoday(
-                                                    friends.last_message
-                                                      .message_date
-                                                  )
-                                                )
-                                              )
-                                            ]
-                                          )
-                                        : _vm._e()
-                                    ]
-                                  )
-                                ],
-                                2
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                {
-                                  class:
-                                    "lastMessage-" + friends.conversation_id
-                                },
-                                [
-                                  _c("span", [
-                                    _vm._v(_vm._s(friends.project_info.title))
-                                  ])
-                                ]
-                              )
-                            ])
-                          ]
-                        )
-                      }),
-                      0
-                    )
-                  : _vm._e()
-              ])
-            ]),
+        _c(
+          "div",
+          {
+            staticClass: "card",
+            staticStyle: { height: "calc(100vh - 105px)" }
+          },
+          [
+            _vm._m(0),
             _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "m-box main-area", attrs: { id: "single_chat" } },
-              [
-                _c(
-                  "center",
-                  {
-                    staticClass: "mt-5 pt-5 mt-sm-5 pt-sm-5",
-                    attrs: { id: "selectConversation" }
-                  },
-                  [
-                    _c("img", {
-                      attrs: {
-                        src:
-                          "http://203.99.61.173/demos/gigtodo35/images/chat.png",
-                        width: "180",
-                        alt: ""
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "h3",
-                      {
-                        staticClass: "mt-3 empty-heading",
-                        staticStyle: { "font-weight": "410" }
-                      },
-                      [
-                        _vm._v(
-                          "\n                Select a Conversation\n              "
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c("p", { staticClass: "lead" }, [
-                      _vm._v(
-                        "\n                Try selecting a conversation or searching for someone\n                specific.\n              "
-                      )
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "m-box",
-                    staticStyle: { display: "none" },
-                    attrs: { id: "startchat" }
-                  },
-                  [
-                    _c("div", { staticClass: "msg-header sticky" }, [
-                      _c("div", { staticClass: "user-info" }, [
-                        _c("h6", [
-                          _c("strong", [_vm._v(_vm._s(_vm.friendName))]),
-                          _vm._v(" "),
-                          _c(
-                            "a",
-                            {
-                              attrs: {
-                                href: "project-details/" + _vm.projectId
-                              }
-                            },
-                            [
-                              _vm._v("("),
-                              _c("span", [_vm._v(_vm._s(_vm.projectName))]),
-                              _vm._v(")")
-                            ]
-                          )
-                        ]),
-                        _vm._v(" "),
-                        _c("p", [_vm._v(_vm._s(_vm.friendStatus))])
-                      ]),
+            _c("div", { staticClass: "outer-content" }, [
+              _c("div", { staticClass: "m-box sidebar scrollable" }, [
+                _c("div", { staticClass: "msg-header sticky" }, [
+                  _c("form", { staticClass: "form", attrs: { action: "" } }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("i", { staticClass: "fa fa-search" }),
                       _vm._v(" "),
-                      _c(
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.searchFriend,
+                            expression: "searchFriend"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text", placeholder: "Search" },
+                        domProps: { value: _vm.searchFriend },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.searchFriend = $event.target.value
+                          }
+                        }
+                      })
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "user-lists" }, [
+                  _vm.showUsers
+                    ? _c(
                         "div",
-                        { staticClass: "other d-flex align-items-center" },
-                        [
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn",
-                              on: {
-                                click: function($event) {
-                                  return _vm.videostartCall(
-                                    _vm.singleChatUser,
-                                    "audio"
-                                  )
-                                }
-                              }
-                            },
-                            [_c("i", { staticClass: "fa fa-phone" })]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "button",
-                            {
-                              staticClass: "btn",
-                              on: {
-                                click: function($event) {
-                                  return _vm.videostartCall(
-                                    _vm.singleChatUser,
-                                    "video"
-                                  )
-                                }
-                              }
-                            },
-                            [
-                              _c("i", {
-                                staticClass: "fa fa-video-camera",
-                                attrs: { "aria-hidden": "true" }
-                              })
-                            ]
-                          )
-                        ]
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "msg-body chat-widget-conversation" },
-                      _vm._l(_vm.singleChate, function(chat) {
-                        return _c("div", { staticClass: "msg-text-box left" }, [
-                          _c(
+                        {},
+                        _vm._l(_vm.orderedUsers, function(friends) {
+                          return _c(
                             "div",
-                            { staticClass: "panel d-flex align-items-start" },
+                            {
+                              key: friends.conversation_id,
+                              staticClass:
+                                "\n                    user-list-item\n                    d-flex\n                    align-items-center\n                    py-3 px-2\n                    border-bottom\n                  ",
+                              attrs: { id: friends.conversation_id },
+                              on: {
+                                click: function($event) {
+                                  return _vm.getSingleChat(friends)
+                                }
+                              }
+                            },
                             [
                               _c(
                                 "div",
                                 { staticClass: "box" },
                                 [
-                                  chat.sender_info.img
+                                  _vm.userdata.id == friends.sender_id
                                     ? [
-                                        _c("img", {
-                                          attrs: {
-                                            src:
-                                              "uploads/users/" +
-                                              chat.sender_info.id +
-                                              "/images/" +
-                                              chat.sender_info.img,
-                                            alt: ""
-                                          }
-                                        })
+                                        friends.receiver_info.img != null
+                                          ? [
+                                              _c("img", {
+                                                attrs: {
+                                                  src:
+                                                    "uploads/users/" +
+                                                    friends.receiver_info.id +
+                                                    "/images/" +
+                                                    friends.receiver_info.img,
+                                                  alt: ""
+                                                }
+                                              })
+                                            ]
+                                          : [
+                                              _c("img", {
+                                                attrs: {
+                                                  src:
+                                                    "assets/img/dashboard/avatar.jpg",
+                                                  alt: ""
+                                                }
+                                              })
+                                            ]
                                       ]
                                     : [
-                                        _c("img", {
-                                          attrs: {
-                                            src:
-                                              "assets/img/dashboard/avatar.jpg",
-                                            alt: ""
-                                          }
-                                        })
+                                        friends.sender_info.img != null
+                                          ? [
+                                              _c("img", {
+                                                attrs: {
+                                                  src:
+                                                    "uploads/users/" +
+                                                    friends.sender_info.id +
+                                                    "/images/" +
+                                                    friends.sender_info.img,
+                                                  alt: ""
+                                                }
+                                              })
+                                            ]
+                                          : [
+                                              _c("img", {
+                                                attrs: {
+                                                  src:
+                                                    "assets/img/dashboard/avatar.jpg",
+                                                  alt: ""
+                                                }
+                                              })
+                                            ]
                                       ]
                                 ],
                                 2
                               ),
                               _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "box rounded w-100" },
-                                [
-                                  _c(
-                                    "div",
-                                    {
-                                      staticClass:
-                                        "d-flex justify-content-between"
-                                    },
-                                    [
-                                      _c("h6", [
-                                        _vm._v(
-                                          "\n                          " +
-                                            _vm._s(chat.sender_info.name) +
-                                            "\n                          "
-                                        )
-                                      ]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "small",
-                                        { staticClass: "text-uppercase" },
-                                        [
-                                          _vm._v(
-                                            _vm._s(
-                                              _vm.istoday(chat.message_date)
-                                            )
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  chat.message_file
-                                    ? [
-                                        chat.message_type == 1
-                                          ? _c("div", [
-                                              _c("img", {
-                                                staticClass: "img-thumbnail",
-                                                attrs: {
-                                                  src:
-                                                    "images/chat_images/" +
-                                                    chat.message_file,
-                                                  alt: "...",
-                                                  width: "100"
-                                                }
-                                              })
-                                            ])
-                                          : _vm._e(),
-                                        _vm._v(" "),
-                                        _c(
-                                          "a",
-                                          {
-                                            staticClass: "d-block mt-2 ml-1",
-                                            staticStyle: {
-                                              color: "rgb(0 153 255)"
-                                            },
-                                            attrs: {
-                                              href:
-                                                "images/chat_images/" +
-                                                chat.message_file,
-                                              download: ""
-                                            }
-                                          },
-                                          [
-                                            _c("i", {
-                                              staticClass: "fa fa-download"
-                                            }),
+                              _c("div", { staticClass: "box w-100 pl-2" }, [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "inner-box d-flex justify-content-between mb-1"
+                                  },
+                                  [
+                                    _vm.userdata.id == friends.sender_id
+                                      ? [
+                                          _c("h6", {}, [
                                             _vm._v(
-                                              " message-" +
-                                                _vm._s(chat.message_file) +
-                                                "\n                        "
+                                              "\n                          " +
+                                                _vm._s(
+                                                  friends.receiver_info.name
+                                                ) +
+                                                " \n                          "
                                             )
-                                          ]
-                                        )
+                                          ])
+                                        ]
+                                      : [
+                                          _c("h6", {}, [
+                                            _vm._v(
+                                              "\n                          " +
+                                                _vm._s(
+                                                  friends.sender_info.name
+                                                ) +
+                                                " \n                          "
+                                            )
+                                          ])
+                                        ],
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        class:
+                                          "lastMessageDate-" +
+                                          friends.conversation_id
+                                      },
+                                      [
+                                        friends.message_id != 0
+                                          ? _c(
+                                              "small",
+                                              { staticClass: "text-muted" },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    _vm.istoday(
+                                                      friends.last_message
+                                                        .message_date
+                                                    )
+                                                  )
+                                                )
+                                              ]
+                                            )
+                                          : _vm._e()
                                       ]
-                                    : _vm._e(),
-                                  _vm._v(" "),
-                                  _c("p", [_vm._v(_vm._s(chat.message_desc))])
-                                ],
-                                2
-                              )
+                                    )
+                                  ],
+                                  2
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    class:
+                                      "lastMessage-" + friends.conversation_id
+                                  },
+                                  [
+                                    _c("span", [
+                                      _vm._v(_vm._s(friends.project_info.title))
+                                    ])
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "p",
+                                  {
+                                    staticClass: "mb-0 text-right newMsg",
+                                    staticStyle: {
+                                      color: "red",
+                                      display: "none",
+                                      "font-size": "14px"
+                                    },
+                                    attrs: {
+                                      id: "newMsg" + friends.conversation_id
+                                    }
+                                  },
+                                  [_c("span", [_vm._v("0")])]
+                                )
+                              ])
                             ]
                           )
-                        ])
-                      }),
-                      0
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      {
-                        staticClass: "msg-footer align-items-center py-4 px-3"
-                      },
-                      [
-                        _c(
-                          "span",
-                          {
-                            directives: [
-                              {
-                                name: "show",
-                                rawName: "v-show",
-                                value: _vm.typing,
-                                expression: "typing"
+                        }),
+                        0
+                      )
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.searchUser
+                    ? _c(
+                        "div",
+                        {},
+                        _vm._l(_vm.filteredUserlist, function(friends) {
+                          return _c(
+                            "div",
+                            {
+                              key: friends.conversation_id,
+                              staticClass:
+                                "\n                    user-list-item\n                    d-flex\n                    align-items-center\n                    py-3 px-2\n                    border-bottom\n                  ",
+                              attrs: { id: friends.conversation_id },
+                              on: {
+                                click: function($event) {
+                                  return _vm.getSingleChat(friends)
+                                }
                               }
-                            ],
-                            staticClass: "typing"
-                          },
-                          [_vm._v(_vm._s(_vm.friendName) + " is typing ...")]
-                        ),
-                        _vm._v(" "),
-                        _vm._m(1),
-                        _vm._v(" "),
-                        _c("div", { attrs: { id: "image" } }),
+                            },
+                            [
+                              _c(
+                                "div",
+                                { staticClass: "box" },
+                                [
+                                  _vm.userdata.id == friends.sender_id
+                                    ? [
+                                        friends.receiver_info.img != null
+                                          ? [
+                                              _c("img", {
+                                                attrs: {
+                                                  src:
+                                                    "uploads/users/" +
+                                                    friends.receiver_info.id +
+                                                    "/images/" +
+                                                    friends.receiver_info.img,
+                                                  alt: ""
+                                                }
+                                              })
+                                            ]
+                                          : [
+                                              _c("img", {
+                                                attrs: {
+                                                  src:
+                                                    "assets/img/dashboard/avatar.jpg",
+                                                  alt: ""
+                                                }
+                                              })
+                                            ]
+                                      ]
+                                    : [
+                                        friends.sender_info.img != null
+                                          ? [
+                                              _c("img", {
+                                                attrs: {
+                                                  src:
+                                                    "uploads/users/" +
+                                                    friends.sender_info.id +
+                                                    "/images/" +
+                                                    friends.sender_info.img,
+                                                  alt: ""
+                                                }
+                                              })
+                                            ]
+                                          : [
+                                              _c("img", {
+                                                attrs: {
+                                                  src:
+                                                    "assets/img/dashboard/avatar.jpg",
+                                                  alt: ""
+                                                }
+                                              })
+                                            ]
+                                      ]
+                                ],
+                                2
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "box w-100 pl-2" }, [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "inner-box d-flex justify-content-between mb-1"
+                                  },
+                                  [
+                                    _vm.userdata.id == friends.sender_id
+                                      ? [
+                                          _c("h6", {}, [
+                                            _vm._v(
+                                              "\n                          " +
+                                                _vm._s(
+                                                  friends.receiver_info
+                                                    .first_name
+                                                ) +
+                                                "\n                        "
+                                            )
+                                          ])
+                                        ]
+                                      : [
+                                          _c("h6", {}, [
+                                            _vm._v(
+                                              "\n                          " +
+                                                _vm._s(
+                                                  friends.sender_info.first_name
+                                                ) +
+                                                "\n                          \n                        "
+                                            )
+                                          ])
+                                        ],
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        class:
+                                          "lastMessageDate-" +
+                                          friends.conversation_id
+                                      },
+                                      [
+                                        friends.message_id != 0
+                                          ? _c(
+                                              "small",
+                                              { staticClass: "text-muted" },
+                                              [
+                                                _vm._v(
+                                                  _vm._s(
+                                                    _vm.istoday(
+                                                      friends.last_message
+                                                        .message_date
+                                                    )
+                                                  )
+                                                )
+                                              ]
+                                            )
+                                          : _vm._e()
+                                      ]
+                                    )
+                                  ],
+                                  2
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    class:
+                                      "lastMessage-" + friends.conversation_id
+                                  },
+                                  [
+                                    _c("span", [
+                                      _vm._v(_vm._s(friends.project_info.title))
+                                    ])
+                                  ]
+                                )
+                              ])
+                            ]
+                          )
+                        }),
+                        0
+                      )
+                    : _vm._e()
+                ])
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "m-box main-area",
+                  attrs: { id: "single_chat" }
+                },
+                [
+                  _c(
+                    "center",
+                    {
+                      staticClass: "mt-5 pt-5 mt-sm-5 pt-sm-5",
+                      attrs: { id: "selectConversation" }
+                    },
+                    [
+                      _c("img", {
+                        attrs: { src: "images/chat.png", width: "180", alt: "" }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "h3",
+                        {
+                          staticClass: "mt-3 empty-heading",
+                          staticStyle: { "font-weight": "410" }
+                        },
+                        [
+                          _vm._v(
+                            "\n                Select a Conversation\n              "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "lead" }, [
+                        _vm._v(
+                          "\n                Try selecting a conversation or searching for someone\n                specific.\n              "
+                        )
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "m-box",
+                      staticStyle: { display: "none" },
+                      attrs: { id: "startchat" }
+                    },
+                    [
+                      _c("div", { staticClass: "msg-header sticky" }, [
+                        _c("div", { staticClass: "user-info" }, [
+                          _c("h6", [
+                            _c("strong", [_vm._v(_vm._s(_vm.friendName))]),
+                            _vm._v(" "),
+                            _c(
+                              "a",
+                              {
+                                attrs: {
+                                  href: "project-details/" + _vm.projectId
+                                }
+                              },
+                              [
+                                _vm._v("("),
+                                _c("span", [_vm._v(_vm._s(_vm.projectName))]),
+                                _vm._v(")")
+                              ]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("p", [_vm._v(_vm._s(_vm.friendStatus))])
+                        ]),
                         _vm._v(" "),
                         _c(
                           "div",
-                          {
-                            staticClass:
-                              "d-flex w-100 border rounded align-items-center"
-                          },
+                          { staticClass: "other d-flex align-items-center" },
                           [
-                            _c("div", { staticClass: "footer-box" }, [
-                              _c("span", { staticClass: "form-field-file" }, [
-                                _vm._m(2),
-                                _vm._v(" "),
-                                _c("input", {
-                                  ref: "msg_file",
-                                  staticClass: "field-file",
-                                  attrs: {
-                                    type: "file",
-                                    name: "cv-arquivo",
-                                    id: "cv-arquivo"
-                                  },
-                                  on: {
-                                    change: function($event) {
-                                      return _vm.move()
-                                    }
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.videostartCall(
+                                      _vm.singleChatUser,
+                                      "audio"
+                                    )
                                   }
-                                })
-                              ])
-                            ]),
+                                }
+                              },
+                              [_c("i", { staticClass: "fa fa-phone" })]
+                            ),
                             _vm._v(" "),
                             _c(
-                              "div",
-                              { staticClass: "footer-box" },
-                              [
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: _vm.message,
-                                      expression: "message"
-                                    }
-                                  ],
-                                  staticClass: "form-control border-0",
-                                  attrs: { type: "text" },
-                                  domProps: { value: _vm.message },
-                                  on: {
-                                    keyup: [
-                                      function($event) {
-                                        return _vm.removecross()
-                                      },
-                                      function($event) {
-                                        if (
-                                          !$event.type.indexOf("key") &&
-                                          _vm._k(
-                                            $event.keyCode,
-                                            "enter",
-                                            13,
-                                            $event.key,
-                                            "Enter"
-                                          )
-                                        ) {
-                                          return null
-                                        }
-                                        return _vm.sendMessage()
-                                      }
-                                    ],
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.message = $event.target.value
-                                    }
+                              "button",
+                              {
+                                staticClass: "btn",
+                                on: {
+                                  click: function($event) {
+                                    return _vm.videostartCall(
+                                      _vm.singleChatUser,
+                                      "video"
+                                    )
                                   }
-                                }),
-                                _vm._v(" "),
-                                _c("emoji-picker", {
-                                  attrs: { search: _vm.search },
-                                  on: { emoji: _vm.append },
-                                  scopedSlots: _vm._u([
-                                    {
-                                      key: "emoji-invoker",
-                                      fn: function(ref) {
-                                        var clickEvent = ref.events.click
-                                        return _c(
-                                          "div",
-                                          {
-                                            staticClass: "emoji-invoker",
-                                            on: {
-                                              click: function($event) {
-                                                $event.stopPropagation()
-                                                return clickEvent.apply(
-                                                  null,
-                                                  arguments
-                                                )
+                                }
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "fa fa-video-camera",
+                                  attrs: { "aria-hidden": "true" }
+                                })
+                              ]
+                            )
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "msg-body chat-widget-conversation" },
+                        _vm._l(_vm.singleChate, function(chat) {
+                          return _c(
+                            "div",
+                            { staticClass: "msg-text-box left" },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "panel d-flex align-items-start"
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticClass: "box" },
+                                    [
+                                      chat.sender_info.img
+                                        ? [
+                                            _c("img", {
+                                              attrs: {
+                                                src:
+                                                  "uploads/users/" +
+                                                  chat.sender_info.id +
+                                                  "/images/" +
+                                                  chat.sender_info.img,
+                                                alt: ""
                                               }
-                                            }
-                                          },
-                                          [
+                                            })
+                                          ]
+                                        : [
+                                            _c("img", {
+                                              attrs: {
+                                                src:
+                                                  "assets/img/dashboard/avatar.jpg",
+                                                alt: ""
+                                              }
+                                            })
+                                          ]
+                                    ],
+                                    2
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    { staticClass: "box rounded w-100" },
+                                    [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "d-flex justify-content-between"
+                                        },
+                                        [
+                                          _c("h6", [
+                                            _vm._v(
+                                              "\n                          " +
+                                                _vm._s(chat.sender_info.name) +
+                                                "\n                          "
+                                            )
+                                          ]),
+                                          _vm._v(" "),
+                                          _c(
+                                            "small",
+                                            { staticClass: "text-uppercase" },
+                                            [
+                                              _vm._v(
+                                                _vm._s(
+                                                  _vm.istoday(chat.message_date)
+                                                )
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      chat.message_file
+                                        ? [
+                                            chat.message_type == 1
+                                              ? _c("div", [
+                                                  _c("img", {
+                                                    staticClass:
+                                                      "img-thumbnail",
+                                                    attrs: {
+                                                      src:
+                                                        "images/chat_images/" +
+                                                        chat.message_file,
+                                                      alt: "...",
+                                                      width: "100"
+                                                    }
+                                                  })
+                                                ])
+                                              : _vm._e(),
+                                            _vm._v(" "),
                                             _c(
-                                              "svg",
+                                              "a",
                                               {
+                                                staticClass:
+                                                  "d-block mt-2 ml-1",
+                                                staticStyle: {
+                                                  color: "rgb(0 153 255)"
+                                                },
                                                 attrs: {
-                                                  height: "24",
-                                                  viewBox: "0 0 24 24",
-                                                  width: "24",
-                                                  xmlns:
-                                                    "http://www.w3.org/2000/svg"
+                                                  href:
+                                                    "images/chat_images/" +
+                                                    chat.message_file,
+                                                  download: ""
                                                 }
                                               },
                                               [
-                                                _c("path", {
-                                                  attrs: {
-                                                    d: "M0 0h24v24H0z",
-                                                    fill: "none"
-                                                  }
+                                                _c("i", {
+                                                  staticClass: "fa fa-download"
                                                 }),
-                                                _vm._v(" "),
-                                                _c("path", {
+                                                _vm._v(
+                                                  " message-" +
+                                                    _vm._s(chat.message_file) +
+                                                    "\n                        "
+                                                )
+                                              ]
+                                            )
+                                          ]
+                                        : _vm._e(),
+                                      _vm._v(" "),
+                                      _c("p", [
+                                        _vm._v(_vm._s(chat.message_desc))
+                                      ])
+                                    ],
+                                    2
+                                  )
+                                ]
+                              )
+                            ]
+                          )
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "msg-footer align-items-center py-4 px-3"
+                        },
+                        [
+                          _c(
+                            "span",
+                            {
+                              directives: [
+                                {
+                                  name: "show",
+                                  rawName: "v-show",
+                                  value: _vm.typing,
+                                  expression: "typing"
+                                }
+                              ],
+                              staticClass: "typing"
+                            },
+                            [_vm._v(_vm._s(_vm.friendName) + " is typing ...")]
+                          ),
+                          _vm._v(" "),
+                          _vm._m(1),
+                          _vm._v(" "),
+                          _c("div", { attrs: { id: "image" } }),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "d-flex w-100 border rounded align-items-center"
+                            },
+                            [
+                              _c("div", { staticClass: "footer-box" }, [
+                                _c("span", { staticClass: "form-field-file" }, [
+                                  _vm._m(2),
+                                  _vm._v(" "),
+                                  _c("input", {
+                                    ref: "msg_file",
+                                    staticClass: "field-file",
+                                    attrs: {
+                                      type: "file",
+                                      name: "cv-arquivo",
+                                      id: "cv-arquivo"
+                                    },
+                                    on: {
+                                      change: function($event) {
+                                        return _vm.move()
+                                      }
+                                    }
+                                  })
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "footer-box" },
+                                [
+                                  _c("input", {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: _vm.message,
+                                        expression: "message"
+                                      }
+                                    ],
+                                    staticClass: "form-control border-0",
+                                    attrs: { type: "text" },
+                                    domProps: { value: _vm.message },
+                                    on: {
+                                      keyup: [
+                                        function($event) {
+                                          return _vm.removecross()
+                                        },
+                                        function($event) {
+                                          if (
+                                            !$event.type.indexOf("key") &&
+                                            _vm._k(
+                                              $event.keyCode,
+                                              "enter",
+                                              13,
+                                              $event.key,
+                                              "Enter"
+                                            )
+                                          ) {
+                                            return null
+                                          }
+                                          return _vm.sendMessage()
+                                        }
+                                      ],
+                                      input: function($event) {
+                                        if ($event.target.composing) {
+                                          return
+                                        }
+                                        _vm.message = $event.target.value
+                                      }
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("emoji-picker", {
+                                    attrs: { search: _vm.search },
+                                    on: { emoji: _vm.append },
+                                    scopedSlots: _vm._u([
+                                      {
+                                        key: "emoji-invoker",
+                                        fn: function(ref) {
+                                          var clickEvent = ref.events.click
+                                          return _c(
+                                            "div",
+                                            {
+                                              staticClass: "emoji-invoker",
+                                              on: {
+                                                click: function($event) {
+                                                  $event.stopPropagation()
+                                                  return clickEvent.apply(
+                                                    null,
+                                                    arguments
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "svg",
+                                                {
                                                   attrs: {
-                                                    d:
-                                                      "M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
+                                                    height: "24",
+                                                    viewBox: "0 0 24 24",
+                                                    width: "24",
+                                                    xmlns:
+                                                      "http://www.w3.org/2000/svg"
+                                                  }
+                                                },
+                                                [
+                                                  _c("path", {
+                                                    attrs: {
+                                                      d: "M0 0h24v24H0z",
+                                                      fill: "none"
+                                                    }
+                                                  }),
+                                                  _vm._v(" "),
+                                                  _c("path", {
+                                                    attrs: {
+                                                      d:
+                                                        "M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z"
+                                                    }
+                                                  })
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        }
+                                      },
+                                      {
+                                        key: "emoji-picker",
+                                        fn: function(ref) {
+                                          var emojis = ref.emojis
+                                          var insert = ref.insert
+                                          var display = ref.display
+                                          return _c("div", {}, [
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass: "emoji-picker",
+                                                style: {
+                                                  top: display.y + "px",
+                                                  left: display.x + "px"
+                                                }
+                                              },
+                                              [
+                                                _c(
+                                                  "div",
+                                                  {
+                                                    staticClass:
+                                                      "emoji-picker__search"
+                                                  },
+                                                  [
+                                                    _c("input", {
+                                                      directives: [
+                                                        {
+                                                          name: "model",
+                                                          rawName: "v-model",
+                                                          value: _vm.search,
+                                                          expression: "search"
+                                                        },
+                                                        {
+                                                          name: "focus",
+                                                          rawName: "v-focus"
+                                                        }
+                                                      ],
+                                                      attrs: { type: "text" },
+                                                      domProps: {
+                                                        value: _vm.search
+                                                      },
+                                                      on: {
+                                                        input: function(
+                                                          $event
+                                                        ) {
+                                                          if (
+                                                            $event.target
+                                                              .composing
+                                                          ) {
+                                                            return
+                                                          }
+                                                          _vm.search =
+                                                            $event.target.value
+                                                        }
+                                                      }
+                                                    })
+                                                  ]
+                                                ),
+                                                _vm._v(" "),
+                                                _c(
+                                                  "div",
+                                                  _vm._l(emojis, function(
+                                                    emojiGroup,
+                                                    category
+                                                  ) {
+                                                    return _c(
+                                                      "div",
+                                                      { key: category },
+                                                      [
+                                                        _c("h5", [
+                                                          _vm._v(
+                                                            _vm._s(category)
+                                                          )
+                                                        ]),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "div",
+                                                          {
+                                                            staticClass:
+                                                              "emojis"
+                                                          },
+                                                          _vm._l(
+                                                            emojiGroup,
+                                                            function(
+                                                              emoji,
+                                                              emojiName
+                                                            ) {
+                                                              return _c(
+                                                                "span",
+                                                                {
+                                                                  key: emojiName,
+                                                                  attrs: {
+                                                                    title: emojiName
+                                                                  },
+                                                                  on: {
+                                                                    click: function(
+                                                                      $event
+                                                                    ) {
+                                                                      return insert(
+                                                                        emoji
+                                                                      )
+                                                                    }
+                                                                  }
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    _vm._s(
+                                                                      emoji
+                                                                    )
+                                                                  )
+                                                                ]
+                                                              )
+                                                            }
+                                                          ),
+                                                          0
+                                                        )
+                                                      ]
+                                                    )
+                                                  }),
+                                                  0
+                                                )
+                                              ]
+                                            )
+                                          ])
+                                        }
+                                      }
+                                    ])
+                                  })
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "footer-box" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn custom-btn",
+                                    on: {
+                                      click: function($event) {
+                                        return _vm.sendMessage()
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                      send\n                    "
+                                    )
+                                  ]
+                                )
+                              ])
+                            ]
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "m-box inner-content details-pane" }, [
+                _vm.showDetails
+                  ? _c(
+                      "div",
+                      { staticClass: "details-pane-body text-center mx-auto" },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "avatar " },
+                          [
+                            _vm.friendImage
+                              ? [
+                                  _c("img", {
+                                    attrs: {
+                                      src:
+                                        "uploads/users/" +
+                                        _vm.friendId +
+                                        "/images/" +
+                                        _vm.friendImage,
+                                      alt: ""
+                                    }
+                                  })
+                                ]
+                              : [
+                                  _c("img", {
+                                    attrs: {
+                                      src: "assets/img/dashboard/avatar.jpg",
+                                      alt: ""
+                                    }
+                                  })
+                                ]
+                          ],
+                          2
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "name-and-text" }, [
+                          _c("h5", [_vm._v(_vm._s(_vm.friendName))]),
+                          _vm._v(" "),
+                          _c("h6", [
+                            _c("strong", [_vm._v("@" + _vm._s(_vm.userName))])
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _vm.check_image == 1
+                          ? _c("div", { staticClass: "all-doc-lists" }, [
+                              _c("h5", [_vm._v("All documents")]),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "doc-list-item" },
+                                [
+                                  _vm._l(_vm.singleChate, function(chat) {
+                                    return [
+                                      chat.message_type == "1"
+                                        ? [
+                                            _c(
+                                              "a",
+                                              {
+                                                staticClass: "doc-item",
+                                                attrs: {
+                                                  target: "_blank",
+                                                  href:
+                                                    "images/chat_images/" +
+                                                    chat.message_file
+                                                }
+                                              },
+                                              [
+                                                _c("img", {
+                                                  attrs: {
+                                                    src:
+                                                      "images/chat_images/" +
+                                                      chat.message_file,
+                                                    alt: ""
                                                   }
                                                 })
                                               ]
                                             )
                                           ]
-                                        )
-                                      }
-                                    },
-                                    {
-                                      key: "emoji-picker",
-                                      fn: function(ref) {
-                                        var emojis = ref.emojis
-                                        var insert = ref.insert
-                                        var display = ref.display
-                                        return _c("div", {}, [
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass: "emoji-picker",
-                                              style: {
-                                                top: display.y + "px",
-                                                left: display.x + "px"
-                                              }
-                                            },
-                                            [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "emoji-picker__search"
-                                                },
-                                                [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value: _vm.search,
-                                                        expression: "search"
-                                                      },
-                                                      {
-                                                        name: "focus",
-                                                        rawName: "v-focus"
-                                                      }
-                                                    ],
-                                                    attrs: { type: "text" },
-                                                    domProps: {
-                                                      value: _vm.search
-                                                    },
-                                                    on: {
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.search =
-                                                          $event.target.value
-                                                      }
-                                                    }
-                                                  })
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                _vm._l(emojis, function(
-                                                  emojiGroup,
-                                                  category
-                                                ) {
-                                                  return _c(
-                                                    "div",
-                                                    { key: category },
-                                                    [
-                                                      _c("h5", [
-                                                        _vm._v(_vm._s(category))
-                                                      ]),
-                                                      _vm._v(" "),
-                                                      _c(
-                                                        "div",
-                                                        {
-                                                          staticClass: "emojis"
-                                                        },
-                                                        _vm._l(
-                                                          emojiGroup,
-                                                          function(
-                                                            emoji,
-                                                            emojiName
-                                                          ) {
-                                                            return _c(
-                                                              "span",
-                                                              {
-                                                                key: emojiName,
-                                                                attrs: {
-                                                                  title: emojiName
-                                                                },
-                                                                on: {
-                                                                  click: function(
-                                                                    $event
-                                                                  ) {
-                                                                    return insert(
-                                                                      emoji
-                                                                    )
-                                                                  }
-                                                                }
-                                                              },
-                                                              [
-                                                                _vm._v(
-                                                                  _vm._s(emoji)
-                                                                )
-                                                              ]
-                                                            )
-                                                          }
-                                                        ),
-                                                        0
-                                                      )
-                                                    ]
-                                                  )
-                                                }),
-                                                0
-                                              )
-                                            ]
-                                          )
-                                        ])
-                                      }
-                                    }
-                                  ])
-                                })
-                              ],
-                              1
-                            ),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "footer-box" }, [
-                              _c(
-                                "button",
-                                {
-                                  staticClass: "btn custom-btn",
-                                  on: {
-                                    click: function($event) {
-                                      return _vm.sendMessage()
-                                    }
-                                  }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                      send\n                    "
-                                  )
-                                ]
+                                        : _vm._e()
+                                    ]
+                                  })
+                                ],
+                                2
                               )
                             ])
-                          ]
-                        )
+                          : _vm._e()
                       ]
                     )
-                  ]
-                )
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "m-box inner-content details-pane" }, [
-              _vm.showDetails
-                ? _c(
-                    "div",
-                    { staticClass: "details-pane-body text-center mx-auto" },
-                    [
-                      _c(
-                        "div",
-                        { staticClass: "avatar " },
-                        [
-                          _vm.friendImage
-                            ? [
-                                _c("img", {
-                                  attrs: {
-                                    src:
-                                      "uploads/users/" +
-                                      _vm.friendId +
-                                      "/images/" +
-                                      _vm.friendImage,
-                                    alt: ""
-                                  }
-                                })
-                              ]
-                            : [
-                                _c("img", {
-                                  attrs: {
-                                    src: "assets/img/dashboard/avatar.jpg",
-                                    alt: ""
-                                  }
-                                })
-                              ]
-                        ],
-                        2
-                      ),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "name-and-text" }, [
-                        _c("h5", [_vm._v(_vm._s(_vm.friendName))]),
-                        _vm._v(" "),
-                        _c("h6", [
-                          _c("strong", [_vm._v("@" + _vm._s(_vm.userName))])
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _vm.check_image == 1
-                        ? _c("div", { staticClass: "all-doc-lists" }, [
-                            _c("h5", [_vm._v("All documents")]),
-                            _vm._v(" "),
-                            _c(
-                              "div",
-                              { staticClass: "doc-list-item" },
-                              [
-                                _vm._l(_vm.singleChate, function(chat) {
-                                  return [
-                                    chat.message_type == "1"
-                                      ? [
-                                          _c(
-                                            "a",
-                                            {
-                                              staticClass: "doc-item",
-                                              attrs: {
-                                                target: "_blank",
-                                                href:
-                                                  "images/chat_images/" +
-                                                  chat.message_file
-                                              }
-                                            },
-                                            [
-                                              _c("img", {
-                                                attrs: {
-                                                  src:
-                                                    "images/chat_images/" +
-                                                    chat.message_file,
-                                                  alt: ""
-                                                }
-                                              })
-                                            ]
-                                          )
-                                        ]
-                                      : _vm._e()
-                                  ]
-                                })
-                              ],
-                              2
-                            )
-                          ])
-                        : _vm._e()
-                    ]
-                  )
-                : _vm._e()
+                  : _vm._e()
+              ])
             ])
-          ])
-        ])
+          ]
+        )
       ])
     ]),
     _vm._v(" "),
