@@ -21,7 +21,7 @@ if (imgInp) {
 var milestoneCount = 1;
 function addMilestoneRow() {
     $('#milestoneInputBlock').append(
-        '<div class="row col-md-12 mb-2" id="milstoneRow_' + milestoneCount + '"><div class="col-md-6 my-2"><input type="text" placeholder="Project Milestone" name="milestone_name[]" id="milestone_name_' + milestoneCount + '" class="form-control"></div><div class="col-md-5 my-2"><input type="number" class="form-control bidAmtItems" name="milestone_amt[]" id="milestone_amt_' + milestoneCount + '" placeholder="For" min="3" onchange="addMilestoneAmt()"></div><div class="col-md-1"><a href="javascript:void(0)" class="text-danger milestone_remove" id="' + milestoneCount + '"><i class="fa fa-times-circle"></i></a></div></div>'
+        '<div class="row col-md-12 mb-2" id="milstoneRow_' + milestoneCount + '"><div class="col-md-6 my-2"><input type="text" placeholder="Project Milestone | 프로젝트 이정표" name="milestone_name[]" id="milestone_name_' + milestoneCount + '" class="form-control"></div><div class="col-md-5 my-2"><input type="number" class="form-control bidAmtItems" name="milestone_amt[]" id="milestone_amt_' + milestoneCount + '" placeholder="For | 을위한" min="3" onchange="addMilestoneAmt()"></div><div class="col-md-1"><a href="javascript:void(0)" class="text-danger milestone_remove" id="' + milestoneCount + '"><i class="fa fa-times-circle"></i></a></div></div>'
     );
     milestoneCount++;
 }
@@ -49,13 +49,13 @@ $(document).on('click', '.milestone_remove', function () {
 function addMilestoneAmt() {
     calcSum();
     if (Number(TotalMilestoneAmt) > Number($('#bidPrice').val())) {
-        alert("You Reached Your Actual Bid Amount Kindly reduced it.");
+        alert("You Reached Your Actual Bid Amount Kindly reduced it. | 실제 입찰 금액에 도달했습니다.");
     } else {
         if (!$('#bidPrice').val() <= 0) {
             // calcSum();
             $('#milestoneError').css('display', 'none');
         } else {
-            $('#milestoneError').html("Kindly first add the Bid Amount!")
+            $('#milestoneError').html("Kindly first add the Bid Amount! | 먼저 입찰 금액을 추가하십시오!")
         }
     }
 
@@ -64,7 +64,7 @@ function addMilestoneAmt() {
 //     alert("Submitted");
 // });
 $("#search_project_skills").select2({
-    placeholder: 'You can find a list of projects registered with the expertise of the applicant / freelancer.',
+    placeholder: 'You can find a list of projects registered with the expertise of the applicant / freelancer. | 지원자/프리랜서의 전문성으로 등록된 프로젝트 목록을 확인할 수 있습니다.',
     tags: true,
     createTag: function (params) {
         return {
@@ -73,7 +73,7 @@ $("#search_project_skills").select2({
     }
 });
 $("#search_contest_skills").select2({
-    placeholder: 'You can find a list of contest registered with the expertise.',
+    placeholder: 'You can find a list of contest registered with the expertise. | 해당 전문분야에 등록된 공모전 목록을 확인할 수 있습니다.',
     tags: true,
     createTag: function (params) {
         return {
@@ -82,7 +82,7 @@ $("#search_contest_skills").select2({
     }
 });
 $("#post_project_skills").select2({
-    placeholder: 'Please Add Your Porject Skills',
+    placeholder: 'Please Add Your Project Skills | 프로젝트 기술을 추가하십시오',
     tags: true,
     createTag: function (params) {
         return {
@@ -91,7 +91,7 @@ $("#post_project_skills").select2({
     }
 });
 $("#post_contest_skills").select2({
-    placeholder: 'Please Add Your Contest Skills',
+    placeholder: 'Please Add Your Contest Skills | 대회 기술을 추가하십시오',
     tags: true,
     createTag: function (params) {
         return {
@@ -100,7 +100,7 @@ $("#post_contest_skills").select2({
     }
 });
 $("#search_freelancer_skills").select2({
-    placeholder: 'Search by Skills',
+    placeholder: 'Search by Skills | 기술로 검색',
     tags: true,
     createTag: function (params) {
         return {
@@ -110,7 +110,7 @@ $("#search_freelancer_skills").select2({
 });
 
 $(".portfolio-skills-tags").select2({
-    placeholder: 'Please Add Your Portfolio Skills',
+    placeholder: 'Please Add Your Portfolio Skills | 포트폴리오 기술을 추가하십시오',
     tags: true,
     createTag: function (params) {
         return {
@@ -120,7 +120,7 @@ $(".portfolio-skills-tags").select2({
 });
 
 $(".js-skills-tags").select2({
-    placeholder: 'Please Add Your Skills',
+    placeholder: 'Please Add Your Skills | 당신의 기술을 추가하십시오',
     tags: true,
     createTag: function (params) {
         return {

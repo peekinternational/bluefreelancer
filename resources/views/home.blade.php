@@ -2,13 +2,13 @@
 @section('content')
     <div class="bg-primary text-center py-5">
         <h1 class="text-white py-4">
-            <strong>Need Help?</strong>
-            <small class="d-block h4 font-weight-normal mt-2 mb-0">Bluefreelancer will solve it now.</small>
+            <strong>{{ __('NeedHelp') }}</strong>
+            <small class="d-block h4 font-weight-normal mt-2 mb-0">{{ __('FreelancerWillSolve') }}</small>
         </h1>
     </div>
 
     <section class="container py-5 my-3 my-md-4">
-        <h2 class="h4 font-weight-bold pb-4">Project selection by type</h2>
+        <h2 class="h4 font-weight-bold pb-4">{{ __('ProjectSelection') }}</h2>
 
         <div class="row pb-4 mb-2">
             <div class="col-sm-6 col-lg-4 col-xl-3 mb-4">
@@ -208,18 +208,15 @@
             </div>
         </div>
         <div class="col-sm-4 mx-auto">
-            <a class="btn btn-sm btn-secondary btn-block py-2" href="/browse/category">Browse Categories</a>
+            <a class="btn btn-sm btn-secondary btn-block py-2" href="/browse/category">{{ __('browseCategories') }}</a>
         </div>
     </section>
 
     <section class="container">
         <div class="bg-cover bg-positon-lc text-center rounded p-5"
             style="background-image: url({{ url('assets/img/pages/home/banner-1.jpg') }});">
-            <h3 class="h5 font-weight-bold text-white">You can check the work or the work to be performed in the project /
-                contest in real time!</h3>
-            <p class="text-white mb-0">Bluefreelancer puts your trust and safety first, and all transactions for your
-                escrow
-                funds are secured in real time with state-of-the-art SSL encryption.</p>
+            <h3 class="h5 font-weight-bold text-white">{{ __('YouCanCheckTheWork') }}</h3>
+            <p class="text-white mb-0">{{ __('OutsourcingOkPutsYourTrust') }}</p>
         </div>
     </section>
 
@@ -230,91 +227,85 @@
             </div>
 
             <div class="col-lg-6">
-                <h3 class="h4 pb-4"><strong>Secure project ㆍ Contest management</strong></h3>
+                <h3 class="h4 pb-4"><strong>{{ __('SecureProject') }}</strong></h3>
 
                 <div class="font-size-sm">
                     <p class="mb-2">
                         <i class="fa fa-hand-o-right mr-2"></i>
-                        <span>Bluefreelancer, your trust and safety are top priority.</span>
+                        <span>{{ __('OutsourcingOkYourTrust') }}</span>
                     </p>
                     <p class="mb-2">
                         <i class="fa fa-hand-o-right mr-2"></i>
-                        <span>Real-time fund management status is safeguarded by escrow.</span>
+                        <span>{{ __('RealTimeFundManagement') }}</span>
                     </p>
                     <p class="mb-2">
                         <i class="fa fa-hand-o-right mr-2"></i>
-                        <span>Freelancers can solve all your ideas right away.</span>
+                        <span>{{ __('FreelancersCanSolve') }}</span>
                     </p>
                     <p class="mb-2">
                         <i class="fa fa-hand-o-right mr-2"></i>
-                        <span>Anyone can easily register projects in all fields.</span>
+                        <span>{{ __('AnyoneCanEasilyRegister') }}</span>
                     </p>
                     <p class="mb-2">
                         <i class="fa fa-hand-o-right mr-2"></i>
-                        <span>You can get inspiration and help from many professional freelancers.</span>
+                        <span>{{ __('YouCanGetInspiration') }}</span>
                     </p>
                     <p class="mb-2">
                         <i class="fa fa-hand-o-right mr-2"></i>
-                        <span>The holding of a contest becomes one step up business.</span>
+                        <span>{{ __('TheHoldingOfContest') }}</span>
                     </p>
                     <p class="mb-2">
                         <i class="fa fa-hand-o-right mr-2"></i>
-                        <span>Freelancer will fix it immediately after registering a project or contest.</span>
+                        <span>{{ __('FreelancerWillFix') }}</span>
                     </p>
                     <p class="mb-2">
                         <i class="fa fa-hand-o-right mr-2"></i>
-                        <span>If you don't know how to register your project our</span>
-                        <a href="/about/contact">customer support</a>
-                        <span>team will help you.</span>
+                        <span>{{ __('IfYouDoNot') }}</span>
+                        <a href="/about/contact">{{ __('customerSupport') }}</a>
+                        <span>{{ __('teamWill') }}</span>
                     </p>
                     <p class="mb-2">
                         <i class="fa fa-hand-o-right mr-2"></i>
-                        <span>The showcase mall allows you to purchase and consult quickly.</span>
+                        <span>{{ __('TheShowcaseMallAllows') }}</span>
                     </p>
                     <p class="mb-2">
                         <i class="fa fa-hand-o-right mr-2"></i>
-                        <span>All this runs on a fully automated multi-platform and 1: 1 image.</span>
+                        <span>{{ _('AllThisRuns') }}</span>
                     </p>
 
                     <ul class="py-3">
-                        <li>Fixed amount or hourly selection</li>
-                        <li>Special technology, cost and schedule requirements available</li>
-                        <li>Free registration for all projects, regardless of size and amount</li>
+                        <li>{{ __('FixedAmountOr') }}</li>
+                        <li>{{ __('SpecialTechnology') }}</li>
+                        <li>{{ __('FreeRegistrationFor') }}</li>
                     </ul>
 
                     <p>
-                        By registering the details of the project and the
-                        contest, you will be able to receive a reasonable amount and complete results faster and more
-                        accurately
-                        than you would expect from a freelance client.
+                        {{ __('ByRegisteringThe') }}
                     </p>
                     <p>
-                        Projects can be registered as fixed amounts or time
-                        periods, regardless of size, and contests can be registered as partial amounts to specify the budget
-                        range and escrow that can be expended.
+                        {{ __('ProjectsCanBe') }}
                     </p>
                 </div>
 
                 <div class="pt-3">
-                    <button class="btn btn-secondary" href="/post-project">Start a Project</button>
+                    <button class="btn btn-secondary" href="/post-project">{{ __('startProject') }}</button>
                 </div>
             </div>
         </div>
     </section>
 
     <section class="container">
-        <h2 class="h4 font-weight-bold pb-4">Recently posted projects</h2>
+        <h2 class="h4 font-weight-bold pb-4">{{ __('RecentlyPosted') }}</h2>
 
         <div class="row">
             @if ($projects->count())
                 @foreach ($projects as $key => $item)
-                @php
-                    $imgName = $key.'.jpg';
-                @endphp
+                    @php
+                        $imgName = $key . '.jpg';
+                    @endphp
                     <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
                         <div class="card card-hover bg-light h-100">
-                            <img class="card-img-top" src="{{ url('assets/img/pages/projects/'.$imgName) }}"
-                                alt="">
+                            <img class="card-img-top" src="{{ url('assets/img/pages/projects/' . $imgName) }}" alt="">
                             <div class="card-body">
                                 <h5 class="card-title">
                                     <a class="stretched-link text-capitalize" href="#">{{ $item->title }}</a>
@@ -344,17 +335,17 @@
     </section>
 
     <section class="container py-5">
-        <h2 class="h4 font-weight-bold pb-4">Recently added contests</h2>
+        <h2 class="h4 font-weight-bold pb-4">{{__('RecentlyAdded')}}</h2>
 
         <div class="row">
             @if ($contests->count())
                 @foreach ($contests as $key => $item)
-                @php
-                    $imgName = $key.'.png';
-                @endphp
+                    @php
+                        $imgName = $key . '.png';
+                    @endphp
                     <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
                         <div class="card card-hover bg-light h-100">
-                            <img class="card-img-top" src="{{ url('assets/img/pages/contests/'.$imgName) }}" alt="">
+                            <img class="card-img-top" src="{{ url('assets/img/pages/contests/' . $imgName) }}" alt="">
                             <div class="card-body">
                                 <h5 class="card-title">
                                     <a class="stretched-link text-capitalize" href="#">{{ $item->title }}</a>
@@ -362,7 +353,7 @@
                                 <p class="card-text text-muted">{!! Illuminate\Support\Str::of($item->description)->limit(100) . '...' !!}</p>
                             </div>
                             <div class="card-footer text-warning-alt">
-                                <span>{{$item->currency == 'USD' ? '$' : '₩'}}{{ $item->budget }}</span>
+                                <span>{{ $item->currency == 'USD' ? '$' : '₩' }}{{ $item->budget }}</span>
                                 <span>{{ $item->created_at->diffForHumans() }}</span>
                             </div>
                         </div>

@@ -11,21 +11,21 @@
                     <a href="{{ route('login') }}"
                         class="nav-link font-size-sm text-white bg-secondary rounded-sm py-2 px-3">
                         <i class="fa fa-lock mr-2" aria-hidden="true"></i>
-                        Login
+                        {{ __('login') }}
                     </a>
                 </li>
                 <li class="nav-item d-none d-lg-block mr-lg-3">
                     <a href="{{ route('register') }}"
                         class="nav-link font-size-sm text-white bg-dark rounded-sm py-2 px-3">
                         <i class="fa fa-key mr-2" aria-hidden="true"></i>
-                        Signup
+                        {{ __('signup') }}
                     </a>
                 </li>
                 <li class="nav-item d-none d-lg-block">
                     <a href="{{ url('/login') }}"
                         class="nav-link font-size-sm text-white bg-primary rounded-sm py-2 px-3">
                         <i class="fa fa-file mr-2" aria-hidden="true"></i>
-                        Post Project
+                        {{ __('postAProject') }}
                     </a>
                 </li>
             </ul>

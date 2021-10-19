@@ -13,34 +13,34 @@
                         <li class="nav-item dropdown dropdown-hover">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-user mr-1" aria-hidden="true"></i>
-                                Client
+                                {{ __('client') }}
                             </a>
 
                             <div class="dropdown-menu py-4">
                                 <div
                                     class="font-size-sm font-weight-bold text-center text-success-alt text-uppercase pt-1 pb-2">
                                     <i class="fa fa-search mr-2"></i>
-                                    Find a freelancer
+                                    {{ __('findFreelancer') }}
                                 </div>
 
                                 <a href="{{ route('post-project') }}"
                                     class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-tasks mr-2"></i>
-                                    Start a Project
+                                    {{ __('startProject') }}
                                 </a>
                                 <a href="{{ route('post-contest') }}"
                                     class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-hourglass-start mr-2"></i>
-                                    Start a Contest
+                                    {{ __('startContest') }}
                                 </a>
                                 <a href="{{ route('showcase.index') }}"
                                     class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-picture-o mr-2"></i>
-                                    Showcase
+                                    {{ __('showcase') }}
                                 </a>
                                 <a href="/browse/directory" class="dropdown-item">
                                     <i class="fa fa-mouse-pointer mr-2"></i>
-                                    Browse a Directory
+                                    {{ __('browseDirectory') }}
                                 </a>
                             </div>
                         </li>
@@ -48,34 +48,34 @@
                         <li class="nav-item dropdown dropdown-hover">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-handshake-o mr-1" aria-hidden="true"></i>
-                                Helper
+                                {{ __('helper') }}
                             </a>
 
                             <div class="dropdown-menu py-4">
                                 <div
                                     class="font-size-sm font-weight-bold text-center text-success-alt text-uppercase pt-1 pb-2">
                                     <i class="fa fa-search-plus mr-2"></i>
-                                    Find work
+                                    {{ __('findWork') }}
                                 </div>
 
                                 <a href="{{ route('project-listing') }}"
                                     class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-tasks mr-2"></i>
-                                    Browse Project
+                                    {{ __('browseProject') }}
                                 </a>
                                 <a href="{{ route('contest-listing') }}"
                                     class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-hourglass-start mr-2"></i>
-                                    Browse Contest
+                                    {{ __('browseContest') }}
                                 </a>
                                 <a href="{{ route('showcase.index') }}"
                                     class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-picture-o mr-2"></i>
-                                    Showcase
+                                    {{ __('showcase') }}
                                 </a>
                                 <a href="/browse/category" class="dropdown-item">
                                     <i class="fa fa-mouse-pointer mr-2"></i>
-                                    Browse a Category
+                                    {{ __('browseCategories') }}
                                 </a>
                             </div>
                         </li>
@@ -83,28 +83,28 @@
                         <li class="nav-item dropdown dropdown-hover">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-tasks mr-1" aria-hidden="true"></i>
-                                My Projects
+                                {{ __('myProject') }}
                             </a>
 
                             <div class="dropdown-menu py-4">
                                 <div
                                     class="font-size-sm font-weight-bold text-center text-success-alt text-uppercase pt-1 pb-2">
                                     <i class="fa fa-user-circle-o mr-2"></i>
-                                    Manage
+                                    {{ __('manage') }}
                                 </div>
 
                                 <a href="{{ route('my-project.employer.open-projects') }}"
                                     class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-tasks mr-2"></i>
-                                    My Project
+                                    {{ __('myProject') }}
                                 </a>
                                 <a href="/dashboard" class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-th-large mr-2"></i>
-                                    Dashboard
+                                    {{ __('dashboard') }}
                                 </a>
                                 <a href="{{ route('inbox') }}" target="_blank" class="dropdown-item">
                                     <i class="fa fa-envelope mr-2"></i>
-                                    Inbox
+                                    {{ __('inbox') }}
                                 </a>
                             </div>
                         </li>
@@ -112,27 +112,27 @@
                         <li class="nav-item dropdown dropdown-hover">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-life-bouy mr-1" aria-hidden="true"></i>
-                                Get Support
+                                {{ __('getSupport') }}
                             </a>
 
                             <div class="dropdown-menu py-4">
                                 <div
                                     class="font-size-sm font-weight-bold text-center text-success-alt text-uppercase pt-1 pb-2">
                                     <i class="fa fa-life-bouy mr-2"></i>
-                                    Get help
+                                    {{ __('getHelp') }}
                                 </div>
 
                                 <a href="/support" class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-tasks mr-2"></i>
-                                    Get Support
+                                    {{ __('getSupport') }}
                                 </a>
                                 <a href="/how-to-use" class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-th-large mr-2"></i>
-                                    How to Use
+                                    {{ __('howToUse') }}
                                 </a>
                                 <a href="/fee-and-charge" class="dropdown-item">
                                     <i class="fa fa-envelope mr-2"></i>
-                                    Fees and Charges
+                                    {{ __('feesAndCharges') }}
                                 </a>
                             </div>
                         </li>
@@ -149,7 +149,7 @@
                                 <div
                                     class="font-size-sm font-weight-bold text-center text-success-alt text-uppercase pt-1 pb-2">
                                     <i class="fa fa-money mr-2"></i>
-                                    Balance
+                                    {{__('balance')}}
                                 </div>
 
                                 <div class="font-size-sm font-weight-medium text-white-75 text-uppercase py-1 px-4">
@@ -165,29 +165,29 @@
                                 <div
                                     class="font-size-sm font-weight-bold text-center text-success-alt text-uppercase py-2">
                                     <i class="fa fa-sliders mr-2"></i>
-                                    Manage
+                                    {{__('manage')}}
                                 </div>
 
                                 <a href="./deposit-funds.html" class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-credit-card mr-2"></i>
-                                    Deposit Funds
+                                    {{__('deposit')}}
                                 </a>
                                 <a href="#withdrawMoney" class="dropdown-item border-bottom border-light"
                                     data-toggle="modal">
                                     <i class="fa fa-repeat mr-2"></i>
-                                    Withdraw Money
+                                    {{__('withdraw')}}
                                 </a>
                                 <a href="./financial-dashboard.html" class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-th-large mr-2"></i>
-                                    Financial Dashboard
+                                    {{__('financialDashboard')}}
                                 </a>
                                 <a href="./transaction-history.html" class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-clock-o mr-2"></i>
-                                    Transaction History
+                                    {{__('transcation')}}
                                 </a>
                                 <a href="./verify-payment.html" class="dropdown-item">
                                     <i class="fa fa-shield mr-2"></i>
-                                    Verify Payment Method
+                                    {{__('verifyPayment')}}
                                 </a>
                             </div>
                         </li>
@@ -217,7 +217,7 @@
                                 <div
                                     class="font-size-sm font-weight-bold text-center text-success-alt text-uppercase pt-1 pb-3">
                                     <i class="fa fa-bell-o mr-2"></i>
-                                    Notifications
+                                    {{__('notification')}}
                                 </div>
 
                                 <div class="overflow-auto" style="height: 15rem;">
@@ -236,7 +236,7 @@
                                             @endif
                                         @endforeach
                                     @else
-                                        <span>No Notify Available!</span>
+                                        <span>{{__('noNotification')}}</span>
                                     @endif
 
                                 </div>
@@ -252,7 +252,7 @@
                                 <div
                                     class="font-size-sm font-weight-bold text-center text-success-alt text-uppercase pt-1 pb-3">
                                     <i class="fa fa-rss mr-2"></i>
-                                    Project Feeds
+                                    {{__('projectFeed')}}
                                 </div>
 
                                 <div class="overflow-auto" style="height: 15rem;">
@@ -266,7 +266,7 @@
                                             </a>
                                         @endforeach
                                     @else
-                                        <span class="text-danger">Ops! 404 not found.</span>
+                                        <span class="text-danger">{{__('noProjectFeed')}}</span>
                                     @endif
                                 </div>
                             </div>
@@ -291,19 +291,19 @@
 
                         <a href="{{ route('profile') }}" class="dropdown-item border-top border-light">
                             <i class="fa fa-user mr-2"></i>
-                            Profile
+                            {{__('profile')}}
                         </a>
                         <a href="{{ route('/setting/profile') }}" class="dropdown-item border-top border-light">
                             <i class="fa fa-gear mr-2"></i>
-                            Settings
+                            {{__('setting')}}
                         </a>
                         <a href="./support.html" class="dropdown-item border-top border-light">
                             <i class="fa fa-info-circle mr-2"></i>
-                            Get Support
+                            {{__('getSupport')}}
                         </a>
                         <a href="{{ route('logout') }}" class="dropdown-item border-top border-light">
                             <i class="fa fa-sign-out mr-2"></i>
-                            Logout
+                            {{__('logout')}}
                         </a>
                     </div>
                 </div>

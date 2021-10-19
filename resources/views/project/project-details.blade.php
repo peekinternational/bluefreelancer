@@ -4,14 +4,15 @@
     <div class="bg-secondary py-4">
         <div class="container pt-2 pb-3">
             <div class="d-flex flex-column flex-md-row align-items-center">
-                <a href="/project-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
-                    Projects</a>
-                <a href="/contest-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
-                    Contests</a>
-                <a href="/browse/category" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
-                    Categories</a>
-                <a href="/showcases" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
-                <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
+                <a href="/project-listing"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">{{ __('browseProject') }}</a>
+                <a href="/contest-listing"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('browseContest') }}</a>
+                <a href="/browse/category"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('browseCategories') }}</a>
+                <a href="/showcases"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('showcase') }}</a>
+                <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">{{ __('startContest') }}</a>
             </div>
         </div>
     </div>
@@ -19,7 +20,7 @@
     <!-- Title -->
     <div class="bg-secondary text-center bg-cover py-5"
         style="background-image: url({{ url('assets/img/dashboard/banner-1.jpg') }});">
-        <h1 class="h5 font-weight-bold text-white">Project Details</h1>
+        <h1 class="h5 font-weight-bold text-white">{{ __('ProjectDetails') }}</h1>
     </div>
 
     <section class="container pt-5 mt-3 mt-md-4">
@@ -30,13 +31,13 @@
                 <div class="col-md-10 col-lg-8 col-xl-7 bg-light rounded-lg">
                     <div class="d-md-flex">
                         <div class="text-center px-3 pt-4 pb-3">
-                            <div class="h5 font-weight-bold mb-3">Applicants</div>
+                            <div class="h5 font-weight-bold mb-3">{{ __('Applicants') }}</div>
                             <div class="h5 font-weight-bold text-primary mb-3">
                                 {{ App\Models\Bid::getBids($project->project_id)->count() }}</div>
                         </div>
 
                         <div class="text-center px-3 pt-4 pb-3">
-                            <div class="h5 font-weight-bold mb-3">Average Bid Amount</div>
+                            <div class="h5 font-weight-bold mb-3">{{ __('bidamount') }}</div>
                             <div class="h5 font-weight-bold text-primary mb-3">
                                 {{ $project->currency == 'USD' ? '$' : '₩' }}
                                 {{ App\Models\Bid::getBidAvgAmt($project->project_id) ? App\Models\Bid::getBidAvgAmt($project->project_id) : '0' }}
@@ -44,7 +45,7 @@
                         </div>
 
                         <div class="text-center px-3 pt-4 pb-3">
-                            <div class="h5 font-weight-bold mb-3">Project Budget</div>
+                            <div class="h5 font-weight-bold mb-3">{{ __('ProjectBudget') }}</div>
                             <div class="h5 font-weight-bold text-primary mb-3">
                                 @if ($project->min_budget && $project->max_budget)
                                     {{ $project->currency == 'USD' ? '$' : '₩' }} {{ $project->min_budget }} -
@@ -53,7 +54,7 @@
                                     @if ($project->rate_status == '1')
                                         {{ $project->fixed_rate }}
                                     @else
-                                        {{ $project->hourly_rate . '/Hourly' }}
+                                        {{ $project->hourly_rate . '/' . __('hourly') }}
                                     @endif
                                 @endif
                             </div>
@@ -67,11 +68,11 @@
                             <div class="h6 font-weight-bold text-info-alt mb-0">
                                 {{ $project->created_at->addDays(15)->format('M d, Y') }}
                                 <br>
-                                Open
+                                {{ __('Open') }}
                             </div>
                         @elseif($project->status == 2)
                             <div class="h5 font-weight-bold text-success-alt mb-0">
-                                Awarded
+                                {{ __('Awarded') }}
                             </div>
                         @endif
                     </div>
@@ -89,10 +90,10 @@
                         <input type="hidden" value="{{ $project->project_id }}" name="project_id">
                         <div class="row">
                             <div class="col-lg-6 mb-3">
-                                <h5 class="card-title mb-3">Bid:</h5>
+                                <h5 class="card-title mb-3">{{ __('BID') }}:</h5>
 
                                 <div class="row mb-2">
-                                    <label class="col-md-6" for="bidPrice">Paid to you:</label>
+                                    <label class="col-md-6" for="bidPrice">{{ __('Paidtoyour') }}:</label>
 
                                     <div class="col-md-6">
                                         <div class="input-group">
@@ -111,7 +112,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <label class="col-md-6" for="bidPrice">Your Bid:</label>
+                                    <label class="col-md-6" for="bidPrice">{{ __('YourBid') }}:</label>
                                     <div class="col-md-6">
                                         <div class="input-group align-items-center">
                                             <div class="input-group-prepend">
@@ -124,10 +125,11 @@
                                 </div>
 
                                 <div class="row">
-                                    <label class="col-md-6" for="proposal">Proposal:</label>
+                                    <label class="col-md-6" for="proposal">{{ __('ProposalTab') }}:</label>
                                     <div class="col-md-6 input-group">
                                         <textarea class="form-control" name="proposal" id="proposal" cols="30" rows="10"
-                                            placeholder="Write You Project Proposal Description" required value="{{ old('proposal') }}"></textarea>
+                                            placeholder="{{ __('ProposalDescription') }}" required
+                                            value="{{ old('proposal') }}"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -135,13 +137,13 @@
                             <div class="col-lg-6 mb-3">
                                 <div class="row justify-content-between mb-2">
                                     <div class="col-md-6">
-                                        <h5 class="card-title mb-3">Deliver In:</h5>
+                                        <h5 class="card-title mb-3">{{ __('Deliverin') }}:</h5>
 
                                         <div class="input-group mb-3">
                                             <input type="number" class="form-control" placeholder="3" name="days" required
                                                 value="{{ old('days') }}">
                                             <div class="input-group-append">
-                                                <div class="input-group-text">Days</div>
+                                                <div class="input-group-text">{{__('days')}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -159,14 +161,14 @@
                                 </div>
                                 <div class="row justify-content-between mb-2">
                                     <div class="col-md-6">
-                                        <h5 class="card-title mb-3">Milstone:
+                                        <h5 class="card-title mb-3">{{ __('ProjectMilestone') }}:
                                             <a href="javascript:void(0)" onclick="addMilestoneRow()"><i
                                                     class="fa fa-plus-circle"></i></a>
                                         </h5>
                                     </div>
                                 </div>
                                 <div class="row container">
-                                    <h6>Total Milestone Amount:
+                                    <h6>{{ __('TotalMilestoneAmount') }}:
                                         {{ $project->currency == 'USD' ? '$' : '₩' }}
                                         <b><span id="milestoneAmt"></span></b>
                                     </h6>
@@ -177,8 +179,8 @@
                                 <div class="row justify-content-between mb-2" id="milestoneInputBlock">
                                     <div class="row col-md-12 mb-2">
                                         <div class="col-md-6">
-                                            <input type="text" placeholder="Project Milestone" name="milestone_name[]" id=""
-                                                class="form-control">
+                                            <input type="text" placeholder="{{ __('ProjectMil') }}"
+                                                name="milestone_name[]" id="" class="form-control">
                                         </div>
                                         <div class="col-md-5">
                                             <input type="number" class="form-control bidAmtItems" name="milestone_amt[]"
@@ -190,7 +192,7 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="submit" class="btn btn-primary btn-block w-md-auto" value="Place Bid">
+                        <input type="submit" class="btn btn-primary btn-block w-md-auto" value="{{ __('PlaceaBid') }}">
                     </form>
                 </div>
             </div>
@@ -201,24 +203,22 @@
                 <div class="card card-bordered card-body rounded-xl mb-4">
                     <div class="row">
                         <div class="col-md-8">
-                            <h5 class="font-weight-bold mb-3">Description</h5>
+                            <h5 class="font-weight-bold mb-3">{{ __('Description') }}</h5>
                             <div class="pt-1 mb-3">
                                 <p class="mb-4">
                                     {!! $project->description !!}
                                 </p>
-                                <span class="badge bg-success-alt text-white">Featured</span>
+                                <span class="badge bg-success-alt text-white">{{ __('featured') }}</span>
                             </div>
                         </div>
 
                         <div class="col-md-4 text-md-right">
                             @if ($project->user_id != auth()->id())
                                 @if (App\Models\Bid::isBidAvailable(auth()->id(), $project->project_id))
-                                    <button class="btn btn-info btn-sm mb-2 disabled">Already Bid on this Project</button>
+                                    <button class="btn btn-info btn-sm mb-2 disabled">{{ __('AlreadyBid') }}</button>
                                 @else
                                     <button class="btn btn-primary mb-2" data-toggle="collapse"
-                                        data-target="#collapseBid">Bid
-                                        on
-                                        This Project</button>
+                                        data-target="#collapseBid">{{ __('BidThisProject') }}</button>
                                 @endif
                             @endif
                         </div>
@@ -226,7 +226,7 @@
 
                     <hr class="mb-4">
 
-                    <h5 class="font-weight-bold mb-3">Skills Required</h5>
+                    <h5 class="font-weight-bold mb-3">{{ __('Skillsrequired') }}</h5>
 
                     <div class="pt-1">
                         <ul class="list-inline">
@@ -238,13 +238,13 @@
                                     </li>
                                 @endforeach
                             @else
-                                <li><span class="text-danger">No Skills Found!.</span></li>
+                                <li><span class="text-danger">{{ __('notFound') }}</span></li>
                             @endif
                         </ul>
                     </div>
                     @if ($project->image)
                         <hr class="mb-4">
-                        <h5 class="font-weight-bold mb-3">File Attached</h5>
+                        <h5 class="font-weight-bold mb-3">{{ __('Fileattached') }}</h5>
                         <div class="pt-1">
                             <a href="{{ url('uploads/project/images/' . $project->image) }}">{{ $project->image }}</a>
                         </div>
@@ -252,14 +252,14 @@
                     <hr class="my-4">
                     <div class="row">
                         <div class="col-md-6">
-                            <a href="{{ route('post-project') }}" class="btn btn-secondary mb-3">Post a Project Like
-                                This</a>
+                            <a href="{{ route('post-project') }}"
+                                class="btn btn-secondary mb-3">{{ __('PostProjectlikethis') }}</a>
                         </div>
 
                         <div class="col-md-6 text-md-right">
-                            <h6 class="font-weight-bold mb-3">Project ID: {{ $project->project_id }}</h6>
+                            <h6 class="font-weight-bold mb-3">{{ __('ProjectID') }}: {{ $project->project_id }}</h6>
                             <div class="pt-1">
-                                <a href="#" class="text-danger">Report Project</a>
+                                <a href="#" class="text-danger">{{ __('ReportProject') }}</a>
                             </div>
                         </div>
                     </div>
@@ -269,7 +269,7 @@
             <div class="col-lg-4">
                 <div class="card card-bordered rounded-xl mb-4">
                     <div class="card-header text-center">
-                        <h5 class="font-weight-bold">Client Information</h5>
+                        <h5 class="font-weight-bold">{{ __('ClientInformation') }}</h5>
                     </div>
 
                     <div class="media p-4">
@@ -280,7 +280,7 @@
                         <div class="media-body ml-3">
                             <h6 class="card-title mt-3 mb-2">{{ $project->user->username }}</h6>
                             <div class="card-text mb-3">
-                                <strong class="text-dark">Member Since:</strong>
+                                <strong class="text-dark">{{ __('MemberSince') }}</strong>
                                 {{ $project->user->created_at->format('Y') }}
                             </div>
                             <div class="pb-3 mb-1">
@@ -324,8 +324,7 @@
 
                 <p class="font-size-sm font-weight-bold text-danger">
                     <i class="fa fa-warning mr-2"></i>
-                    Freelancers who apply for the project may be subject to sanctions if they post direct transactions by
-                    posting e-mails, wire / wireless numbers, etc.
+                    {{ __('SubjecttoSanctions') }}
                 </p>
             </div>
         </div>
@@ -334,21 +333,21 @@
     <section class="container pb-5 mb-3 mb-md-4">
         <div class="card mb-4">
             <div class="card-header bg-gray-800 border-dark">
-                <div class="font-weight-bold text-white d-md-none">Project Awarded</div>
+                <div class="font-weight-bold text-white d-md-none">{{ __('ProjectAward') }}</div>
 
                 <div class="row">
                     <div class="col-md-6 d-none d-md-block">
-                        <div class="font-weight-bold text-white">Project selection by type
+                        <div class="font-weight-bold text-white">{{ __('ProjectSelection') }}
                             {{-- ({{ $bidsSeleProjCount }}) --}}
                         </div>
                     </div>
 
                     <div class="col-md-3 d-none d-md-block">
-                        <div class="font-weight-bold text-white">Reputation</div>
+                        <div class="font-weight-bold text-white">{{ __('Reputation') }}</div>
                     </div>
 
                     <div class="col-md-3 d-none d-md-block text-md-center">
-                        <div class="font-weight-bold text-white">Support / bid amount</div>
+                        <div class="font-weight-bold text-white">{{ __('Supportbidamount') }}</div>
                     </div>
                 </div>
             </div>
@@ -398,19 +397,19 @@
                                             <ul class="list-inline" id="proposalOptionRow">
                                                 <li class="list-inline-item">
                                                     <button type="submit" class="btn btn-sm btn-success mx-2"
-                                                        id="proposalAppBtn">Approve</button>
+                                                        id="proposalAppBtn">{{ __('Approve') }}</button>
                                                 </li>
                                                 <li class="list-inline-item">
                                                     <button type="submit" class="btn btn-sm btn-danger mx-2"
-                                                        id="proposalRejBtn">Reject</button>
+                                                        id="proposalRejBtn">{{ __('Reject') }}</button>
                                                 </li>
                                             </ul>
                                         @elseif($item->status == 3)
-                                            <button class="btn btn-sm btn-info mx-2 disabled">You Approved
-                                                it!</button>
+                                            <button
+                                                class="btn btn-sm btn-info mx-2 disabled">{{ __('UApprovedIt') }}</button>
                                         @elseif($item->status == 0)
-                                            <button class="btn btn-sm btn-danger mx-2 disabled">You Rejected
-                                                it!</button>
+                                            <button
+                                                class="btn btn-sm btn-danger mx-2 disabled">{{ __('URejectedIt') }}</button>
                                         @endif
                                     @endif
                                 </div>
@@ -422,16 +421,16 @@
                                     <h5><strong>Milestones:</strong></h5>
                                     <div class="row">
                                         <div class="col-md-4">
-                                            <h6><strong>Name</strong></h6>
+                                            <h6><strong>{{ __('fileName') }}</strong></h6>
                                         </div>
                                         <div class="col-md-2">
-                                            <h6><strong>Amount</strong></h6>
+                                            <h6><strong>{{ __('Amount') }}</strong></h6>
                                         </div>
                                         <div class="col-md-2">
-                                            <h6><strong>Status</strong></h6>
+                                            <h6><strong>{{ __('Status') }}</strong></h6>
                                         </div>
                                         <div class="col-md-4">
-                                            <h6><strong>Actions</strong></h6>
+                                            <h6><strong>{{ __('Action') }}</strong></h6>
                                         </div>
                                     </div>
                                     @foreach ($item->milestones as $milestone)
@@ -445,11 +444,11 @@
                                             <div class="col-md-2">
                                                 <span>
                                                     @if ($milestone->status == 1)
-                                                        Requested
+                                                        {{ __('RequestRelease') }}
                                                     @elseif($milestone->status == 2)
-                                                        Deposit
+                                                        {{ __('Deposit') }}
                                                     @elseif($milestone->status == 3)
-                                                        Rejected By Project Owner
+                                                        {{ __('RejectedByProjectOwner') }}
                                                     @endif
                                                 </span>
                                             </div>
@@ -457,12 +456,14 @@
                                                 <form action="{{ route('milestone.destory', $milestone->id) }}"
                                                     method="post">
                                                     @csrf
-                                                    <input type="submit" value="Cancel" class="btn btn-dark mx-2"
+                                                    <input type="submit" value="{{ __('Cancel') }}"
+                                                        class="btn btn-dark mx-2"
                                                         onclick="return confirm('Are you sure you want to cancel this milestone?')">
                                                 </form>
                                                 @if ($milestone->status == 2)
                                                     <form action="#">
-                                                        <input type="submit" value="Dispute" class="btn btn-danger mx-2">
+                                                        <input type="submit" value="{{ __('Dispute') }}"
+                                                            class="btn btn-danger mx-2">
                                                     </form>
                                                 @endif
 
@@ -472,32 +473,32 @@
                                     @endforeach
                                 @endif
                             @else
-                                <span class="text-danger">Ops! no milestone found...</span>
+                                <span class="text-danger">{{ __('notFound') }}</span>
                             @endif
                             {{-- </div> --}}
                         @endif
                     @endforeach
                 @else
-                    <span class="text-danger">Ops 404 not Found!</span>
+                    <span class="text-danger">{{ __('notFound') }}</span>
                 @endif
             </div>
         </div>
         <div class="card mb-4">
             <div class="card-header bg-gray-800 border-dark">
-                <div class="font-weight-bold text-white d-md-none">Bids on This Project</div>
+                <div class="font-weight-bold text-white d-md-none">{{ __('BidThisProject') }}</div>
 
                 <div class="row">
                     <div class="col-md-6 d-none d-md-block">
-                        <div class="font-weight-bold text-white">Bid on This Project ({{ $bidsOnProjCount }})
+                        <div class="font-weight-bold text-white">{{ __('BidThisProject') }} ({{ $bidsOnProjCount }})
                         </div>
                     </div>
 
                     <div class="col-md-3 d-none d-md-block">
-                        <div class="font-weight-bold text-white">Reputation</div>
+                        <div class="font-weight-bold text-white">{{ __('Reputation') }}</div>
                     </div>
 
                     <div class="col-md-3 d-none d-md-block text-md-center">
-                        <div class="font-weight-bold text-white">Support / bid amount</div>
+                        <div class="font-weight-bold text-white">{{ __('Supportbidamount') }}</div>
                     </div>
                 </div>
             </div>
@@ -516,7 +517,8 @@
                                             <h6 class="font-weight-bold mb-1">
                                                 <a href="#">{{ $item->user->username }}</a>
                                             </h6>
-                                            <p class="font-size-ms mb-0">{{ $item->user->created_at->format('M d, Y') }}
+                                            <p class="font-size-ms mb-0">
+                                                {{ $item->user->created_at->format('M d, Y') }}
                                             </p>
                                         </div>
                                     </div>
@@ -540,17 +542,17 @@
                                 <div class="col-md-3 text-md-center">
                                     <h6 class="font-weight-bold">{{ $project->currency == 'USD' ? '$' : '₩' }}
                                         {{ $item->budget }}</h6>
-                                    <p class="font-size-ms mb-0">{{ $item->day }} Days</p>
+                                    <p class="font-size-ms mb-0">{{ $item->day }} {{ __('days') }}</p>
                                     @if ($item->user->id === auth()->id())
                                         <ul class="list-inline">
                                             <li class="list-inline-item"><a href="{{ route('bid.show', $item->id) }}"
-                                                    class="btn btn-sm btn-info mx-2">Edit</a></li>
+                                                    class="btn btn-sm btn-info mx-2">{{ __('Edit') }}</a></li>
                                             <li class="list-inline-item">
                                                 <form action="{{ route('bid.destory', $item->id) }}" method="post">
                                                     @method('DELETE')
                                                     @csrf
                                                     <button onclick="return confirm('Are you Sure?')" type="submit"
-                                                        class="btn btn-sm btn-danger mx-2">Delete</button>
+                                                        class="btn btn-sm btn-danger mx-2">{{ __('Delete') }}</button>
                                                 </form>
                                             </li>
                                         </ul>
@@ -561,7 +563,7 @@
                     @endforeach
                 @else
                     <div class="row">
-                        <span class="text-danger">Ops 404 not Found!</span>
+                        <span class="text-danger">{{ __('notFound') }}</span>
                     </div>
                 @endif
             </div>

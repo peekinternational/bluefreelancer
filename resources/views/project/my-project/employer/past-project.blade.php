@@ -1,40 +1,43 @@
 @extends('layouts.app')
 @section('content')
-<div class="bg-secondary py-4">
-    <div class="container pt-2 pb-3">
-        <div class="d-flex flex-column flex-md-row align-items-center">
-            <a href="/project-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
-                Projects</a>
-            <a href="/contest-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
-                Contests</a>
-            <a href="/browse/category" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
-                Categories</a>
-            <a href="/showcases" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
-            <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
+    <div class="bg-secondary py-4">
+        <div class="container pt-2 pb-3">
+            <div class="d-flex flex-column flex-md-row align-items-center">
+                <a href="/project-listing"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">{{ __('browseProject') }}</a>
+                <a href="/contest-listing"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('browseContest') }}</a>
+                <a href="/browse/category"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('browseCategories') }}</a>
+                <a href="/showcases"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('showcase') }}</a>
+                <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">{{ __('startContest') }}</a>
+            </div>
         </div>
     </div>
-</div>
 
     <!-- Title -->
     <div class="bg-secondary text-center bg-cover py-5"
         style="background-image: url({{ url('assets/img/dashboard/banner-1.jpg') }});">
-        <h1 class="h5 font-weight-bold text-white">My Project &amp; Contest</h1>
+        <h1 class="h5 font-weight-bold text-white">{{ __('MyProjectContest') }}</h1>
     </div>
 
     <section class="container py-5 mt-3 mt-md-4">
         <div class="row align-items-center justify-content-between">
             <div class="col-md-6">
-                <h2 class="h5 font-weight-bold mb-3">My Project ㆍ Contest</h2>
+                <h2 class="h5 font-weight-bold mb-3">{{ __('MyProjectContest') }}</h2>
             </div>
 
             <div class="col-md-6 d-flex justify-content-end">
                 <ul class="nav nav-pills nav-pills-dark border border-secondary rounded-pill mb-3" id="pills-tab"
                     role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link rounded-pill active" href="{{ route('my-project.employer.open-projects') }}">Employeer</a>
+                        <a class="nav-link rounded-pill active"
+                            href="{{ route('my-project.employer.open-projects') }}">{{ __('Employer') }}</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link rounded-pill " href="{{ route('my-project.freelancer.open-projects') }}">Freelancer</a>
+                        <a class="nav-link rounded-pill "
+                            href="{{ route('my-project.freelancer.open-projects') }}">{{ __('FreeLancer') }}</a>
                     </li>
                 </ul>
             </div>
@@ -50,15 +53,15 @@
                         <div class="nav nav-pills nav-pills-light nav-fill flex-column flex-md-row mb-md-n2" id="nav-tab"
                             role="tablist">
                             <a class="nav-link py-2 " id="nav-open-tab"
-                                href="{{ route('my-project.employer.open-projects') }}">Open</a>
+                                href="{{ route('my-project.employer.open-projects') }}">{{ __('Opentab') }}</a>
                             <a class="nav-link py-2" id="nav-work-tab"
-                                href="{{ route('my-project.employer.work-projects') }}">Work</a>
-                            <a class="nav-link py-2 active" id="nav-past-project-tab" href="#nav-past-project">Past
-                                Project</a>
+                                href="{{ route('my-project.employer.work-projects') }}">{{ __('WorkProgess') }}</a>
+                            <a class="nav-link py-2 active" id="nav-past-project-tab"
+                                href="#nav-past-project">{{ __('PastProject') }}</a>
                             <a class="nav-link py-2" id="nav-active-contest-tab"
-                                href="{{ route('my-project.employer.open-contests') }}">Open Contest</a>
+                                href="{{ route('my-project.employer.open-contests') }}">{{ __('OpenContests') }}</a>
                             <a class="nav-link py-2" id="nav-past-contest-tab"
-                                href="{{ route('my-project.employer.awarded-contests') }}">Awarded Contest</a>
+                                href="{{ route('my-project.employer.awarded-contests') }}">{{ __('PrizesAwarded') }}</a>
                         </div>
                     </div>
                 </div>
@@ -78,10 +81,10 @@
                     <div class="col-md-4 col-lg-2">
                         <div class="input-group">
                             <select class="custom-select">
-                                <option value="1">1 Items</option>
-                                <option value="10">10 Items</option>
-                                <option value="25">25 Items</option>
-                                <option value="50">50 Items</option>
+                                <option value="1">1 Items | 아이템</option>
+                                <option value="10">10 Items | 아이템</option>
+                                <option value="25">25 Items | 아이템</option>
+                                <option value="50">50 Items | 아이템</option>
                             </select>
                             <div class="input-group-append">
                                 <button class="btn btn-secondary">
@@ -100,13 +103,13 @@
                             <table class="table font-size-sm">
                                 <thead class="thead-dark">
                                     <tr>
-                                        <th class="text-nowrap" scope="col">PROJECT NAME</th>
-                                        <th class="text-nowrap" scope="col">BIDS</th>
-                                        <th class="text-nowrap" scope="col">APPLICANTS</th>
-                                        <th class="text-nowrap" scope="col">AWARDED BIDS</th>
-                                        <th class="text-nowrap" scope="col">TIME</th>
-                                        <th class="text-nowrap" scope="col">STATUS</th>
-                                        <th class="text-nowrap" scope="col">ACTION</th>
+                                        <th class="text-nowrap" scope="col">{{ __('PROJECTName') }}</th>
+                                        <th class="text-nowrap" scope="col">{{ __('BID') }}</th>
+                                        <th class="text-nowrap" scope="col">{{ __('FREELANCE') }}</th>
+                                        <th class="text-nowrap" scope="col">{{ __('AWARDEDBIDS') }}</th>
+                                        <th class="text-nowrap" scope="col">{{ __('TIME') }}</th>
+                                        <th class="text-nowrap" scope="col">{{ __('STATUS') }}</th>
+                                        <th class="text-nowrap" scope="col">{{ __('ACTION') }}</th>
                                     </tr>
                                 </thead>
 
@@ -114,8 +117,7 @@
 
                                 <caption>
                                     <button class="btn btn-light btn-block">
-                                        You have not bid on any project please click <a href="#">Browse Projects</a> to view
-                                        all posted projects.
+                                        {{ __('pastCaption') }}
                                     </button>
                                 </caption>
                             </table>

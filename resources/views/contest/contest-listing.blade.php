@@ -4,14 +4,15 @@
     <div class="bg-secondary py-4">
         <div class="container pt-2 pb-3">
             <div class="d-flex flex-column flex-md-row align-items-center">
-                <a href="/project-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
-                    Projects</a>
-                <a href="/contest-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
-                    Contests</a>
-                <a href="/browse/category" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
-                    Categories</a>
-                <a href="/showcases" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
-                <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
+                <a href="/project-listing"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">{{ __('browseProject') }}</a>
+                <a href="/contest-listing"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('browseContest') }}</a>
+                <a href="/browse/category"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('browseCategories') }}</a>
+                <a href="/showcases"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('showcase') }}</a>
+                <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">{{ __('startContest') }}</a>
             </div>
         </div>
     </div>
@@ -19,13 +20,13 @@
     <!-- Title -->
     <div class="bg-secondary text-center bg-cover py-5"
         style="background-image: url({{ url('assets/img/dashboard/banner-1.jpg') }});">
-        <h1 class="h5 font-weight-bold text-white">Contests List</h1>
+        <h1 class="h5 font-weight-bold text-white">{{ __('contestList') }}</h1>
     </div>
 
     <section class="container py-5">
         <div class="card card-bordered rounded-xl mb-4">
             <div class="card-header py-4">
-                <h2 class="h5 font-weight-bold mb-0">Recently Completed Contests</h2>
+                <h2 class="h5 font-weight-bold mb-0">{{ __('RecentlyCompletedContests') }}</h2>
             </div>
             <div class="card-body">
                 <div class="row">
@@ -35,12 +36,11 @@
                                 <div class="card border-0 shadow rounded-xl overlay-hidden">
                                     <img src="{{ url('uploads/contest/entry/' . $item->contestEntryCompleted->file) }}"
                                         alt="Contest thumbnail" height="200" class="card-img-top">
-                                    <a href="{{ route('post-contest') }}" class="btn btn-primary btn-sm rounded-0">Post
-                                        Contest Like
-                                        This</a>
+                                    <a href="{{ route('post-contest') }}"
+                                        class="btn btn-primary btn-sm rounded-0">{{ __('PostContestLikeThis') }}</a>
                                     <div class="d-flex align-items-center p-3">
                                         <i class="fa fa-trophy h4 text-warning-alt mb-0 mr-2"></i>
-                                        <div class="card-text">[Winner]
+                                        <div class="card-text">{{ __('winner') }}
                                             {{ App\Models\User::find($item->contestEntryCompleted->user_id)->username }}
                                         </div>
                                     </div>
@@ -64,7 +64,7 @@
                             </div>
                         @endforeach
                     @else
-                        <span class="text-danger">Ops! 404 not Found</span>
+                        <span class="text-danger">{{ __('notFound') }}</span>
                     @endif
                 </div>
             </div>
@@ -72,7 +72,7 @@
     </section>
     <section class="container py-5">
         <div class="card card-bordered card-body rounded-xl py-5 mb-4">
-            <h2 class="h5 font-weight-bold mb-4">Browse Contests</h2>
+            <h2 class="h5 font-weight-bold mb-4">{{ __('browseContest') }}</h2>
 
             <form action="{{ route('contest-listing') }}" method="get" id="contestSearchForm">
                 <div class="input-group mb-4">
@@ -82,38 +82,40 @@
                         </div>
                     </div>
                     <input class="form-control" type="text" name="search_contest_by_title"
-                        placeholder="You can contest by Title" value="{{request()->search_contest_by_title ? request()->search_contest_by_title  : ''}}">
+                        placeholder="{{ __('RegisterCont') }}"
+                        value="{{ request()->search_contest_by_title ? request()->search_contest_by_title : '' }}">
                 </div>
                 <hr>
-                <h2 class="h5 font-weight-bold pt-3 mb-4">Expertise</h2>
+                <h2 class="h5 font-weight-bold pt-3 mb-4">{{ __('ExpertiesSkills') }}</h2>
                 <div class="form-group pb-3">
                     <select class="custom-select" data-toggle="select" id="search_contest_skills" multiple>
                         {{-- Coming Option From Ajax.js (AJAX CALL) --}}
                         @if (request()->search_contest_by_skills)
-                        <ul class="list-inline">
-                            @foreach (Illuminate\Support\Str::of(request()->search_contest_by_skills)->explode(',') as $skill)
-                                <option selected="selected" value="{{ $skill }}">
-                                    {{ App\Models\User::skillTitle($skill)->title }}
-                                </option>
-                            @endforeach
-                        </ul>
-                    @endif
+                            <ul class="list-inline">
+                                @foreach (Illuminate\Support\Str::of(request()->search_contest_by_skills)->explode(',') as $skill)
+                                    <option selected="selected" value="{{ $skill }}">
+                                        {{ App\Models\User::skillTitle($skill)->title }}
+                                    </option>
+                                @endforeach
+                            </ul>
+                        @endif
                     </select>
                     <input type="hidden" name="search_contest_by_skills" id="selected_search_contest_skills" required>
                 </div>
-                <input type="submit" value="Filter" class="btn mb-2 btn-info btn-sm">
-                <a href="{{ route('contest-listing') }}" class="btn mb-2 btn-secondary btn-sm">Clear Filter</a>
+                <input type="submit" value="{{ __('Filter') }}" class="btn mb-2 btn-info btn-sm">
+                <a href="{{ route('contest-listing') }}"
+                    class="btn mb-2 btn-secondary btn-sm">{{ __('ClearFilter') }}</a>
             </form>
 
             <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr class="bg-gray-800 text-white">
-                            <th scope="col">Contest Title</th>
-                            <th class="text-center" scope="col">Entries</th>
-                            <th class="text-center" scope="col">Started</th>
-                            <th class="text-center" scope="col">Budget</th>
-                            <th class="text-center" scope="col">Available Interview</th>
+                            <th scope="col">{{ __('ContestTitle') }}</th>
+                            <th class="text-center" scope="col">{{ __('entries') }}</th>
+                            <th class="text-center" scope="col">{{ __('started') }}</th>
+                            <th class="text-center" scope="col">{{ __('budget') }}</th>
+                            <th class="text-center" scope="col">{{ __('AvailableInterview') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -136,7 +138,7 @@
                                                         </li>
                                                     @endforeach
                                                 </ul>
-                                                <span class="badge badge-info">Featured</span>
+                                                <span class="badge badge-info">{{ __('featured') }}</span>
                                             </div>
                                         </div>
                                     </td>
@@ -150,11 +152,10 @@
                                             {{ $item->currency == 'USD' ? '$' : '₩' }}
                                             {{ $item->budget }}
                                             <div class="hover-visible-content">
-                                                <span class="badge badge-info">Guaranteed</span>
+                                                <span class="badge badge-info">{{ __('Guaranteed') }}</span>
                                                 <div class="py-1"></div>
-                                                <a class="badge badge-info" href="{{ route('post-contest') }}">Post a
-                                                    Contest like
-                                                    this</a>
+                                                <a class="badge badge-info"
+                                                    href="{{ route('post-contest') }}">{{ __('PostContestLikeThis') }}</a>
                                             </div>
                                         </div>
                                     </td>
@@ -169,20 +170,21 @@
                                         </div>
                                         @if ($item->user_id == auth()->id())
                                             <a href="{{ route('contest-details', $item->contest_id) }}"
-                                                class=" btn btn-success active">My Contest</a>
+                                                class=" btn btn-success active">{{ __('myContest') }}</a>
                                         @else
                                             @if ($item->status == 1)
                                                 <a href="{{ route('contest-details', $item->contest_id) }}"
-                                                    class=" btn btn-info active">Participate</a>
+                                                    class=" btn btn-info active">{{ __('Participate') }}</a>
                                             @elseif($item->status == 2)
-                                                <a href="#" class=" disabled btn btn-warning active">Closed</a>
+                                                <a href="#"
+                                                    class=" disabled btn btn-warning active">{{ __('contestClosed') }}</a>
                                             @endif
                                         @endif
                                     </td>
                                 </tr>
                             @endforeach
                         @else
-                            <tr><span class="text text-danger">Ops 404 not Found!</span></tr>
+                            <tr><span class="text text-danger">{{ __('notFound') }}</span></tr>
                         @endif
                     </tbody>
                 </table>

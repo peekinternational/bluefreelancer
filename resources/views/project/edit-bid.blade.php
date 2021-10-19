@@ -7,10 +7,10 @@
                 <input type="hidden" value="{{ $bid->project_id }}" name="project_id">
                 <div class="row">
                     <div class="col-lg-6 mb-3">
-                        <h5 class="card-title mb-3">Bid:</h5>
+                        <h5 class="card-title mb-3">{{ __('BID') }}:</h5>
 
                         <div class="row mb-2">
-                            <label class="col-md-6" for="bidPrice">Paid to you:</label>
+                            <label class="col-md-6" for="bidPrice">{{ __('Paidtoyour') }}:</label>
 
                             <div class="col-md-6">
                                 <div class="input-group">
@@ -31,7 +31,7 @@
                         </div>
 
                         <div class="row">
-                            <label class="col-md-6" for="bidPrice">Your Bid:</label>
+                            <label class="col-md-6" for="bidPrice">{{ __('YourBid') }}:</label>
                             <div class="col-md-6">
                                 <div class="input-group align-items-center">
                                     <div class="input-group-prepend">
@@ -45,10 +45,10 @@
                         </div>
 
                         <div class="row">
-                            <label class="col-md-6" for="proposal">Proposal:</label>
+                            <label class="col-md-6" for="proposal">{{ __('ProposalTab') }}:</label>
                             <div class="col-md-6 input-group">
                                 <textarea class="form-control" name="proposal" id="proposal" cols="30" rows="10"
-                                    placeholder="Write You Project Proposal Description"
+                                    placeholder="{{ __('ProposalDescription') }}"
                                     required>{{ $bid->proposal }}</textarea>
                             </div>
                         </div>
@@ -57,13 +57,13 @@
                     <div class="col-lg-6 mb-3">
                         <div class="row justify-content-between mb-2">
                             <div class="col-md-6">
-                                <h5 class="card-title mb-3">Deliver In:</h5>
+                                <h5 class="card-title mb-3">{{ __('Deliverin') }}:</h5>
 
                                 <div class="input-group mb-3">
                                     <input type="number" class="form-control" placeholder="3" name="days" required
                                         value="{{ $bid->day }}">
                                     <div class="input-group-append">
-                                        <div class="input-group-text">Days</div>
+                                        <div class="input-group-text">{{ __('days') }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -81,14 +81,14 @@
                         </div>
                         <div class="row justify-content-between mb-2">
                             <div class="col-md-6">
-                                <h5 class="card-title mb-3">Milstone:
+                                <h5 class="card-title mb-3">{{ __('ProjectMilestone') }}:
                                     <a href="javascript:void(0)" onclick="addMilestoneRow()"><i
                                             class="fa fa-plus-circle"></i></a>
                                 </h5>
                             </div>
                         </div>
                         <div class="row container">
-                            <h6>Total Milestone Amount:
+                            <h6>{{ __('TotalMilestoneAmount') }}:
                                 {{ $project->currency == 'USD' ? '$' : '₩' }}
                                 <b><span id="milestoneAmt"></span></b>
                             </h6>
@@ -101,8 +101,8 @@
                                 <input type="hidden" name="milestoneId[]" value="{{ $item->id }}">
                                 <div class="row col-md-12 mb-2">
                                     <div class="col-md-6">
-                                        <input type="text" placeholder="Project Milestone" name="milestone_name[]" id=""
-                                            class="form-control" value="{{ $item->name }}">
+                                        <input type="text" placeholder="{{ __('ProjectMil') }}" name="milestone_name[]"
+                                            id="" class="form-control" value="{{ $item->name }}">
                                     </div>
                                     <div class="col-md-5">
                                         <input type="number" class="form-control bidAmtItems" name="milestone_amt[]"
@@ -116,7 +116,7 @@
                         </div>
                     </div>
                 </div>
-                <input type="submit" class="btn btn-primary btn-block w-md-auto" value="Update Bid">
+                <input type="submit" class="btn btn-primary btn-block w-md-auto" value="{{ __('UpdateBid') }}">
             </form>
         </div>
     </div>

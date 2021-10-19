@@ -4,14 +4,15 @@
     <div class="bg-secondary py-4">
         <div class="container pt-2 pb-3">
             <div class="d-flex flex-column flex-md-row align-items-center">
-                <a href="/project-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
-                    Projects</a>
-                <a href="/contest-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
-                    Contests</a>
-                <a href="/browse/category" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
-                    Categories</a>
-                <a href="/showcases" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
-                <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
+                <a href="/project-listing"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">{{ __('browseProject') }}</a>
+                <a href="/contest-listing"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('browseContest') }}</a>
+                <a href="/browse/category"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('browseCategories') }}</a>
+                <a href="/showcases"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('showcase') }}</a>
+                <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">{{ __('startContest') }}</a>
             </div>
         </div>
     </div>
@@ -19,7 +20,7 @@
     <!-- Title -->
     <div class="bg-secondary text-center bg-cover py-5"
         style="background-image: url({{ url('assets/img/dashboard/banner-1.jpg') }});">
-        <h1 class="h5 font-weight-bold text-white">Global Freelancer List</h1>
+        <h1 class="h5 font-weight-bold text-white">{{ __('GlobalFreelanceList') }}</h1>
     </div>
 
     <section class="container py-5">
@@ -31,7 +32,7 @@
                     <form action="/browse/directory" method="get" id="freelancerSearchForm">
                         <div class="input-group mb-3">
                             <input class="form-control" name="search_freelancer_by_name" type="text"
-                                placeholder="Search By Username">
+                                placeholder="{{ __('SearchByUsername') }}">
                             <div class="input-group-append">
                                 <button class="btn btn-secondary">
                                     <i class="fa fa-search"></i>
@@ -39,7 +40,7 @@
                             </div>
                         </div>
 
-                        <h2 class="h6 font-weight-bold pt-3 mb-3">My Skills</h2>
+                        <h2 class="h6 font-weight-bold pt-3 mb-3">{{ __('mySkills') }}</h2>
 
                         <div class="form-group mb-3">
                             <select class="custom-select" data-toggle="select" id="search_freelancer_skills" multiple>
@@ -51,14 +52,14 @@
 
                         <hr>
 
-                        <h2 class="h6 font-weight-bold pt-3 mb-3">Country</h2>
+                        <h2 class="h6 font-weight-bold pt-3 mb-3">{{ __('Country') }}</h2>
 
                         <div class="form-group mb-3">
                             <input class="form-control" type="text" name="search_freelancer_by_country"
-                                placeholder="Search by Country">
+                                placeholder="{{ __('SearchByCountry') }}">
                         </div>
-                        <input type="submit" value="Filter" class="btn mb-2 btn-info btn-sm">
-                        <a href="/browse/directory" class="btn mb-2 btn-secondary btn-sm">Clear Filter</a>
+                        <input type="submit" value="{{__('Filter')}}" class="btn mb-2 btn-info btn-sm">
+                        <a href="/browse/directory" class="btn mb-2 btn-secondary btn-sm">{{ __('ClearFilter') }}</a>
                     </form>
                 </div>
             </div>
@@ -91,10 +92,10 @@
                                                         <span class="font-size-sm">0 Reviews</span>
                                                     </div>
                                                     <p class="card-text">
-                                                        {{ $item->prof_headline ? $item->prof_headline : 'No Professional Headline' }}
+                                                        {{ $item->prof_headline ? $item->prof_headline : __('NoProfessionalHeadline') }}
                                                     </p>
                                                     <p class="card-text">
-                                                        {{ $item->description ? $item->description : 'No  Introduction/Description Found' }}
+                                                        {{ $item->description ? $item->description : __('NoIntroductionDescriptionFound') }}
                                                     </p>
                                                     @if ($item->skills)
                                                         <ul class="list-inline">
@@ -105,7 +106,7 @@
                                                             @endforeach
                                                         </ul>
                                                     @else
-                                                        No Skills Found
+                                                        {{ __('notFound') }}
                                                     @endif
                                                 </div>
                                             </div>
@@ -124,8 +125,7 @@
                                                 </div>
 
                                                 <a href="/profile?outsourcer={{ Illuminate\Support\Facades\Crypt::encryptString($item->id) }}"
-                                                    class="btn btn-secondary w-100 w-md-auto">View
-                                                    Profile</a>
+                                                    class="btn btn-secondary w-100 w-md-auto">{{ __('viewProfile') }}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -133,7 +133,7 @@
                             </li>
                         @endforeach
                     @else
-                        <span class="text-danger">Ops! 404, No Freelancer Found</span>
+                        <span class="text-danger">{{ __('notFound') }}</span>
                     @endif
                 </ul>
 

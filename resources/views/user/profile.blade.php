@@ -57,28 +57,28 @@
             <div class="row justify-content-between">
                 <div class="col-md-2 text-center mb-4">
                     <h2 class="font-weight-bold text-white">0%</h2>
-                    <p class="font-weight-bold text-white mb-0">Completion Rate</p>
+                    <p class="font-weight-bold text-white mb-0">{{ __('Completionrate') }}</p>
                 </div>
 
                 <div class="col-md-2 text-center mb-4">
                     <h2 class="font-weight-bold text-white">0%</h2>
-                    <p class="font-weight-bold text-white mb-0">On Budget</p>
+                    <p class="font-weight-bold text-white mb-0">{{ __('BudgetCompletionRate') }}</p>
                 </div>
 
                 <div class="col-md-2 text-center mb-4">
                     <h2 class="font-weight-bold text-white">0%</h2>
-                    <p class="font-weight-bold text-white mb-0">On time</p>
+                    <p class="font-weight-bold text-white mb-0">{{ __('WorkingPeriodCompRate') }}</p>
                 </div>
 
                 <div class="col-md-2 text-center mb-4">
                     <h2 class="font-weight-bold text-white">0%</h2>
-                    <p class="font-weight-bold text-white mb-0">Repeat Time</p>
+                    <p class="font-weight-bold text-white mb-0">{{ __('RefundRate') }}</p>
                 </div>
 
                 <div class="col-md-2 text-center mb-4">
                     <h2 class="font-weight-bold text-white">
                         {{ $user->hourly_rate ? $user->hourly_rate : '00' }}</h2>
-                    <p class="font-weight-bold text-white mb-0">Recruitment / Hourly</p>
+                    <p class="font-weight-bold text-white mb-0">{{ __('CostperHour') }}</p>
                     @if (request()->has('edit_profile'))
                         <a class="fa fa-pencil editable-btn" data-toggle="modal" data-target="#hourly_modal"></a>
                     @endif
@@ -174,8 +174,8 @@
                             </h6>
                             <div class="row border mx-0 mb-2">
                                 <div class="col-md-6 bg-light">
-                                    <p class="my-2">Company Registration</p>
-                                    <p class="my-2">Number</p>
+                                    <p class="my-2">{{ __('CompanyRegistrationNumber') }}</p>
+                                    {{-- <p class="my-2">Number</p> --}}
                                 </div>
 
                                 <div class="col-md-6">
@@ -183,7 +183,7 @@
                                 </div>
                             </div>
 
-                            <h2 class="h5 font-weight-bold pt-3 pb-2">Company Introduction
+                            <h2 class="h5 font-weight-bold pt-3 pb-2">{{ __('CompanyIntroduction') }}
                                 @if (request()->has('edit_profile'))
                                     <a class="fa fa-pencil editable-btn-dark" data-toggle="modal"
                                         data-target="#description_modal"></a>
@@ -198,7 +198,7 @@
 
                 <div class="card card-bordered rounded-xl mb-4">
                     <div class="card-header py-4">
-                        <h2 class="h5 font-weight-bold mb-0">Working history and Review's - (0)</h2>
+                        <h2 class="h5 font-weight-bold mb-0">{{ __('CareerIntroductionandReviews') }} - (0)</h2>
                     </div>
 
                     <div class="card-body">
@@ -211,10 +211,10 @@
 
                 <div class="card card-bordered rounded-xl mb-4">
                     <div class="card-header py-4">
-                        <h2 class="h5 font-weight-bold mb-0">Portfolio
+                        <h2 class="h5 font-weight-bold mb-0">{{ __('Portfolio') }}
                             @if (request()->has('edit_profile'))
                                 <a class="btn fa fa-plus added-btn-dark float-right" data-toggle="modal"
-                                    data-target="#portfolio_modal"> Add Portfolio</a>
+                                    data-target="#portfolio_modal"> {{ __('CreatePortfolio') }}</a>
                             @endif
                         </h2>
                     </div>
@@ -234,7 +234,7 @@
                                     </li>
                                 @endforeach
                             @else
-                                <li> <span>Please Add your Portfolio!, No Portfolio Found</span>
+                                <li> <span>{{ __('notFound') }}</span>
                                 </li>
                             @endif
 
@@ -244,7 +244,7 @@
 
                 <div class="card card-bordered rounded-xl mb-4">
                     <div class="card-header py-4">
-                        <h2 class="h5 font-weight-bold mb-0">Experience
+                        <h2 class="h5 font-weight-bold mb-0">{{ __('Career') }}
                             @if (request()->has('edit_profile'))
                                 <a class="fa fa-plus added-btn-dark" data-toggle="modal" data-target="#experience_modal"
                                     style="float: right"></a>
@@ -256,13 +256,13 @@
                             <x-user_experience :exp="$exp" />
                         @endforeach
                     @else
-                        <span>Please Add your Experience!, No Experience Found</span>
+                        <span>{{ __('notFound') }}</span>
                     @endif
                 </div>
 
                 <div class="card card-bordered rounded-xl mb-4">
                     <div class="card-header py-4">
-                        <h2 class="h5 font-weight-bold mb-0">Education
+                        <h2 class="h5 font-weight-bold mb-0">{{ __('Education') }}
                             @if (request()->has('edit_profile'))
                                 <a class="fa fa-plus added-btn-dark" data-toggle="modal" data-target="#education_modal"
                                     style="float: right"></a>
@@ -274,13 +274,13 @@
                             <x-user_education :edu="$edu" />
                         @endforeach
                     @else
-                        <span>Please Add your Education!, No Education Found</span>
+                        <span>{{ __('notFound') }}</span>
                     @endif
                 </div>
 
                 <div class="card card-bordered rounded-xl mb-4">
                     <div class="card-header py-4">
-                        <h2 class="h5 font-weight-bold mb-0">Certifications
+                        <h2 class="h5 font-weight-bold mb-0">{{ __('CertificationsDiplomasorAwards') }}
                             @if (request()->has('edit_profile'))
                                 <a class="fa fa-plus added-btn-dark" data-toggle="modal" data-target="#certification_modal"
                                     style="float: right"></a>
@@ -292,13 +292,13 @@
                             <x-user_certification :cert="$cert" />
                         @endforeach
                     @else
-                        <span>Please Add your Certification!, No Certification Found</span>
+                        <span>{{ __('notFound') }}</span>
                     @endif
                 </div>
 
                 <div class="card card-bordered rounded-xl mb-4">
                     <div class="card-header py-4">
-                        <h2 class="h5 font-weight-bold mb-0">Publication
+                        <h2 class="h5 font-weight-bold mb-0">{{ __('PromoteYourArticles') }}
                             @if (request()->has('edit_profile'))
                                 <a class="fa fa-plus added-btn-dark" data-toggle="modal" data-target="#publication_modal"
                                     style="float: right"></a>
@@ -310,7 +310,7 @@
                             <x-user_publication :pub="$pub" />
                         @endforeach
                     @else
-                        <span>Please Add your Publication!, No Publication Found</span>
+                        <span>{{ __('notFound') }}</span>
                     @endif
                 </div>
 
@@ -322,7 +322,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Deposit Payment</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">{{ __('DepositPayment') }}</h5>
                             {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
              <span aria-hidden="true">&times;</span>
          </button> --}}
@@ -333,19 +333,19 @@
                                 <input type="hidden" name="projOfferMsProjectId" id="projOfferMilestoneProjectId">
                                 <input type="hidden" name="projOfferMsUserId" id="projOfferMilestoneUserId">
                                 <input type="hidden" name="projOfferMsBidId" id="projOfferMilestoneBidId">
-                                <label class="font-size-ms font-weight-bold" for="projOfferMilestoneAmount">Deposit
-                                    Amount:</label>
+                                <label class="font-size-ms font-weight-bold"
+                                    for="projOfferMilestoneAmount">{{ __('DepositAmount') }}:</label>
                                 <input type="text" name="projOfferMsAmount" class="form-control"
                                     id="projOfferMilestoneAmount">
-                                <label class="font-size-ms font-weight-bold" for="projOfferMilestonDescription">Deposit
-                                    Description:</label>
+                                <label class="font-size-ms font-weight-bold"
+                                    for="projOfferMilestonDescription">{{ __('DepositDescription') }}:</label>
                                 <input type="text" name="projOfferMsDescription" class="form-control"
                                     id="projOfferMilestoneDescription">
 
                             </div>
                             <div class="modal-footer">
                                 <a href="#" id="payment-after-consulantation"
-                                    class="payment-after-consulantation btn btn-secondary">Payment After Consulantation</a>
+                                    class="payment-after-consulantation btn btn-secondary">{{ __('consultation') }}</a>
                                 {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
                                 {{-- id="projectOfferMilestoneDepositPayment" --}}
                                 <input type="submit" id="projectOfferMilestoneDepositPayment" value="Payment"
@@ -374,7 +374,7 @@
                                 </form>
                             @endif
                         @endif
-                        <button class="btn btn-sm btn-secondary btn-block">View as Employeer
+                        <button class="btn btn-sm btn-secondary btn-block">{{ __('ClientViewer') }}
                         </button>
                         @if (request()->has('outsourcer'))
                             <form action="#" method="post">
@@ -382,15 +382,15 @@
                                 <input type="hidden" name="" id="projectOfferOutsourcer"
                                     value="{{ request('outsourcer') }}">
                                 <div class="card-body bg-gray-800 py-4 mt-4">
-                                    <h6 class="font-weight-bold text-white border-bottom border-light pb-3 mb-3">Contact
-                                        {{ $user->username }} About Your Work Opportunity</h6>
-                                    <div class="font-weight-bold text-white mb-4">Budget Amount :</div>
+                                    <h6 class="font-weight-bold text-white border-bottom border-light pb-3 mb-3">
+                                        {{ __('Contact') }}
+                                        {{ $user->username }} {{ __('AboutYourWorkOpportunity') }}</h6>
+                                    <div class="font-weight-bold text-white mb-4">{{ __('BudgetAmount') }} :</div>
                                     <div class="custom-control custom-radio mb-4">
                                         <input type="radio" id="projectOfferFixedRate" name="fixedRate"
                                             class="custom-control-input" value="1" checked>
                                         <label class="custom-control-label text-white font-size-sm"
-                                            for="projectOfferFixedRate">Fixed
-                                            Rate</label>
+                                            for="projectOfferFixedRate">{{ __('fixedAmount') }}</label>
                                     </div>
 
                                     <div class="row">
@@ -429,7 +429,7 @@
 
                 <div class="card card-bordered rounded-xl overflow-hidden mb-4">
                     <div class="card-header py-4">
-                        <h2 class="h5 font-weight-bold mb-0">Identity verification</h2>
+                        <h2 class="h5 font-weight-bold mb-0">{{ __('IdentityVerificationConfirmation') }}</h2>
                     </div>
                     <ul class="list-group list-group-flush">
                         {{-- <li class="list-group-item d-flex justify-content-between">
@@ -446,16 +446,16 @@
                                 <div class="icon">
                                     <i class="fa fa-asterisk"></i>
                                 </div>
-                                <div class="media-body ml-2 pl-1">Payment Verified</div>
+                                <div class="media-body ml-2 pl-1">{{ __('AccountInformationAuthentication') }}</div>
                             </div>
-                            <button class="btn btn-sm btn-info">Verify</button>
+                            <button class="btn btn-sm btn-info">{{ __('RequireCertification') }}</button>
                         </li>
                         <li class="list-group-item d-flex justify-content-between">
                             <div class="media">
                                 <div class="icon text-info border-info">
                                     <i class="fa fa-phone"></i>
                                 </div>
-                                <div class="media-body text-info ml-2 pl-1">Mobile phone Verified</div>
+                                <div class="media-body text-info ml-2 pl-1">{{ __('MobilePhoneAuthentication') }}</div>
                             </div>
                             <i class="fa fa-check text-info h4 mb-0"></i>
                         </li>
@@ -465,7 +465,7 @@
                                     <div class="icon ">
                                         <i class="fa fa-envelope"></i>
                                     </div>
-                                    <div class="media-body  ml-2 pl-1">Email Verified</div>
+                                    <div class="media-body  ml-2 pl-1">{{ _('EmailAuthentication') }}</div>
                                 </div>
                                 {{-- <a href="{{ route('verification.notice') }}" class="btn btn-sm btn-info">Verify</a> --}}
                                 @if ($user->id == auth()->id())
@@ -481,7 +481,7 @@
                                     <div class="icon text-info border-info">
                                         <i class="fa fa-envelope"></i>
                                     </div>
-                                    <div class="media-body text-info ml-2 pl-1">Email Verified</div>
+                                    <div class="media-body text-info ml-2 pl-1">{{ __('EmailAuthentication') }}</div>
                                 </div>
                                 <i class="fa fa-check text-info h4 mb-0"></i>
 
@@ -494,9 +494,9 @@
 
                 <div class="card card-bordered rounded-xl mb-4">
                     <div class="card-header d-flex justify-content-between py-4">
-                        <h2 class="h5 font-weight-bold mb-0">My Top Skills</h2>
+                        <h2 class="h5 font-weight-bold mb-0">{{ __('Expertise') }}</h2>
                         @if ($user->id === auth()->id())
-                            <button class="btn btn-sm btn-secondary" onclick="addSkills()">+ Add</button>
+                            <button class="btn btn-sm btn-secondary" onclick="addSkills()">+ {{ __('Add') }}</button>
                         @endif
                     </div>
                     <div class="card-body">
@@ -508,10 +508,10 @@
                                 @endforeach
                             </ul>
                         @else
-                            <span>No Skills</span>
+                            <span>{{ __('notFound') }}</span>
                         @endif
                         <div id="skill_select_block" style="display: none;">
-                            <button class="btn btn-info btn-sm" onclick="saveFun()">Save Skills</button>
+                            <button class="btn btn-info btn-sm" onclick="saveFun()">{{ __('Save') }}</button>
                             <select
                                 class="js-skills-tags form-control select2 select2-container select2-container--default"
                                 id="select_top_skills" multiple="multiple">
@@ -531,9 +531,9 @@
 
                 <div class="card card-bordered rounded-xl mb-4">
                     <div class="card-header d-flex justify-content-between py-4">
-                        <h2 class="h5 font-weight-bold mb-0">Certifications</h2>
+                        <h2 class="h5 font-weight-bold mb-0">{{ __('Certificate') }}</h2>
                         @if ($user->id === auth()->id())
-                            <button class="btn btn-sm btn-secondary" onclick="addCerts()">+ Add</button>
+                            <button class="btn btn-sm btn-secondary" onclick="addCerts()">+ {{ __('Add') }}</button>
                         @endif
                     </div>
                     <div class="card-body">
@@ -545,10 +545,10 @@
                                 @endforeach
                             </ul>
                         @else
-                            <span>No Certifications</span>
+                            <span>{{ __('notFound') }}</span>
                         @endif
                         <div id="cert_select_block" style="display: none;">
-                            <button class="btn btn-info btn-sm" onclick="saveFun()">Save Certifications</button>
+                            <button class="btn btn-info btn-sm" onclick="saveFun()">{{ __('Save') }}</button>
                             <select class="js-certs-tags form-control select2 select2-container select2-container--default"
                                 id="select_top_certs" multiple="multiple">
                                 @if ($user->certs)
@@ -577,22 +577,21 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Portfolio</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('CreatePortfolio') }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form id="portfolio_form" method="post" enctype="multipart/form-data">
-                        <label for="port_title">Portfolio Title:</label>
+                        <label for="port_title">{{ __('CareerName') }}:</label>
                         <input type="text" class="form-control" name="port_title" id="port_title" required>
-                        <label for="port_description">Portfolio Description:</label>
+                        <label for="port_description">{{ __('Description') }}:</label>
                         <textarea class="form-control" name="port_description" id="port_description" cols="30" rows="10"
                             required></textarea>
-                        <label for="port_file">Portfolio File: <small> (Uploadable files: JPG, PNG, GIF, maximum file size:
-                                2MB)</small></label>
+                        <label for="port_file">{{ __('file') }}: <small> {{ __('fileValid') }}</small></label>
                         <input type="file" class="form-control" name="port_image" id="port_image" required>
-                        <label for="select_port_skills">Portfolio Skills:</label><br>
+                        <label for="select_port_skills">{{ __('ExpertiesSkills') }}:</label><br>
                         <select
                             class="portfolio-skills-tags form-control select2 select2-container select2-container--default"
                             id="select_port_skills" multiple="multiple" required>
@@ -600,8 +599,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="portfolio-save-btn">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
+                    <button type="button" class="btn btn-primary" id="portfolio-save-btn">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>
@@ -612,7 +611,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add Portfolio</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('CreatePortfolio') }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -621,19 +620,19 @@
                     <form id="portfolio_update_form" method="post" enctype="multipart/form-data">
                         <input type="hidden" id="port_id">
                         <input type="hidden" id="port_user_id" value="{{ $user->id }}">
-                        <label for="port_title">Portfolio Title:</label>
+                        <label for="port_title">{{ __('CareerName') }}:</label>
                         <input type="text" class="form-control" name="port_title" id="port_title_update" required>
-                        <label for="port_description">Portfolio Description:</label>
+                        <label for="port_description">{{ __('Description') }}:</label>
                         <textarea class="form-control" name="port_description_update" id="port_description_update"
                             cols="30" rows="10" required></textarea>
-                        <label for="port_file">Portfolio File: <small> (Uploadable files: JPG, PNG, GIF, maximum file size:
+                        <label for="port_file">{{ __('file') }}: <small> {{ __('fileValid') }}:
                                 2MB)</small></label>
                         <input type="file" class="form-control" name="port_image" id="port_image_update" required>
                         <br>
-                        <span>Portfolio Old Image:</span>
+                        <span>{{ __('fileOld') }}:</span>
                         <br>
                         <img src="" id="port_old_img" alt="" srcset="" width="300px"><br>
-                        <label for="select_port_skills">Portfolio Skills:</label><br>
+                        <label for="select_port_skills">{{ __('ExpertiesSkills') }}:</label><br>
                         <select
                             class="portfolio-skills-tags form-control select2 select2-container select2-container--default"
                             id="select_port_skills_update" multiple="multiple" required>
@@ -650,8 +649,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="portfolio-update-btn">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
+                    <button type="button" class="btn btn-primary" id="portfolio-update-btn">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>
@@ -662,7 +661,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Change Hourly Rate</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('hourlyAmount') }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -674,8 +673,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="hourly-save-btn">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
+                    <button type="button" class="btn btn-primary" id="hourly-save-btn"> {{ __('Save') }}</button>
                 </div>
             </div>
         </div>
@@ -686,7 +685,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Change Profession Headline</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('ProfessionHeadline') }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -698,8 +697,9 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="profession-headline-save-btn">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
+                    <button type="button" class="btn btn-primary"
+                        id="profession-headline-save-btn">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>
@@ -710,7 +710,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Change Description</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Description') }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -722,8 +722,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="description-save-btn">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
+                    <button type="button" class="btn btn-primary" id="description-save-btn">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>
@@ -734,36 +734,36 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Experience</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ __('Career') }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form id="experience_form" method="post">
-                        <label for="title">Title:</label>
+                        <label for="title">{{ __('CareerName') }}:</label>
                         <input type="text" name="title" class="form-control" id="title">
-                        <label for="companyname">Company Name:</label>
+                        <label for="companyname">{{ __('CompanyName') }}:</label>
                         <input type="text" name="companyname" class="form-control" id="companyname">
-                        <label for="started_at">Work or Job Start Date:</label>
+                        <label for="started_at">{{__('WorkorJobStartDate')}}:</label>
                         <input type="date" name="started_at" class="form-control" id="started_at">
                         <input type="checkbox" name="work_status" id="work_status" onclick="ShowHideCompletion(this)"
                             value="1">
-                        <span>Currently working or developing</span>
+                        <span>{{__('CurrentlyWorkingorDeveloping')}}</span>
 
                         <div id="completion_at_row">
-                            <label for="completion_at">Work or Job Completion Date:</label>
+                            <label for="completion_at">{{__('WorkorJobEndDate')}}:</label>
                             <input type="date" name="completion_at" class="form-control" id="completion_at">
                         </div>
 
-                        <label for="summary">Summary:</label>
+                        <label for="summary">{{__('BusinessorDevelopmentContent')}}:</label>
                         <textarea name="summary" class="form-control" id="summary" cols="30" rows="10"></textarea>
 
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="experience-save-btn">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
+                    <button type="button" class="btn btn-primary" id="experience-save-btn">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>
@@ -774,39 +774,39 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Education</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{__('Education')}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form id="eduaction_form" method="post">
-                        <label class="font-size-ms font-weight-bold" for="country">Country</label>
+                        <label class="font-size-ms font-weight-bold" for="country">{{__('Country')}}</label>
                         <select class="custom-select" id="country" name="country">
-                            <option value="" selected="selected">Please Select Your Country</option>
+                            <option value="" selected="selected">Please Select Your Country / 국가를 선택하십시오</option>
                             @foreach (App\Models\Country::all() as $item)
                                 <option value="{{ $item->name }}">
                                     {{ $item->name }} -
                                     {{ $item->code }}</option>
                             @endforeach
                         </select>
-                        <label for="name">University / College:</label>
+                        <label for="name">{{__('UniversityCollege')}}:</label>
                         <input type="text" name="name" class="form-control" id="name">
-                        <label for="subjects">Major Subjects:</label>
+                        <label for="subjects">{{__('Major')}}:</label>
                         <input type="text" name="subjects" class="form-control" id="subjects">
-                        <label for="addmission_year">Year of Admission:</label>
+                        <label for="addmission_year">{{__('AdmissionYear')}}:</label>
                         <select name="addmission_year" class="form-control" id="addmission_year">
                             <x-years />
                         </select>
-                        <label for="grad_year">Graduation year:</label>
+                        <label for="grad_year">{{__('GraduationYear')}}:</label>
                         <select name="grad_year" class="form-control" id="grad_year">
                             <x-years />
                         </select>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="education-save-btn">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
+                    <button type="button" class="btn btn-primary" id="education-save-btn">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>
@@ -817,27 +817,27 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Certification</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{__('Certificate')}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form id="eduaction_form" method="post">
-                        <label class="font-size-ms font-weight-bold" for="name">Certifications, Diplomas or Awards:</label>
+                        <label class="font-size-ms font-weight-bold" for="name">{{__('CertificationsDiplomasorAwards')}}:</label>
                         <input type="text" name="name" class="form-control" id="cert_name">
-                        <label for="organization">Conferring Organization:</label>
+                        <label for="organization">{{__('IssuingAgency')}}:</label>
                         <input type="text" name="organization" class="form-control" id="organization">
-                        <label for="subjects">Detailed description of certification:</label>
+                        <label for="subjects">{{__('DetailedDescriptionOfCertification')}}:</label>
                         <textarea class="form-control" name="description" id="description" cols="30"
                             rows="10"></textarea>
-                        <label for="issue_date">Issue Date:</label>
+                        <label for="issue_date">{{__('DateofIssue')}}:</label>
                         <input type="date" class="form-control" name="issue_date" id="issue_date">
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="certification-save-btn">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
+                    <button type="button" class="btn btn-primary" id="certification-save-btn">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>
@@ -848,25 +848,25 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Publication</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{__('PromoteYourArticles')}}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form id="publication_form" method="post">
-                        <label class="font-size-ms font-weight-bold" for="pub_title">Publication Title:</label>
+                        <label class="font-size-ms font-weight-bold" for="pub_title">{{__('ArticlePromotionTitle')}}:</label>
                         <input type="text" name="pub_title" class="form-control" id="pub_title">
-                        <label for="pub_name">Publisher:</label>
+                        <label for="pub_name">{{__('ArticlePublicityIssue')}}:</label>
                         <input type="text" name="pub_name" class="form-control" id="pub_name">
-                        <label for="pub_summary">Summary:</label>
+                        <label for="pub_summary">{{__('ArticleContents')}}:</label>
                         <textarea class="form-control" name="description" id="pub_summary" cols="30"
                             rows="10"></textarea>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="publication-save-btn">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
+                    <button type="button" class="btn btn-primary" id="publication-save-btn">{{ __('Save') }}</button>
                 </div>
             </div>
         </div>

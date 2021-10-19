@@ -4,14 +4,15 @@
     <div class="bg-secondary py-4">
         <div class="container pt-2 pb-3">
             <div class="d-flex flex-column flex-md-row align-items-center">
-                <a href="/project-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
-                    Projects</a>
-                <a href="/contest-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
-                    Contests</a>
-                <a href="/browse/category" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
-                    Categories</a>
-                <a href="/showcases" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
-                <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
+                <a href="/project-listing"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">{{ __('browseProject') }}</a>
+                <a href="/contest-listing"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('browseContest') }}</a>
+                <a href="/browse/category"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('browseCategories') }}</a>
+                <a href="/showcases"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('showcase') }}</a>
+                <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">{{ __('startContest') }}</a>
             </div>
         </div>
     </div>
@@ -19,11 +20,12 @@
     <!-- Title -->
     <div class="bg-secondary text-center bg-cover py-5"
         style="background-image: url({{ url('assets/img/dashboard/banner-1.jpg') }});">
-        <h1 class="h5 font-weight-bold text-white">My Project Status</h1>
+        <h1 class="h5 font-weight-bold text-white">{{ __('ProjectStatus') }}</h1>
     </div>
 
     <section class="container py-5">
-        <h2 class="font-weight-bold text-center pb-4"><span class="badge text-white bg-success-alt">Project</span>
+        <h2 class="font-weight-bold text-center pb-4"><span
+                class="badge text-white bg-success-alt">{{ __('project') }}</span>
             {{ $project->title }} </h2>
 
         <div class="card border-0 bg-primary mb-5">
@@ -31,16 +33,15 @@
                 <ul class="nav nav-wider nav-pills nav-pills-light justify-content-center" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <a class="nav-link font-weight-bold "
-                            href="{{ route('project.manage.proposals', request()->route('id')) }}">Proposal</a>
+                            href="{{ route('project.manage.proposals', request()->route('id')) }}">{{ __('ProposalTab') }}</a>
                     </li>
                     <li class="nav-item mr-3" role="presentation">
                         <a class="nav-link font-weight-bold active" id="pills-management-tab"
-                            href="{{ route('project.manage.milestone', request()->route('id')) }}">Management</a>
+                            href="{{ route('project.manage.milestone', request()->route('id')) }}">{{ __('MangementTab') }}</a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link font-weight-bold" id="pills-modify-tab"
-                            href="{{ route('project.manage.modify', request()->route('id')) }}">Modify / Delete
-                            Project</a>
+                            href="{{ route('project.manage.modify', request()->route('id')) }}">{{ __('ModifyDelTab') }}</a>
                     </li>
                 </ul>
             </div>
@@ -79,10 +80,10 @@
                                                             <a href="#">{{ $item->user->username }}</a>
                                                         </h4>
                                                         <div class="d-flex">
-                                                            <p class="pr-5 text-success">Approved</p>
-                                                            <p>Completed in
+                                                            <p class="pr-5 text-success">{{ __('Approved') }}</p>
+                                                            <p>{{ __('CompinDays') }}
                                                                 {{ $project->currency == 'USD' ? '$' : '₩' }}{{ $item->budget }}
-                                                                within {{ $item->day }} days</p>
+                                                                {{ $item->day }} {{ __('days') }}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -98,15 +99,17 @@
                                                     <div class="row">
                                                         <div class="col-md-5">
                                                             <input type="text" name="deposit_name" id=""
-                                                                class="form-control" placeholder="Deposit Description">
+                                                                class="form-control"
+                                                                placeholder="{{ __('DepositDescription') }}">
                                                         </div>
                                                         <div class="col-md-4">
                                                             <input type="text" name="deposit_amount"
-                                                                placeholder="Deposit Amount" class="form-control">
+                                                                placeholder="{{ __('DepositAmount') }}"
+                                                                class="form-control">
                                                         </div>
                                                         <div class="col-md-3">
                                                             <input type="submit" name="milestone-deposit"
-                                                                value="Deposit Milestone" class="btn btn-primary">
+                                                                value="{{ __('Deposit') }}" class="btn btn-primary">
                                                         </div>
                                                     </div>
                                                 </form>
@@ -115,7 +118,7 @@
                                                     <div class="card-header">
                                                         <ul class="nav nav-pills nav-pills-light">
                                                             <li class="nav-item"><a class="nav-link active"
-                                                                    href="#">Milestone</a></li>
+                                                                    href="#">{{ __('ProjectMilestone') }}</a></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -123,10 +126,10 @@
                                                     <table class="table">
                                                         <thead>
                                                             <tr>
-                                                                <th scope="col">Amount Requested</th>
-                                                                <th scope="col">Contents</th>
-                                                                <th scope="col">Status</th>
-                                                                <th scope="col">Action</th>
+                                                                <th scope="col">{{ __('AmountRequested') }}</th>
+                                                                <th scope="col">{{ __('Contents') }}</th>
+                                                                <th scope="col">{{ __('Status') }}</th>
+                                                                <th scope="col">{{ __('Action') }}</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -143,11 +146,11 @@
                                                                     <td>{{ $milestone->name }}</td>
                                                                     <td>
                                                                         @if ($milestone->status == 1)
-                                                                            Requested
+                                                                            {{ __('RequestRelease') }}
                                                                         @elseif($milestone->status == 2)
-                                                                            Deposit
+                                                                            {{ __('Deposit') }}
                                                                         @elseif($milestone->status == 3)
-                                                                            Rejected By Project Owner
+                                                                            {{ __('RejectedByProjectOwner') }}
                                                                         @endif
                                                                     </td>
                                                                     <td>
@@ -160,10 +163,12 @@
                                                                                     value="{{ request()->route('id') }}">
                                                                                 <input type="submit"
                                                                                     class="btn btn-success bt-xs"
-                                                                                    name="deposit" value="Deposit">
+                                                                                    name="deposit"
+                                                                                    value="{{ __('Deposit') }}">
                                                                                 <input type="submit"
                                                                                     class="btn btn-danger bt-xs"
-                                                                                    name="reject" value="Reject">
+                                                                                    name="reject"
+                                                                                    value="{{ __('Reject') }}">
                                                                             </form>
                                                                         @elseif($milestone->status == 2)
                                                                             <form action="#" method="post">
@@ -173,10 +178,11 @@
                                                                                 <input type="submit"
                                                                                     class="btn btn-success bt-xs"
                                                                                     name="amount_release"
-                                                                                    value="Amount Release">
+                                                                                    value="{{ __('AmountRelease') }}">
                                                                                 <input type="submit"
                                                                                     class="btn btn-danger bt-xs"
-                                                                                    name="dispute" value="Dispute">
+                                                                                    name="dispute"
+                                                                                    value="{{ __('Dispute') }}">
                                                                             </form>
                                                                         @endif
                                                                     </td>
@@ -185,15 +191,14 @@
                                                         </tbody>
                                                     </table>
                                                     <p>
-                                                        <strong>Total:
+                                                        <strong>{{ __('Total') }}:
                                                             {{ $project->currency == 'USD' ? '$' : '₩' }}{{ $total }}</strong>
                                                     </p>
                                                 @else
                                                     <table>
                                                         <tr>
                                                             <td>
-                                                                <span class="text-danger">Ops! no milestone
-                                                                    found...</span>
+                                                                <span class="text-danger">{{ __('notFound') }}</span>
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -209,41 +214,38 @@
 
                     <div class="col-lg-4">
                         <div class="card card-bordered card-body rounded-xl">
-                            <h5 class="font-size-lg mb-4"><strong>What are the Milestone payments</strong></h5>
-                            <h5 class="font-size-lg mb-3"><strong>Milestone are :</strong></h5>
+                            <h5 class="font-size-lg mb-4"><strong>{{ __('ManageandSecure') }}</strong></h5>
+                            <h5 class="font-size-lg mb-3"><strong>{{ __('MilestoneAre') }} :</strong></h5>
                             <ul class="list-unstyled lh-3">
                                 <li>
                                     <div class="icon border-info mx-1">
                                         <i class="fa fa-check text-info"></i>
                                     </div>
-                                    <span class="text-info"><strong>Safe & Secure :</strong></span>
-                                    <span>We hild your milestone until you decide to release them.</span>
+                                    <span class="text-info"><strong>{{ __('SafeSecure') }}:</strong></span>
+                                    <span>{{ __('hildyourmilestone') }}</span>
                                 </li>
 
                                 <li>
                                     <div class="icon border-info mx-1">
                                         <i class="fa fa-check text-info"></i>
                                     </div>
-                                    <span class="text-info"><strong>Refundable :</strong></span>
-                                    <span>If you are dissatisfied or the JCM does not accept.</span>
+                                    <span class="text-info"><strong>{{ __('Refundable') }} :</strong></span>
+                                    <span>{{ __('dissatisfied') }}</span>
                                 </li>
 
                                 <li>
                                     <div class="icon border-info mx-1">
                                         <i class="fa fa-check text-info"></i>
                                     </div>
-                                    <span class="text-info"><strong>Controlled By you :</strong></span>
-                                    <span>Release them only if you are 100% satisfied.</span>
+                                    <span class="text-info"><strong>{{ __('Controlled') }}:</strong></span>
+                                    <span>{{ __('satisfied') }}</span>
                                 </li>
 
                                 <li>
                                     <div class="icon border-danger mx-1">
                                         <i class="fa fa-check text-danger"></i>
                                     </div>
-                                    <span class="text-info"><strong>Please note that if you request a direct money
-                                            transfer
-                                            from a freelancer to avoid a fee, the client is at a considerable
-                                            risk.</strong></span>
+                                    <span class="text-info"><strong>{{ __('nodirectmoney') }}</strong></span>
                                 </li>
                             </ul>
                         </div>

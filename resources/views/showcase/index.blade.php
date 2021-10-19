@@ -4,8 +4,9 @@
         style="background-image: url({{ url('assets/img/pages/showcase/banner-1.jpeg') }});">
         <div class="py-5 my-4">
             <div class="container">
-                <h1 class="h2 font-weight-bold">Bluefreelancer <span class="text-white">Showcase</span></h1>
-                <p class="h6 font-weight-normal text-white mb-4">Completion of business · Creative design · Your own ideas
+                <h1 class="h2 font-weight-bold">{{ __('OutsourcingOk') }} <span
+                        class="text-white">{{ __('Showcase') }}</span></h1>
+                <p class="h6 font-weight-normal text-white mb-0">{{ __('CompletionCreativeOwnIdeas') }}
                 </p>
 
                 <div class="col-md-8 mx-auto">
@@ -17,7 +18,7 @@
                                 </div>
                             </div>
                             <input class="form-control border-0" type="text">
-                            <button class="btn btn-primary">Search</button>
+                            <button class="btn btn-primary">{{ __('Search') }}</button>
                         </div>
                     </div>
                 </div>
@@ -26,33 +27,39 @@
     </div>
 
     <div class="container text-right py-5">
-        <a href="{{ route('showcase.my-showcase') }}" class="btn btn-secondary mr-1">My Showcase</a>
-        <a href="{{ route('showcase.create') }}" class="btn btn-secondary">Showcase Registration</a>
+        <a href="{{ route('showcase.my-showcase') }}" class="btn btn-secondary mr-1">{{ __('MyShowcase') }}</a>
+        <a href="{{ route('showcase.create') }}" class="btn btn-secondary">{{ __('ShowcaseReg') }}</a>
     </div>
 
     <section class="container pb-5">
         <div class="card card-body rounded-xl mb-4">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link {{ !request()->category ? "active" : '' }}" href="/showcases">All</a>
+                    <a class="nav-link {{ !request()->category ? 'active' : '' }}" href="/showcases">All</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->category == 'Logo' ? "active" : '' }}" href="/showcases?category=Logo">Logo</a>
+                    <a class="nav-link {{ request()->category == 'Logo' ? 'active' : '' }}"
+                        href="/showcases?category=Logo">Logo</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->category == 'Website' ? 'active' : '' }}" href="/showcases?category=Website">Website</a>
+                    <a class="nav-link {{ request()->category == 'Website' ? 'active' : '' }}"
+                        href="/showcases?category=Website">Website</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->category == 'Mobile Apps' ? 'active' : '' }}" href="/showcases?category=Mobile Apps">Mobile Apps</a>
+                    <a class="nav-link {{ request()->category == 'Mobile Apps' ? 'active' : '' }}"
+                        href="/showcases?category=Mobile Apps">Mobile Apps</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->category == 'Graphic Design' ? 'active' : '' }}" href="/showcases?category=Graphic Design">Graphic Design</a>
+                    <a class="nav-link {{ request()->category == 'Graphic Design' ? 'active' : '' }}"
+                        href="/showcases?category=Graphic Design">Graphic Design</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->category == 'Illustration' ? 'active' : '' }}" href="/showcases?category=Illustration">Illustration</a>
+                    <a class="nav-link {{ request()->category == 'Illustration' ? 'active' : '' }}"
+                        href="/showcases?category=Illustration">Illustration</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->category == '3D Model' ? 'active' : '' }}" href="/showcases?category=3D Model">3D Model</a>
+                    <a class="nav-link {{ request()->category == '3D Model' ? 'active' : '' }}"
+                        href="/showcases?category=3D Model">3D Model</a>
                 </li>
             </ul>
         </div>
@@ -63,16 +70,17 @@
                     <div class="col-md-3">
                         <div class="card card-overlay shadow rounded-xl mb-4">
                             <div class="card-img-top position-relative overflow-hidden">
-                                <img style="width: 100%;height: 15rem;" src="{{ url('uploads/showcases/' . $item->img) }}"
-                                    alt="Showcase thumbnail">
+                                <img style="width: 100%;height: 15rem;"
+                                    src="{{ url('uploads/showcases/' . $item->img) }}" alt="Showcase thumbnail">
                                 <a class="overlay-hidden d-flex justify-content-center align-items-center"
-                                    data-id="{{ $item->id }}" data-user="{{ auth()->id() }}" id="showcase_detail_btn">
-                                    <span href="#" class="btn btn-sm btn-primary">View Details</span>
+                                    data-id="{{ $item->id }}" data-user="{{ auth()->id() }}"
+                                    id="showcase_detail_btn">
+                                    <span href="#" class="btn btn-sm btn-primary">{{ __('ViewDetails') }}</span>
                                 </a>
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title mb-0">{{ $item->title }}</h5>
-                                <p class="card-text">Freelancer</p>
+                                <p class="card-text">{{ __('freelancer') }}</p>
                                 <hr>
                                 <div class="d-flex justify-content-between font-size-sm">
                                     <span>{{ $item->currency == 'USD' ? '$' : '₩' }} {{ $item->amt }}</span>
@@ -128,7 +136,7 @@
                                         style="display: none;" style="display: none;">
                                         <i class="fa fa-heart"></i>
                                     </a>
-                                    <span id="showcase_likes_count"></span>&nbsp;Likes
+                                    <span id="showcase_likes_count"></span>&nbsp;{{ __('Likes') }}
                                 </div>
 
                                 <p class="font-size-sm" id="showcase_description_detail"></p>

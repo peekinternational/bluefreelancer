@@ -19,7 +19,7 @@
     <!-- Title -->
     <div class="bg-secondary text-center bg-cover py-5"
         style="background-image: url({{ url('assets/img/dashboard/banner-1.jpg') }});">
-        <h1 class="h5 font-weight-bold text-white">My Dashboard</h1>
+        <h1 class="h5 font-weight-bold text-white">{{ __('MyDashboard') }}</h1>
     </div>
 
     <section class="container py-5">
@@ -27,8 +27,8 @@
             <div class="col-md-7">
                 <div class="card card-bordered card-body text-center rounded-xl bg-cover py-5 mb-4"
                     style="background-image: url({{ url('assets/img/dashboard/banner-2.png') }});">
-                    <h2 class="h5 font-weight-bold text-white">Looking for a professional freelancer in any field?</h2>
-                    <p class="text-primary mb-4 pb-3">You can meet an incredible professional freelancer in all areas now.
+                    <h2 class="h5 font-weight-bold text-white">{{ __('LookingForaProfessionalFreelanceInAnyField') }}</h2>
+                    <p class="text-primary mb-4 pb-3">{{ __('YouCanMeetanIncredibleProfessionalFreelancer') }}
                     </p>
 
                     <div class="text-center mb-4 pb-3">
@@ -44,12 +44,12 @@
                         <a class="btn btn-outline-light mb-2 mx-2" href="./project-post">Translation / Language</a>
                     </div>
 
-                    <p class="text-primary mb-0">Save time and money with online live video chat.</p>
+                    <p class="text-primary mb-0">{{ __('SaveTimeAndMoneyWithOnlineliveVideoChat') }}</p>
                 </div>
 
                 <div class="card card-bordered rounded-xl mb-4">
                     <div class="card-header py-4">
-                        <h2 class="h5 font-weight-bold mb-0">News Feed</h2>
+                        <h2 class="h5 font-weight-bold mb-0">{{ __('newsFeed') }}</h2>
                     </div>
                     <ul class="list-group list-group-flush">
                         @if ($newsFeed->count())
@@ -89,21 +89,20 @@
                         </div>
 
                         <div class="col-md-8 text-center">
-                            <h5 class="font-size-sm">Welcome Back</h5>
+                            <h5 class="font-size-sm">{{ __('welcomeBack') }}</h5>
                             <h2 class="h5 font-weight-bold">{{ auth()->user()->name }}</h2>
                             <span class="badge badge-danger badge-icon">
                                 <i class="fa fa-trophy"></i>
                             </span>
                             <div class="py-2"></div>
                             <div class="btn-group btn-group-sm">
-                                <a href="/project/my-project/employer/open-projects" class="btn btn-secondary">My
-                                    Projects</a>
-                                <a href="/profile" class="btn btn-secondary">View Profile</a>
+                                <a href="/project/my-project/employer/open-projects" class="btn btn-secondary">{{__('myProject')}}</a>
+                                <a href="/profile" class="btn btn-secondary">{{__('viewProfile')}}</a>
                             </div>
                         </div>
                     </div>
 
-                    <h5 class="font-size-lg font-weight-bold pt-4 pb-4">Setup Your Account</h5>
+                    <h5 class="font-size-lg font-weight-bold pt-4 pb-4">{{__('SetupYourAccount')}}</h5>
                     <div class="progress mb-2">
                         <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75"
                             aria-valuemin="0" aria-valuemax="100">75%</div>
@@ -116,19 +115,15 @@
                         <a class="d-block mt-3" href="https://www.google.co.kr/chrome/browser/desktop/index.html"
                             target="_blank">
                             <img class="mr-2" src="{{ url('assets/img/brands/chrome-logo.png') }}">
-                            <span>Download</span>
+                            <span>{{__('download')}}</span>
                         </a>
                         <br>
                         <i class="fa fa-laptop mr-2"></i>
-                        <span>Bluefreelancer is optimized for Google Chrome desktop</span>
+                        <span>{{__('OptimizedForGoogleChrome')}}</span>
                     </p>
                     <p>
                         <i class="fa fa-video-camera mr-2"></i>
-                        It works as a live video chat using a Google Chrome browser for the best communication among
-                        members. Currently, when using video chat in Internet Explorer (IE), it is not possible to use video
-                        chat, but you can use chat but it is a bit inconvenient. We strongly recommend you to use Google
-                        Chrome to protect your valuable property. If you download Google Chrome from IE (Internet Explorer),
-                        you can click on the chrome icon on your desktop to use the live video chat.
+                        {{__('choromeExtensionParagraph')}}
                     </p>
                 </div>
 
@@ -136,13 +131,12 @@
                     <div class="d-flex align-items-center mb-3">
                         <h2 class="font-weight-bold text-center">
                             {{ auth()->user()->bids }}
-                            <small class="d-block font-size-sm pt-2">Bids left</small>
+                            <small class="d-block font-size-sm pt-2">{{__('bidsLeft')}}</small>
                         </h2>
-                        <a href="#" class="btn btn-secondary ml-auto">Get more bids</a>
+                        <a href="#" class="btn btn-secondary ml-auto">{{__('GetmoreBids')}}</a>
                     </div>
 
-                    <p class="mb-0">If the number of bids is more than 300, you can add 50 additional bids by
-                        purchasing 2,000 won (additional tax).</p>
+                    <p class="mb-0">{{__('NumberOfBids')}}</p>
                 </div>
             </div>
         </div>

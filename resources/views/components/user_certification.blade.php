@@ -25,7 +25,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Certification</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{__('Certificate')}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -33,20 +33,20 @@
             <div class="modal-body">
                 <form id="certification_form" method="post">
                     <input type="hidden" name="" id="cert_id">
-                    <label class="font-size-ms font-weight-bold" for="name">Certifications, Diplomas or Awards:</label>
+                    <label class="font-size-ms font-weight-bold" for="name">{{__('CertificationsDiplomasorAwards')}}:</label>
                     <input type="text" name="name" class="form-control" id="cert_name_update">
-                    <label for="organization">Conferring Organization:</label>
+                    <label for="organization">{{__('IssuingAgency')}}:</label>
                     <input type="text" name="organization" class="form-control" id="organization_update">
-                    <label for="subjects">Detailed description of certification:</label>
+                    <label for="subjects">{{__('DetailedDescriptionOfCertification')}}:</label>
                     <textarea class="form-control" name="description" id="description_update" cols="30"
                         rows="10"></textarea>
-                    <label for="issue_date">Issue Date:</label>
+                    <label for="issue_date">{{__('DateofIssue')}}:</label>
                     <input type="date" class="form-control" name="issue_date" id="issue_date_update">
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="certification-update-btn">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
+                <button type="button" class="btn btn-primary" id="certification-update-btn">{{ __('Save') }}</button>
             </div>
         </div>
     </div>

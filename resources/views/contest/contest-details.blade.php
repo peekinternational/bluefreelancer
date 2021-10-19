@@ -1,67 +1,68 @@
 @extends('layouts.app')
 @section('content')
-<div class="bg-secondary py-4">
-    <div class="container pt-2 pb-3">
-        <div class="d-flex flex-column flex-md-row align-items-center">
-            <a href="/project-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
-                Projects</a>
-            <a href="/contest-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
-                Contests</a>
-            <a href="/browse/category" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
-                Categories</a>
-            <a href="/showcases" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
-            <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
+    <div class="bg-secondary py-4">
+        <div class="container pt-2 pb-3">
+            <div class="d-flex flex-column flex-md-row align-items-center">
+                <a href="/project-listing"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">{{ __('browseProject') }}</a>
+                <a href="/contest-listing"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('browseContest') }}</a>
+                <a href="/browse/category"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('browseCategories') }}</a>
+                <a href="/showcases"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('showcase') }}</a>
+                <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">{{ __('startContest') }}</a>
+            </div>
         </div>
     </div>
-</div>
 
     <!-- Title -->
     <div class="bg-secondary text-center bg-cover py-5"
         style="background-image: url({{ url('assets/img/dashboard/banner-1.jpg') }});">
-        <h1 class="h5 font-weight-bold text-white">Contest Details · Open Forum · Applicant Status · Registration</h1>
+        <h1 class="h5 font-weight-bold text-white">{{ __('pageTitle') }}</h1>
     </div>
 
     <div class="bg-gray-500 pt-3">
         <div class="container">
             <div class="d-sm-flex justify-content-between align-items-center mb-3 mb-sm-2">
                 <h4 class="font-weight-bold text-white mb-3 mb-sm-0">{{ $contest->title }}</h4>
-                <span class="badge bg-warning-alt2 font-size-lg text-white p-2">Deadline Before
+                <span class="badge bg-warning-alt2 font-size-lg text-white p-2">{{ __('deadline') }}
                     {{ $contest->created_at->addDays($contest->days)->format('M d, Y') }}
                 </span>
             </div>
             <div class="d-sm-flex justify-content-between align-items-center">
                 <div class="font-size-lg text-center font-weight-bold text-white order-sm-1 py-2">
-                    PRIZE {{ $contest->currency == 'USD' ? '$' : '₩' }} {{ $contest->budget }}
+                    {{ __('PRIZE') }} {{ $contest->currency == 'USD' ? '$' : '₩' }} {{ $contest->budget }}
                     <br>
                     @if ($contest->status == 1)
                         @if ($contest->user_id != auth()->id())
-                            <a href="/contest/entry/{{ $contest->contest_id }}" class="btn btn-secondary">Participate in
-                                Contest</a>
+                            <a href="/contest/entry/{{ $contest->contest_id }}"
+                                class="btn btn-secondary">{{ __('Participate') }}</a>
                         @endif
                     @elseif($contest->status == 2)
-                        <span class="badge bg-info font-size-lg text-white p-2">Closed
+                        <span class="badge bg-info font-size-lg text-white p-2">{{ __('contestClosed') }}
                         </span>
                     @endif
                 </div>
                 <ul class="nav nav-pills nav-pills-bordered order-sm-0 mb-0" id="pills-tab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="pills-description-tab" data-toggle="pill" href="#pills-description"
-                            role="tab" aria-controls="pills-description" aria-selected="true">Description</a>
+                            role="tab" aria-controls="pills-description" aria-selected="true">{{ __('Description') }}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="pills-entries-tab" data-toggle="pill" href="#pills-entries" role="tab"
-                            aria-controls="pills-entries" aria-selected="false">Entries</a>
+                            aria-controls="pills-entries" aria-selected="false">{{ __('entries') }}</a>
                     </li>
                     @if ($contest->user->id == auth()->id())
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('contest-edit', $contest->contest_id) }}">Edit
-                                Contest</a>
+                            <a class="nav-link"
+                                href="{{ route('contest-edit', $contest->contest_id) }}">{{ __('editContest') }}</a>
                         </li>
                     @endif
                     @if ($contest->status == 2 && ($contest->user_id == auth()->id() || $contest_entry_winner->user_id == auth()->id()))
                         <li class="nav-item">
                             <a class="nav-link"
-                                href="{{ route('contest-handover', $contest->contest_id) }}">Handover</a>
+                                href="{{ route('contest-handover', $contest->contest_id) }}">{{ __('UploadContest') }}</a>
                         </li>
                     @endif
 
@@ -78,7 +79,7 @@
                     <div class="col-lg-4 order-lg-1">
                         <div class="card card-bordered rounded-xl mb-4">
                             <div class="card-header py-4">
-                                <h2 class="h5 font-weight-bold mb-0">Client Information</h2>
+                                <h2 class="h5 font-weight-bold mb-0">{{ __('ClientInformation') }}</h2>
                             </div>
                             <div class="card-body">
                                 <div class="d-flex align-items-start">
@@ -87,9 +88,9 @@
                                         width="84" alt="User thumbnail">
                                     <div class="pl-3">
                                         <p class="card-text mb-2"><strong>{{ $contest->user->username }}</strong></p>
-                                        <div class="font-size-sm mb-2"><strong>Member
-                                                Since:</strong> {{ $contest->user->created_at->format('M d, Y') }}</div>
-                                        <div class="font-size-sm mb-2"><strong>Location:</strong>
+                                        <div class="font-size-sm mb-2"><strong>{{ __('MemberSince') }}</strong>
+                                            {{ $contest->user->created_at->format('M d, Y') }}</div>
+                                        <div class="font-size-sm mb-2"><strong>{{ __('location') }}:</strong>
                                             {{ $contest->user->country }}</div>
                                         <div class="pt-1">
                                             <div class="icon text-info border-info mr-1">
@@ -123,25 +124,25 @@
                     <div class="col-lg-8 order-lg-0">
                         <div class="card card-bordered rounded-xl mb-4">
                             <div class="card-header py-4">
-                                <h2 class="h5 font-weight-bold mb-0">Contents of Contest</h2>
+                                <h2 class="h5 font-weight-bold mb-0">{{ __('ContentsOfContest') }}</h2>
                             </div>
                             <div class="card-body">
                                 <p class="card-text">{!! $contest->description !!}</p>
                                 <hr class="my-4">
-                                <h5 class="font-weight-bold">File attached:</h5>
+                                <h5 class="font-weight-bold">{{ __('Fileattached') }}:</h5>
                                 <div class="font-weight-bold font-size-sm pl-5"><i class="fa fa-file mr-2"></i>
                                     <a href="{{ url('uploads/contest/images/' . $contest->file) }}" download>
                                         {{ $contest->file }}
                                     </a>
                                 </div>
                                 <hr class="my-4">
-                                <a href="{{ route('post-contest') }}" class="btn btn-secondary text-capitalize">Post
-                                    contest like this</a>
+                                <a href="{{ route('post-contest') }}"
+                                    class="btn btn-secondary text-capitalize">{{ __('PostContestLikeThis') }}</a>
                             </div>
                         </div>
                         <div class="card card-bordered rounded-xl mb-4">
                             <div class="card-header py-4">
-                                <h2 class="h5 font-weight-bold mb-0">Recommened Skills</h2>
+                                <h2 class="h5 font-weight-bold mb-0">{{ __('RecommenedSkills') }}</h2>
                             </div>
                             <div class="card-body">
                                 <div class="pt-1">
@@ -165,7 +166,8 @@
                     <div class="col-12">
                         <div class="card card-bordered rounded-xl mb-4">
                             <div class="card-header py-4">
-                                <h2 class="h5 font-weight-bold mb-0">{{ $contest_entry->count() }} Total Entries</h2>
+                                <h2 class="h5 font-weight-bold mb-0">{{ $contest_entry->count() }}
+                                    {{ __('totalEntries') }}</h2>
                             </div>
                             <div class="card-body">
                                 <ul class="list-inline">
@@ -180,7 +182,8 @@
                                                         <a class="overlay-hidden d-flex justify-content-center align-items-center"
                                                             href="#" data-id="{{ $item->id }}"
                                                             id="contest_entry_detail_btn">
-                                                            <span class="btn btn-sm btn-primary">Viewer</span>
+                                                            <span
+                                                                class="btn btn-sm btn-primary">{{ __('ViewDetails') }}</span>
                                                         </a>
                                                         <span
                                                             class="badge badge-success font-size-sm py-2 d-block">{{ $contest->currency == 'USD' ? '$' : '₩' }}
@@ -190,7 +193,7 @@
 
                                                     <hr>
                                                     <div class="card-body">
-                                                        <span>Applicant#{{ $key + 1 }}</span>
+                                                        <span>{{ __('FREELANCE') }}#{{ $key + 1 }}</span>
                                                         @if ($item->status == 1)
                                                             @if ($contest->user_id == auth()->id())
                                                                 <div class="row">
@@ -205,11 +208,11 @@
                                                                         class="btn btn-info btn-xs font-size-xs">
                                                                 </div>
                                                             @else
-                                                                <span class="badge badge-danger">Waiting for
-                                                                    Acceptance</span>
+                                                                <span
+                                                                    class="badge badge-danger">{{ __('WaitingforApproval') }}</span>
                                                             @endif
                                                         @elseif($item->status == 2)
-                                                            <span class="badge badge-success">Winner</span>
+                                                            <span class="badge badge-success">{{ __('winner') }}</span>
                                                         @endif
                                                     </div>
                                                 </div>
@@ -224,18 +227,12 @@
                     <div class="col-lg-8">
                         <div class="card card-bordered rounded-xl mb-4">
                             <div class="card-body">
-                                <h2 class="h5 font-weight-bold text-warning-alt mb-4">Public Clarification Board</h2>
-                                <p class="card-text">The contest public forum is a forum where you can exchange
-                                    opinions
-                                    with freelancers publicly for the exact concept of your clients.</p>
-                                <p class="card-text">If the contest is canceled or the winner is not selected within
-                                    14
-                                    days, the winner of the first round will receive a 1 / n equal to the 50% bonus amount.
+                                <h2 class="h5 font-weight-bold text-warning-alt mb-4">{{ __('PubliceClarificationBorad') }}
+                                </h2>
+                                <p class="card-text">{{ __('TheContestPublicForum') }}</p>
+                                <p class="card-text">{{ __('IfTheContestIsCanceled') }}
                                 </p>
-                                <p class="card-text">After consulting with freelancers in the forum, please make a
-                                    decision
-                                    to chat with the first passer. In addition, please refer to Article 12.12 and 27.6 of
-                                    the Terms of Use.</p>
+                                <p class="card-text">{{ __('AfterConsultingWithFreelancers') }}</p>
                                 <hr class="my-4">
                                 <div class="d-flex align-items-start">
                                     <img class="avatar-bordered rounded-circle shadow-lg"
@@ -252,12 +249,11 @@
                                             </div>
                                             <p class="card-text mb-2">
                                                 <strong>
-                                                    In addition to the winner, a second prize is required if the second and
-                                                    third prize are presented.
-                                                    <a href="#">Contact Us</a>
+                                                    {{ __('InAdditionTo') }}
+                                                    <a href="#">{{ __('ContactUs') }}</a>
                                                 </strong>
                                             </p>
-                                            <input type="submit" class="btn btn-secondary" value="Send">
+                                            <input type="submit" class="btn btn-secondary" value="{{__('Send')}}">
                                         </form>
                                     </div>
                                 </div>
@@ -300,7 +296,7 @@
                     <div class="col-lg-4">
                         <div class="card card-bordered rounded-xl mb-4">
                             <div class="card-header py-4">
-                                <h2 class="h5 text-primary font-weight-bold mb-0">Similar Contests</h2>
+                                <h2 class="h5 text-primary font-weight-bold mb-0">{{ __('SimilarContests') }}</h2>
                             </div>
                             <div class="card-body">
                                 <div class="overflow-auto pr-3 mr-n2" style="height: 240px;">
@@ -334,7 +330,7 @@
 
                         <div class="card card-bordered rounded-xl mb-4">
                             <div class="card-header py-4">
-                                <h2 class="h5 text-success-alt font-weight-bold mb-0">Contest winners have been selected
+                                <h2 class="h5 text-success-alt font-weight-bold mb-0">{{ __('ContestWinnerHeadline') }}
                                 </h2>
                             </div>
                             <div class="card-body pt-0">
@@ -347,7 +343,8 @@
                                                         href="{{ route('contest-details', $item->contest_id) }}"><strong>{{ $item->title }}</strong></a>
                                                 </h6>
                                                 <div class="d-flex align-items-center">
-                                                    <p class="card-text flex-shrink-0 mb-0">Client: <a href="#"
+                                                    <p class="card-text flex-shrink-0 mb-0">{{ __('client') }}: <a
+                                                            href="#"
                                                             class="text-dark">{{ $item->user->username }}</a></p>
                                                     <div class="border-top w-100 mx-2"></div>
                                                     <p class="card-text mb-0">
@@ -358,7 +355,7 @@
                                         @endforeach
                                     @else
                                         <li class="mt-4">
-                                            <span class="text-danger">Ops! 404 not found</span>
+                                            <span class="text-danger">{{ __('notFound') }}</span>
                                         </li>
                                     @endif
                                 </ul>

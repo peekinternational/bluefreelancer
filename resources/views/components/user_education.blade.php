@@ -25,7 +25,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Education</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{__('Education')}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -33,20 +33,20 @@
             <div class="modal-body">
                 <form id="eduaction_update_form" method="post">
                     <input type="hidden" id="edu_id">
-                    <label class="font-size-ms font-weight-bold" for="country">Country</label>
+                    <label class="font-size-ms font-weight-bold" for="country">{{__('Country')}}</label>
                     <select class="custom-select" id="country_update" name="country">
-                        <option value="" selected="selected">Please Select Your Country</option>
+                        <option value="" selected="selected">Please Select Your Country / 국가를 선택하십시</option>
                         @foreach (App\Models\Country::all() as $item)
                             <option value="{{ $item->name }}">
                                 {{ $item->name }} -
                                 {{ $item->code }}</option>
                         @endforeach
                     </select>
-                    <label for="name">University / College:</label>
+                    <label for="name">{{__('UniversityCollege')}}:</label>
                     <input type="text" name="name" class="form-control" id="name_update">
-                    <label for="subjects">Major Subjects:</label>
+                    <label for="subjects">{{__('Major')}}:</label>
                     <input type="text" name="subjects" class="form-control" id="subjects_update">
-                    <label for="addmission_year">Year of Admission:</label>
+                    <label for="addmission_year">{{__('AdmissionYear')}}:</label>
                     <select name="addmission_year" class="form-control" id="addmission_year_update">
                         <option value="2000" {{ $edu->addmission_year == '2000' ? 'selected' : '' }}>2000</option>
                         <option value="2001" {{ $edu->addmission_year == '2001' ? 'selected' : '' }}>2001</option>
@@ -91,7 +91,7 @@
                         <option value="2040" {{ $edu->addmission_year == '2040' ? 'selected' : '' }}>2040</option>
 
                     </select>
-                    <label for="grad_year">Graduation year:</label>
+                    <label for="grad_year">{{__('GraduationYear')}}:</label>
                     <select name="grad_year" class="form-control" id="grad_year_update">
                         <option value="2000" {{ $edu->grad_year == '2000' ? 'selected' : '' }}>2000</option>
                         <option value="2001" {{ $edu->grad_year == '2001' ? 'selected' : '' }}>2001</option>
@@ -139,8 +139,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="education-update-btn">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
+                <button type="button" class="btn btn-primary" id="education-update-btn">{{ __('Save') }}</button>
             </div>
         </div>
     </div>

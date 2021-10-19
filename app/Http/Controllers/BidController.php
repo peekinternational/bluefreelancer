@@ -27,7 +27,7 @@ class BidController extends Controller
             'days' => 'required',
             'proposal' => 'required',
         ]);
-        if ($request->budget <= array_sum($request->milestone_amt)) {
+        if ($request->budget < array_sum($request->milestone_amt)) {
             return redirect()->route('project.show', $request->project_id)->with('error', 'Your Milestones Amounts are greater than your Actual Bid Amount!');
         }
         if (auth()->user()->bids != '') {

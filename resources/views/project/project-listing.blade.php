@@ -2,12 +2,12 @@
 @section('content')
     <div class="bg-secondary text-center bg-cover py-5"
         style="background-image: url({{ url('assets/img/dashboard/banner-1.jpg') }});">
-        <h1 class="h5 font-weight-bold text-white">Projects List</h1>
+        <h1 class="h5 font-weight-bold text-white">{{ __('projectList') }}</h1>
     </div>
 
     <section class="container py-5">
         <div class="card card-bordered card-body rounded-xl py-5 mb-4">
-            <h2 class="h5 font-weight-bold mb-4">Looking for Projects</h2>
+            <h2 class="h5 font-weight-bold mb-4">{{ __('LookingForProjects') }}</h2>
             <form action="{{ route('project-listing') }}" method="get" id="projectSearchForm">
                 <div class="input-group mb-4">
                     <div class="input-group-prepend">
@@ -16,10 +16,11 @@
                         </div>
                     </div>
                     <input class="form-control" type="text" name="search_project_by_title"
-                        placeholder="You can see the project list by entering the project title" value="{{request()->search_project_by_title ? request()->search_project_by_title  : ''}}" >
+                        placeholder="{{ __('SeeProject') }}"
+                        value="{{ request()->search_project_by_title ? request()->search_project_by_title : '' }}">
                 </div>
                 <hr>
-                <h2 class="h5 font-weight-bold pt-3 mb-4">My Skills</h2>
+                <h2 class="h5 font-weight-bold pt-3 mb-4">{{ __('mySkills') }}</h2>
                 <div class="form-group pb-3">
                     <select class="custom-select" data-toggle="select" id="search_project_skills" multiple>
                         {{-- Coming Option From Ajax.js (AJAX CALL) --}}
@@ -35,8 +36,9 @@
                     </select>
                     <input type="hidden" name="search_project_by_skills" id="selected_search_project_skills" required>
                 </div>
-                <input type="submit" value="Filter" class="btn mb-2 btn-info btn-sm">
-                <a href="{{ route('project-listing') }}" class="btn mb-2 btn-secondary btn-sm">Clear Filter</a>
+                <input type="submit" value="{{ __('Filter') }}" class="btn mb-2 btn-info btn-sm">
+                <a href="{{ route('project-listing') }}"
+                    class="btn mb-2 btn-secondary btn-sm">{{ __('ClearFilter') }}</a>
             </form>
 
             {{ $projects->links('vendor.pagination.custom') }}
@@ -45,11 +47,11 @@
                 <table class="table">
                     <thead>
                         <tr class="bg-gray-800 text-white">
-                            <th scope="col">Project Details</th>
-                            <th class="text-center" scope="col">Bids</th>
-                            <th class="text-center" scope="col">Started</th>
-                            <th class="text-center" scope="col">Budget</th>
-                            <th class="text-center" scope="col">Available Interview</th>
+                            <th scope="col">{{ __('ProjectDetails') }}</th>
+                            <th class="text-center" scope="col">{{ __('Bids') }}</th>
+                            <th class="text-center" scope="col">{{ __('started') }}</th>
+                            <th class="text-center" scope="col">{{ __('budget') }}</th>
+                            <th class="text-center" scope="col">{{ __('AvailableInterview') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -74,7 +76,7 @@
                                                         @endforeach
                                                     @endif
                                                 </ul>
-                                                <span class="badge badge-info">Featured</span>
+                                                <span class="badge badge-info">{{ __('featured') }}</span>
                                             </div>
                                         </div>
                                     </td>
@@ -94,16 +96,15 @@
                                                 @if ($proj->rate_status == '1')
                                                     {{ $proj->fixed_rate }}
                                                 @else
-                                                    {{ $proj->hourly_rate . '/Hourly' }}
+                                                    {{ $proj->hourly_rate . '/' . __('hourly') }}
                                                 @endif
                                             @endif
 
                                             <div class="hover-visible-content">
-                                                <span class="badge badge-info">Guaranteed</span>
+                                                <span class="badge badge-info">{{ __('gaurantee') }}</span>
                                                 <div class="py-1"></div>
-                                                <a class="badge badge-info" href="{{ route('post-project') }}">Post a
-                                                    project like
-                                                    this</a>
+                                                <a class="badge badge-info"
+                                                    href="{{ route('post-project') }}">{{ __('postProjectLikeThis') }}</a>
                                             </div>
                                         </div>
                                     </td>
@@ -117,17 +118,16 @@
                                             <i class="fa fa-print mx-1"></i>
                                         </div>
                                         @if ($proj->user_id == auth()->id())
-                                            <a href="" class="btn btn-secondary">My Project</a>
+                                            <a href="" class="btn btn-secondary">{{ __('YourProject') }}</a>
                                         @else
                                             <a href="{{ route('project.show', $proj->project_id) }}"
-                                                class="btn btn-secondary">Bid
-                                                Now</a>
+                                                class="btn btn-secondary">{{ __('bidNow') }}</a>
                                         @endif
                                     </td>
                                 </tr>
                             @endforeach
                         @else
-                            <tr><span class="text text-danger">Ops 404 not Found!</span></tr>
+                            <tr><span class="text text-danger">{{ __('notFound') }}</span></tr>
                         @endif
 
                     </tbody>

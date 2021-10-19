@@ -4,14 +4,15 @@
     <div class="bg-secondary py-4">
         <div class="container pt-2 pb-3">
             <div class="d-flex flex-column flex-md-row align-items-center">
-                <a href="/project-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">Browse
-                    Projects</a>
-                <a href="/contest-listing" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
-                    Contests</a>
-                <a href="/browse/category" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Browse
-                    Categories</a>
-                <a href="/showcases" class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">Showcase</a>
-                <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">Start a Contest</a>
+                <a href="/project-listing"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mt-2 mr-md-2">{{ __('browseProject') }}</a>
+                <a href="/contest-listing"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('browseContest') }}</a>
+                <a href="/browse/category"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('browseCategories') }}</a>
+                <a href="/showcases"
+                    class="btn btn-block bg-gray-800 text-white w-md-auto mr-md-2">{{ __('showcase') }}</a>
+                <a href="/post-contest" class="btn btn-block btn-primary w-md-auto ml-auto">{{ __('startContest') }}</a>
             </div>
         </div>
     </div>
@@ -19,11 +20,12 @@
     <!-- Title -->
     <div class="bg-secondary text-center bg-cover py-5"
         style="background-image: url({{ url('assets/img/dashboard/banner-1.jpg') }});">
-        <h1 class="h5 font-weight-bold text-white">My Project Status</h1>
+        <h1 class="h5 font-weight-bold text-white">{{ __('ProjectStatus') }}</h1>
     </div>
 
     <section class="container py-5">
-        <h2 class="font-weight-bold text-center pb-4"><span class="badge text-white bg-success-alt">Project</span>
+        <h2 class="font-weight-bold text-center pb-4"><span
+                class="badge text-white bg-success-alt">{{ __('project') }}</span>
             {{ $project->title }} </h2>
 
         <div class="card border-0 bg-primary mb-5">
@@ -31,15 +33,15 @@
                 <ul class="nav nav-wider nav-pills nav-pills-light justify-content-center" id="pills-tab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <a class="nav-link font-weight-bold active"
-                            href="{{ route('project.manage.proposals', request()->route('id')) }}">Proposal</a>
+                            href="{{ route('project.manage.proposals', request()->route('id')) }}">{{ __('ProposalTab') }}</a>
                     </li>
                     <li class="nav-item mr-3" role="presentation">
                         <a class="nav-link font-weight-bold" id="pills-management-tab"
-                            href="{{ route('project.manage.milestone', request()->route('id')) }}">Management</a>
+                            href="{{ route('project.manage.milestone', request()->route('id')) }}">{{ __('MangementTab') }}</a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link font-weight-bold" id="pills-modify-tab"
-                            href="{{ route('project.manage.modify', request()->route('id')) }}">Modify / Delete Project</a>
+                            href="{{ route('project.manage.modify', request()->route('id')) }}">{{ __('ModifyDelTab') }}</a>
                     </li>
                 </ul>
             </div>
@@ -94,13 +96,14 @@
                                                         </div>
                                                         <h5 class="h6 text-muted">1 Review</h5>
                                                     </div>
-                                                    <p>Completed within {{ $item->day }} days</p>
+                                                    <p>{{ __('CompinDays') }} {{ $item->day }} {{ __('days') }}
+                                                    </p>
                                                     @if ($item->status == 1)
                                                         <form
                                                             action="{{ route('my-project.send-request', request()->route('id')) }}"
                                                             method="post">
                                                             @csrf
-                                                            <input type="submit" value="Send Request"
+                                                            <input type="submit" value="{{ __('SendReq') }}"
                                                                 class="btn btn-info btn-sm">
                                                             <input type="hidden" name="proposal_project_id"
                                                                 value="{{ request()->route('id') }}">
@@ -108,9 +111,11 @@
                                                                 value="{{ $item->user->id }}">
                                                         </form>
                                                     @elseif($item->status == 2 || $item->status == 3)
-                                                        <button class="disabled btn btn-success btn-sm">Approved</button>
+                                                        <button
+                                                            class="disabled btn btn-success btn-sm">{{ __('Approved') }}</button>
                                                     @elseif($item->status == 0)
-                                                        <button class="disabled btn btn-danger btn-sm">Rejected</button>
+                                                        <button
+                                                            class="disabled btn btn-danger btn-sm">{{ __('Rejected') }}</button>
                                                     @endif
                                                     <a href="#" class="btn btn-secondary">화상 채팅</a>
                                                 </div>
@@ -136,23 +141,23 @@
                                         <div class="card-footer d-block">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <h6><strong>Description:</strong></h6>
+                                                    <h6><strong>{{ __('Description') }}:</strong></h6>
                                                     <p class="font-size-sm mb-0">
-                                                        {{ $item->proposal != '' ? $item->proposal : 'No Description' }}
+                                                        {{ $item->proposal != '' ? $item->proposal : __('noDescription') }}
                                                     </p>
                                                 </div>
                                                 <div class="col-md-6">
                                                     @if ($item->milestones->count())
-                                                        <h6><strong>Milestones:</strong></h6>
+                                                        <h6><strong>{{ __('RequestMilestone') }}:</strong></h6>
                                                         <div class="row">
                                                             <div class="col-md-5">
-                                                                <h6><strong>Name</strong></h6>
+                                                                <h6><strong>{{ __('fileName') }}</strong></h6>
                                                             </div>
                                                             <div class="col-md-3">
-                                                                <h6><strong>Amount</strong></h6>
+                                                                <h6><strong>{{ __('Amount') }}</strong></h6>
                                                             </div>
                                                             <div class="col-md-4">
-                                                                <h6><strong>Status</strong></h6>
+                                                                <h6><strong>{{ __('Status') }}</strong></h6>
                                                             </div>
                                                         </div>
                                                         @foreach ($item->milestones as $milestone)
@@ -166,11 +171,11 @@
                                                                 <div class="col-md-4">
                                                                     <span>
                                                                         @if ($milestone->status == 1)
-                                                                            Requested
+                                                                            {{ __('RequestRelease') }}
                                                                         @elseif($milestone->status == 2)
-                                                                            Deposit
+                                                                            {{ __('Deposit') }}
                                                                         @elseif($milestone->status == 3)
-                                                                            Rejected By Project Owner
+                                                                            {{ __('RejectedByProjectOwner') }}
                                                                         @endif
                                                                     </span>
                                                                 </div>
@@ -178,7 +183,7 @@
                                                             <hr>
                                                         @endforeach
                                                     @else
-                                                        <span class="text-danger">Ops! no milestone found...</span>
+                                                        <span class="text-danger">{{ __('notFound') }}</span>
                                                     @endif
 
                                                 </div>
@@ -189,7 +194,7 @@
                                 </li>
                             @endforeach
                         @else
-                            <span class="text-danger">Ops! 404 not Found</span>
+                            <span class="text-danger">{{ __('notFound') }}</span>
                         @endif
                     </ul>
                 </div>

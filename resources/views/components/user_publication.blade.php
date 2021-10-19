@@ -26,7 +26,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Publication</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{__('PromoteYourArticles')}}</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -34,17 +34,17 @@
             <div class="modal-body">
                 <form id="publication_update_form" method="post">
                     <input type="hidden" name="" id="pub_id">
-                    <label class="font-size-ms font-weight-bold" for="pub_title">Publication Title:</label>
+                    <label class="font-size-ms font-weight-bold" for="pub_title">{{__('ArticlePromotionTitle')}}:</label>
                     <input type="text" name="pub_title" class="form-control" id="pub_title_update">
-                    <label for="pub_name">Publisher:</label>
+                    <label for="pub_name">{{__('ArticlePublicityIssue')}}:</label>
                     <input type="text" name="pub_name" class="form-control" id="pub_name_update">
-                    <label for="pub_summary">Summary:</label>
+                    <label for="pub_summary">{{__('ArticleContents')}}:</label>
                     <textarea class="form-control" name="description" id="pub_summary_update" cols="30" rows="10"></textarea>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="publication-update-btn">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ __('Close') }}</button>
+                <button type="button" class="btn btn-primary" id="publication-update-btn">{{ __('Save') }}</button>
             </div>
         </div>
     </div>

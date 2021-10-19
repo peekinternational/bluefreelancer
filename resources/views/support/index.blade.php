@@ -4,7 +4,7 @@
         style="background-image: url({{ url('assets/img/pages/support/banner-1.jpg') }});">
         <div class="py-5 my-4">
             <div class="container py-4">
-                <h1 class="h2 font-weight-bold text-white mb-4">How may we help you?</h1>
+                <h1 class="h2 font-weight-bold text-white mb-4">{{ __('howMayWe') }}</h1>
 
                 {{-- <div class="col-md-8 mx-auto">
                     <div class="bg-white border rounded-lg shadow p-2">
@@ -30,7 +30,7 @@
                     style="background-image: url({{ url('assets/img/pages/support/card-bg.svg') }});">
                     <div class="card-body text-center">
                         <i class="fa fa-gears display-4 text-white mb-3"></i>
-                        <h4 class="text-white mb-0">General</h4>
+                        <h4 class="text-white mb-0">{{ __('general') }}</h4>
                     </div>
                 </a>
             </div>
@@ -40,7 +40,7 @@
                     style="background-image: url({{ url('assets/img/pages/support/card-bg.svg') }});">
                     <div class="card-body text-center">
                         <i class="fa fa-life-bouy display-4 text-white mb-3"></i>
-                        <h4 class="text-white mb-0">Project</h4>
+                        <h4 class="text-white mb-0">{{ __('project') }}</h4>
                     </div>
                 </a>
             </div>
@@ -50,7 +50,7 @@
                     style="background-image: url({{ url('assets/img/pages/support/card-bg.svg') }});">
                     <div class="card-body text-center">
                         <i class="fa fa-wpforms display-4 text-white mb-3"></i>
-                        <h4 class="text-white mb-0">Contest</h4>
+                        <h4 class="text-white mb-0">{{ __('contest') }}</h4>
                     </div>
                 </a>
             </div>
@@ -60,7 +60,7 @@
                     style="background-image: url({{ url('assets/img/pages/support/card-bg.svg') }});">
                     <div class="card-body text-center">
                         <i class="fa fa-money display-4 text-white mb-3"></i>
-                        <h4 class="text-white mb-0">Payment</h4>
+                        <h4 class="text-white mb-0">{{ __('paymentSetting') }}</h4>
                     </div>
                 </a>
             </div>
@@ -70,7 +70,7 @@
                     style="background-image: url({{ url('assets/img/pages/support/card-bg.svg') }});">
                     <div class="card-body text-center">
                         <i class="fa fa-address-card display-4 text-white mb-3"></i>
-                        <h4 class="text-white mb-0">Membership</h4>
+                        <h4 class="text-white mb-0">{{ __('membership') }}</h4>
                     </div>
                 </a>
             </div>
@@ -80,16 +80,16 @@
                     style="background-image: url({{ url('assets/img/pages/support/card-bg.svg') }});">
                     <div class="card-body text-center">
                         <i class="fa fa-user display-4 text-white mb-3"></i>
-                        <h4 class="text-white mb-0">Profile</h4>
+                        <h4 class="text-white mb-0">{{ __('profile') }}</h4>
                     </div>
                 </a>
             </div>
         </div>
     </div>
 
-    <section class="container pb-5 mb-3 mb-md-4">
+    {{-- <section class="container pb-5 mb-3 mb-md-4">
         <div class="text-center mb-5">
-            <h2 class="h3 font-weight-bold">Suggested Article</h2>
+            <h2 class="h3 font-weight-bold">{{ __('suggestedArticle') }}</h2>
         </div>
 
         <div class="card rounded-xl">
@@ -101,7 +101,7 @@
                         <a href="./support-inner.html">Support Payment</a>
                     </h3>
                     <h4 class="h5 font-weight-bold mb-4">General</h4>
-                    
+
                     <img src="{{ url('assets/img/logo/logo.png') }}" width="225" alt="Bluefreelancer">
 
                     <hr>
@@ -172,5 +172,5 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 @endsection

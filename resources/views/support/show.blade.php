@@ -4,7 +4,7 @@
     <div class="bg-primary text-center py-5"
         style="background-image: url({{ url('assets/img/pages/support/card-bg.svg') }});">
         <div class="container py-4">
-            <h1 class="h2 font-weight-bold text-white mb-4">How may we help you?</h1>
+            <h1 class="h2 font-weight-bold text-white mb-4">{{ __('howMayWe') }}</h1>
 
             <div class="col-md-8 mx-auto">
                 <div class="bg-white border rounded-lg shadow p-2">
@@ -16,8 +16,8 @@
                                 </div>
                             </div>
                             <input class="form-control border-0" name="filter" type="text"
-                                placeholder="Please search your questions...">
-                            <input type="submit" class="btn btn-primary" value="Search Help">
+                                placeholder="{{ __('searchQues') }}">
+                            <input type="submit" class="btn btn-primary" value="{{ __('searchHelp') }}">
                             {{-- <button >Search Help</button> --}}
                         </div>
                     </form>
@@ -30,26 +30,26 @@
         <div class="row flex-md-row-reverse">
             <div class="col-md-3 mb-4">
                 <div class="card card-bordered card-body rounded-xl mb-4">
-                    <h5 class="font-weight-bold">Support Topics</h5>
+                    <h5 class="font-weight-bold">{{ __('supportTopic') }}</h5>
                     <hr>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a href="/support/show/General" class="nav-link">General</a>
+                            <a href="/support/show/General" class="nav-link">{{ __('general') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/support/show/Project" class="nav-link">Project</a>
+                            <a href="/support/show/Project" class="nav-link">{{ __('project') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/support/show/Contest" class="nav-link">Contest</a>
+                            <a href="/support/show/Contest" class="nav-link">{{ __('contest') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/support/show/Payment" class="nav-link">Payment</a>
+                            <a href="/support/show/Payment" class="nav-link">{{ __('paymentSetting') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/support/show/Membership" class="nav-link">Membership</a>
+                            <a href="/support/show/Membership" class="nav-link">{{ __('membership') }}</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/support/show/Profile" class="nav-link">Profile</a>
+                            <a href="/support/show/Profile" class="nav-link">{{ __('profile') }}</a>
                         </li>
                     </ul>
                 </div>

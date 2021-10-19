@@ -5,23 +5,24 @@
         style="background-image: url({{ url('assets/img/pages/showcase/banner-1.jpeg') }});">
         <div class="py-5 my-4">
             <div class="container">
-                <h1 class="h2 font-weight-bold">Bluefreelancer <span class="text-white">Showcase</span></h1>
-                <p class="h6 font-weight-normal text-white mb-0">Completion of business · Creative design · Your own ideas
+                <h1 class="h2 font-weight-bold">{{ __('OutsourcingOk') }} <span
+                        class="text-white">{{ __('Showcase') }}</span></h1>
+                <p class="h6 font-weight-normal text-white mb-0">{{ __('CompletionCreativeOwnIdeas') }}
                 </p>
             </div>
         </div>
     </div>
 
     <div class="container text-right py-5">
-        <a href="/showcases" class="btn btn-secondary mr-1">Showcase Home</a>
-        <a href="{{ route('showcase.create') }}" class="btn btn-secondary">Showcase Registration</a>
+        <a href="/showcases" class="btn btn-secondary mr-1">{{ __('ShowcaseHome') }}</a>
+        <a href="{{ route('showcase.create') }}" class="btn btn-secondary">{{ __('ShowcaseReg') }}</a>
     </div>
 
     <section class="container pb-5">
         <div class="d-flex justify-content-between border-bottom pb-2 mb-4">
-            <h4 class="font-weight-bold text-warning-alt2 d-lg-none">Register Showcase</h4>
-            <h4 class="font-weight-bold text-warning-alt2 d-none d-lg-block">Step 1: Attach image file</h4>
-            <h4 class="font-weight-bold text-warning-alt2 d-none d-lg-block">Step 2: Create a showcase product</h4>
+            <h4 class="font-weight-bold text-warning-alt2 d-lg-none">{{ __('RegisterShowcase') }}</h4>
+            <h4 class="font-weight-bold text-warning-alt2 d-none d-lg-block">{{ __('Step1File') }}</h4>
+            <h4 class="font-weight-bold text-warning-alt2 d-none d-lg-block">{{ __('Step2File') }}</h4>
         </div>
 
         <form action="{{ route('showcase.store') }}" method="POST" enctype="multipart/form-data">
@@ -29,7 +30,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group image-uploader-wrap mb-4">
-                        <div class="font-size-sm font-weight-bold mb-2">Please select an image file</div>
+                        <div class="font-size-sm font-weight-bold mb-2">{{ __('Step1ofFile') }}</div>
                         <input type="file" name="image" id="imageUploader">
                         <label class="image-uploader" for="imageUploader">
                             <div class="image-uploader-overlay" id="imageOverlay">
@@ -37,8 +38,9 @@
                             </div>
                             <div class="image-uploader-content text-center">
                                 <i class="fa fa-upload text-warning-alt mb-4"></i>
-                                <p class="font-size-ms font-weight-bold text-warning-alt mb-2">Upload attachments ...</p>
-                                <p class="font-size-ms font-weight-bold text-dark">Click here to upload image file</p>
+                                <p class="font-size-ms font-weight-bold text-warning-alt mb-2">
+                                    {{ __('UploadAttachments') }}</p>
+                                <p class="font-size-ms font-weight-bold text-dark">{{ __('ClickHereTouploadImage') }}</p>
                             </div>
                         </label>
                     </div>
@@ -47,18 +49,16 @@
                     @enderror
                     <div class="d-lg-flex justify-content-between d-none">
                         <div class="w-50 pr-lg-4">
-                            <h6 class="font-size-sm font-weight-bold">Allowed Upload Files Formates</h6>
+                            <h6 class="font-size-sm font-weight-bold">{{ __('UploadFileFormates') }}</h6>
                             <p class="font-size-xs">
-                                PG, Gif, PNG. The higher the resolution, the better the image the minimum image size is
-                                800X600
+                                {{ __('PGFMinimumImagesize') }}
                             </p>
                         </div>
 
                         <div class="w-50 pl-lg-4">
-                            <h6 class="font-size-sm font-weight-bold">Allowed Upload Files Formates</h6>
+                            <h6 class="font-size-sm font-weight-bold">{{ __('UploadFileFormates') }}</h6>
                             <p class="font-size-xs">
-                                PG, Gif, PNG. The higher the resolution, the better the image the minimum image size is
-                                800X600
+                                {{ __('PGFMinimumImagesize') }}
                             </p>
                         </div>
                     </div>
@@ -66,9 +66,10 @@
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="selectShowcase" class="font-size-sm font-weight-bold">Select Showcase</label>
+                        <label for="selectShowcase"
+                            class="font-size-sm font-weight-bold">{{ __('Step1of2File') }}</label>
                         <select id="selectShowcase" name="cate" class="custom-select">
-                            <option value="" selected>Select Showcase Category</option>
+                            <option value="" selected>Select Showcase Category | 쇼케이스 카테고리 선택</option>
                             <option value="Logo">Logo</option>
                             <option value="Websites">Websites</option>
                             <option value="Mobile App">Mobile App</option>
@@ -82,7 +83,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="titleShowcase" class="font-size-sm font-weight-bold">Showcase Product Title</label>
+                        <label for="titleShowcase" class="font-size-sm font-weight-bold">{{ __('ProductTitle') }}</label>
                         <input type="text" class="form-control" name="title" id="titleShowcase">
                         @error('title')
                             <span class="text-danger">{{ $message }}</span>
@@ -90,7 +91,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="detailsShowcase" class="font-size-sm font-weight-bold">Showcase Product Details</label>
+                        <label for="detailsShowcase"
+                            class="font-size-sm font-weight-bold">{{ __('ProductDetails') }}</label>
                         <textarea class="form-control" name="description" id="detailsShowcase" cols="30"
                             rows="9"></textarea>
                         @error('description')
@@ -101,8 +103,8 @@
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="currencyShowcase" class="font-size-sm font-weight-bold">Showcase Product
-                                    Details</label>
+                                <label for="currencyShowcase"
+                                    class="font-size-sm font-weight-bold">{{ __('ShowcaseItemsAmount') }}</label>
                                 <select id="currencyShowcase" name="currency" class="custom-select">
                                     <option value="USD" selected>USD</option>
                                     <option value="KRW">KRW</option>
@@ -131,14 +133,11 @@
             <div class="row">
                 <div class="col-md-8">
                     <p class="font-size-xs">
-                        If you upload an image file, it means that you have agreed to the Bluefreelancer terms of use
-                        Article 25 post use and copyright, and article 26 intellectual property rights Bluefreelancer. If
-                        you post a post, please check again to ensure that your intellectual property rights do not cause
-                        any problems!
+                        {{ __('CopyRightIntellectualPropertyRights') }}
                     </p>
                 </div>
                 <div class="col-md-4 text-right">
-                    <input type="submit" class="btn btn-secondary font-size-sm" value="Register Showcase">
+                    <input type="submit" class="btn btn-secondary font-size-sm" value="{{ __('RegisterShowcase') }}">
                 </div>
             </div>
         </form>

@@ -18,7 +18,9 @@ use App\Http\Controllers\ContestPublicForumController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployerProjectController;
 use App\Http\Controllers\FreelancerProjectController;
+use App\Http\Controllers\LangController;
 use App\Http\Controllers\MilestoneController;
+use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\Project\ProjectManageController;
 use App\Http\Controllers\Project\ProposalController;
 use App\Http\Controllers\ProjectController;
@@ -51,6 +53,8 @@ use Illuminate\Support\Facades\Crypt;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Lang
+Route::get('/locale/{lang}', [LangController::class, 'set'])->name('locale');
 // For Home
 Route::get('/', function () {
     $projects = Project::orderBy('created_at', 'DESC')->limit(4)->get();
@@ -251,8 +255,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('friendsList/{id}', [ChatController::class, 'friendsList']);
     Route::post('singleChat', [ChatController::class, 'singleChat']);
     Route::post('send-message', [ChatController::class, 'send']);
-    Route::post('seenMessage',[ChatController::class, 'seenMessage']);
-    Route::get('messsageCount/{id}',[ChatController::class,'messsageCount']);
+    Route::post('seenMessage', [ChatController::class, 'seenMessage']);
+    Route::get('messsageCount/{id}', [ChatController::class, 'messsageCount']);
     // Browse
     Route::get('/browse/directory', [BrowseController::class, 'directory']);
     Route::get('/browse/category', [BrowseController::class, 'category']);
@@ -307,6 +311,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/how-to-use', function () {
         return view('how-to-use');
     })->name('how-to-use');
+    // Paypal
+    Route::get('/paypal-demo', function () {
+        return view('paypal-demo');
+    })->name('paypal-demo');
+    Route::get('payment', [PayPalController::class,'payment'])->name('payment');
+    Route::get('cancel', [PayPalController::class,'cancel'])->name('payment.cancel');
+    Route::get('payment/success',[PayPalController::class,'success'])->name('payment.success');
     // For Logout
     Route::get('/logout', [LogoutController::class, 'store'])->name('logout');
 });
