@@ -31,6 +31,9 @@ class PayoutController extends Controller
         if ($req->paypal_withdraw_amt > $user_wallet_amt) {
             return redirect()->back()->with('error', 'You do not have enough credit in your wallet!');
         }
+        if (!auth()->user()->paypal_email) {
+            return redirect()->back()->with('error', 'Your Paypal is not verify kindly verify it first!');
+        }
         $request = new PayoutsPostRequest();
         $body = json_decode(
             '{

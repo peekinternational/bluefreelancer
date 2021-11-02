@@ -249,7 +249,7 @@
                                         @endfor
                                 </div>
                             </div>
-                            <hr>
+                            <hr class="px-4">
                         </li>
                         @endforeach
                     </ul>
