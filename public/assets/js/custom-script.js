@@ -28,6 +28,13 @@ function addMilestoneRow() {
 function bidPriceFun() {
     $('#bidPriceAmt').html($('#bidPrice').val());
 }
+function PaypalFeeFun() {
+    var amt = $('#paypal_deposit_amt').val();
+    var fee = (Number(amt)*0.0359)/(1+0.0359);
+    var net = Number(amt)/(1+0.0359);
+    $('#Paypal_fee').html(fee.toFixed(2));
+    $('#Paypal_final_amt').html(net.toFixed(2));
+}
 var TotalMilestoneAmt = '';
 calcSum();
 function calcSum() {

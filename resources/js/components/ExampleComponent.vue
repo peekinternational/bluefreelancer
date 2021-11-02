@@ -104,13 +104,13 @@
                         <div
                           :class="'lastMessageDate-' + friends.conversation_id"
                         >
-                          <small
+                          <!-- <small
                             class="text-muted"
                             v-if="friends.message_id != 0"
                             >{{
                               istoday(friends.last_message.message_date)
                             }}</small
-                          >
+                          > -->
                         </div>
                       </div>
                       <div :class="'lastMessage-' + friends.conversation_id">
@@ -204,13 +204,13 @@
                         <div
                           :class="'lastMessageDate-' + friends.conversation_id"
                         >
-                          <small
+                          <!-- <small
                             class="text-muted"
                             v-if="friends.message_id != 0"
                             >{{
                               istoday(friends.last_message.message_date)
                             }}</small
-                          >
+                          > -->
                         </div>
                       </div>
                       <div :class="'lastMessage-' + friends.conversation_id">
@@ -850,12 +850,12 @@ export default {
       });
     },
     friendlistss: function () {
-      // console.log("asdasd");
+      console.log("Friend List Function csll");
       axios.get("friendsList/" + this.user_id).then((responce) => {
         this.friendList = responce.data;
         console.log(this.friendList);
         var url = window.location.href;
-        console.log(url);
+        // console.log(url);
         var conversations = url.substring(url.lastIndexOf("=") + 1);
         var conversation_id = conversations.split("#/")[0];
         // console.log('conversation_id',conversation_id);
@@ -1003,7 +1003,7 @@ export default {
         d.getMinutes() +
         ":" +
         d.getSeconds();
-      // console.log(this.friendId);
+      // console.log("sadasdasdsd");
       $("#image").text("");
       let meeting_file = this.$refs.msg_file.files;
       var meetingformDatas = new FormData();

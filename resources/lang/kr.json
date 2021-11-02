@@ -28,6 +28,10 @@
     "Note": "메모",
     "ClearFilter": "클리어 필터",
     "Filter": "필터",
+    "Refund": "환불하다", 
+    "Paid": "유급의", 
+
+
     "SearchCategoryByTitle" : "제목 또는 이름으로 카테고리 검색",
     "SearchSubCategoryByTitle" : "제목 또는 이름으로 하위 카테고리 검색",
     "BrowseCategoryDetails":"카테고리 세부 정보 찾아보기",

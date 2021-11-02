@@ -34,11 +34,12 @@ class PayPalController extends Controller
     }
 
 
-    public function payment()
+    public function payment(Request $req)
     {
+        $amt = $req->paypal_deposit_amt;
         $request = new OrdersCreateRequest();
         $request->headers["prefer"] = "return=representation";
-        $request->body = $this->checkoutData();
+        $request->body = PayPalController::checkoutData($amt);
         $response = $this->client->execute($request);
         // dd($response);
         if ($response->statusCode == 201) {
@@ -74,7 +75,11 @@ class PayPalController extends Controller
         if ($response->statusCode == 201 && $response->result->status == 'COMPLETED') {
             $transaction = TransactionController::store($response);
             if ($transaction) {
-                return redirect('/')->with('message', 'Transaction is completed!');
+                if ($transaction->gross_amt == 1) {
+                    return redirect('/')->with('message', 'Your Payment Method is Verified!');
+                } else {
+                    return redirect('/')->with('message', 'Transaction is completed!');
+                }
             } else {
                 abort(500);
             }
@@ -82,7 +87,7 @@ class PayPalController extends Controller
         // dd($response);
     }
 
-    public function checkoutData()
+    public static function checkoutData($amt)
     {
         return array(
             'intent' => 'CAPTURE',
@@ -98,7 +103,7 @@ class PayPalController extends Controller
                     'amount' =>
                     array(
                         'currency_code' => 'USD',
-                        'value' => '500.00'
+                        'value' => $amt,
                     )
                 )
             )

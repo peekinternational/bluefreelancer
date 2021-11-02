@@ -84,9 +84,35 @@ class FreelancerProjectController extends Controller
             'workProjects' => $workProjects,
         ]);
     }
-    public function pastProject()
+    public function pastProject(Request $request)
     {
-        return view('project.my-project.freelancer.past-project');
+        $limit = $request->limit ?? 10;
+        $filter = $request->filter;
+        if ($request->filter) {
+            $pastProjects = Bid::where('status', 4)
+                ->where('user_id', auth()->id())
+                ->whereIn('project_id', function ($query) use ($filter) {
+                    $query->select('project_id')
+                        ->from('projects')
+                        ->where('title', 'like', '%' . $filter . '%');
+                })
+                ->with('project', function ($query) {
+                    $query->where('status', '=', '3');
+                })
+                ->orderByDesc('created_at')
+                ->simplePaginate($limit);
+        } else {
+            $pastProjects = Bid::where('status', 4)
+                ->where('user_id', auth()->id())
+                ->with('project', function ($query) {
+                    $query->where('status', '=', '3');
+                })
+                ->orderByDesc('created_at')
+                ->simplePaginate($limit);
+        }
+        return view('project.my-project.freelancer.past-project', [
+            'pastProjects' => $pastProjects,
+        ]);
     }
     public function activeContest(Request $request)
     {

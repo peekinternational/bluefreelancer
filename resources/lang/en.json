@@ -14,6 +14,8 @@
   "Note": "Note",
   "ClearFilter": "Clear Filter",
   "Filter": "Filter",
+  "Refund": "Refund", 
+  "Paid": "Paid", 
   "SearchCategoryByTitle": "Search Category by Title or Name",
   "SearchSubCategoryByTitle": "Search Sub Category by Title or Name",
   "BrowseCategoryDetails": "Browse Category Details",

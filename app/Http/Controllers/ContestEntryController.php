@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Contest;
 use App\Models\ContestEntry;
+use App\Models\Escrow;
 use App\Models\Notification;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 
 class ContestEntryController extends Controller
@@ -52,8 +54,29 @@ class ContestEntryController extends Controller
 
     public function update($id)
     {
+        // Getting Records
+        $wallet = Wallet::where('user_id', auth()->id())->first();
         $contest_entry = ContestEntry::where('id', $id)->first();
+
+        // Check is Amount Exist or not
+        if ($wallet->amt < $contest_entry->amount) {
+            return redirect()->back()->with('error', 'You have not enough amount in wallet kindly recharge your wallet!');
+        }
+        $OwnerNewAmount = $wallet->amt - $contest_entry->amount;
+        $wallet->update(['amt' => $OwnerNewAmount]);
         $user_id = $contest_entry->user_id;
+        // Winner User Wallet
+        $Winnerwallet = Wallet::where('user_id', $user_id)->first();
+        if ($Winnerwallet) {
+            $WinnerNewAmount = $Winnerwallet->amt + $contest_entry->amount;
+            $Winnerwallet->update(['amt' => $WinnerNewAmount]);
+        } else {
+            Wallet::create([
+                'user_id' => $user_id,
+                'amt' => $contest_entry->amount,
+                'currency_code' => 'USD',
+            ]);
+        }
         $contest_id = $contest_entry->contest_id;
         if ($contest_entry->update(['status' => 2]) && Contest::where('contest_id', $contest_id)->update(['status' => 2])) {
             Notification::create([

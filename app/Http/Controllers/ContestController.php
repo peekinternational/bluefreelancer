@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Contest;
 use App\Models\ContestEntry;
+use App\Models\Escrow;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -64,6 +66,7 @@ class ContestController extends Controller
             'currency' => 'required',
             'budget' => 'required',
         ]);
+        
         if ($request->hasFile("file")) {
             $this->validate($request, [
                 'file' => 'required|mimes:jpeg,jpg,png,doc,docx,pdf|max:1024',
@@ -85,7 +88,6 @@ class ContestController extends Controller
             'status' => 1,
             'user_id' => auth()->id(),
         ]);
-
         if ($contest) {
             return redirect()->route('contest-details', $contest->contest_id)->with('message', 'Contest Registered Successfully!');
         }

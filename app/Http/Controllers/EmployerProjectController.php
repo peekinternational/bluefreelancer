@@ -80,10 +80,34 @@ class EmployerProjectController extends Controller
         ]);
     }
 
-    public function pastProject()
+    public function pastProject(Request $request)
     {
-
-        return view('project.my-project.employer.past-project');
+        $projects = new Project();
+        $limit = $request->limit ?? 10;
+        if ($request->filter) {
+            $pastProjects = $projects->where('status', 3)
+            ->where('user_id', auth()->id())
+            ->where('title', 'like', '%' . $request->filter . '%')
+            ->with('bids')
+            ->with('bid', function ($query) {
+                $query->where('status', '=', '4');
+            })
+            ->orderByDesc('created_at')
+            ->simplePaginate($limit);
+        } else {
+            $pastProjects = $projects->where('status', 3)
+            ->where('user_id', auth()->id())
+            ->with('bids')
+            ->with('bid', function ($query) {
+                $query->where('status', '=', '4');
+            })
+            ->orderByDesc('created_at')
+            ->simplePaginate($limit);
+        }
+        // dd($pastProjects);
+        return view('project.my-project.employer.past-project', [
+            'pastProjects' => $pastProjects,
+        ]);
     }
 
     public function openContest(Request $request)

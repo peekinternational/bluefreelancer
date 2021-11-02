@@ -3,9 +3,13 @@
 namespace App\Providers;
 
 use App\Models\Bid;
+use App\Models\Feedback;
+use App\Models\Milestone;
 use App\Models\Project;
 use App\Models\Transaction;
 use App\Observers\BidObserver;
+use App\Observers\FeedbackObserver;
+use App\Observers\MilestoneObserver;
 use App\Observers\ProjectObserver;
 use App\Observers\TransactionObserver;
 use Illuminate\Auth\Events\Registered;
@@ -36,5 +40,7 @@ class EventServiceProvider extends ServiceProvider
         Bid::observe(BidObserver::class);
         Project::observe(ProjectObserver::class);
         Transaction::observe(TransactionObserver::class);
+        Milestone::observe(MilestoneObserver::class);
+        Feedback::observe(FeedbackObserver::class);
     }
 }

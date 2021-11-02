@@ -813,45 +813,45 @@ jQuery(document).ready(function ($) {
         });
     });
 
-    $("#projectOfferMilestoneDepositPayment").click(function (e) {
-        // console.log("asdasdasd");
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        e.preventDefault();
-        var formData = new FormData();
-        formData.append('projOfferMsProjectId', $('#projOfferMilestoneProjectId').val());
-        formData.append('projOfferMsUserId', $('#projOfferMilestoneUserId').val());
-        formData.append('projOfferMsBidId', $('#projOfferMilestoneBidId').val());
-        formData.append('projOfferMsAmount', $('#projOfferMilestoneAmount').val());
-        formData.append('projOfferMsDescription', $('#projOfferMilestoneDescription').val());
-        $.ajax({
-            type: 'POST',
-            url: '/project/offer/milestone-deposit',
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (data) {
-                toastr.success('Project Payment Deposit Successfully!');
-                window.location.replace('/project-details/' + data.project_id);
-                // console.log(data);
-            },
-            error: function (data) {
-                console.log(data);
-                if (data.responseJSON.errors.projOfferMsAmount) {
-                    toastr.error(data.responseJSON.errors.projOfferMsAmount);
-                }
-                if (data.responseJSON.errors.projOfferMsDescription) {
-                    toastr.error(data.responseJSON.errors.projOfferMsDescription);
-                }
-                else {
-                    toastr.error("Please try again later!", "Server Error");
-                }
-            }
-        });
-    });
+    // $("#projectOfferMilestoneDepositPayment").click(function (e) {
+    //     // console.log("asdasdasd");
+    //     $.ajaxSetup({
+    //         headers: {
+    //             'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+    //         }
+    //     });
+    //     e.preventDefault();
+    //     var formData = new FormData();
+    //     formData.append('projOfferMsProjectId', $('#projOfferMilestoneProjectId').val());
+    //     formData.append('projOfferMsUserId', $('#projOfferMilestoneUserId').val());
+    //     formData.append('projOfferMsBidId', $('#projOfferMilestoneBidId').val());
+    //     formData.append('projOfferMsAmount', $('#projOfferMilestoneAmount').val());
+    //     formData.append('projOfferMsDescription', $('#projOfferMilestoneDescription').val());
+    //     $.ajax({
+    //         type: 'POST',
+    //         url: '/project/offer/milestone-deposit',
+    //         data: formData,
+    //         contentType: false,
+    //         processData: false,
+    //         success: function (data) {
+    //             toastr.success('Project Payment Deposit Successfully!');
+    //             window.location.replace('/project-details/' + data.project_id);
+    //             // console.log(data);
+    //         },
+    //         error: function (data) {
+    //             console.log(data);
+    //             if (data.responseJSON.errors.projOfferMsAmount) {
+    //                 toastr.error(data.responseJSON.errors.projOfferMsAmount);
+    //             }
+    //             if (data.responseJSON.errors.projOfferMsDescription) {
+    //                 toastr.error(data.responseJSON.errors.projOfferMsDescription);
+    //             }
+    //             else {
+    //                 toastr.error("Please try again later!", "Server Error");
+    //             }
+    //         }
+    //     });
+    // });
 
     $("#account-notify-freelancer").change(function (e) {
         $.get('/setting/account/notify-all-freelancer', function (data) {

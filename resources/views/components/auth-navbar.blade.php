@@ -23,13 +23,11 @@
                                     {{ __('findFreelancer') }}
                                 </div>
 
-                                <a href="{{ route('post-project') }}"
-                                    class="dropdown-item border-bottom border-light">
+                                <a href="{{ route('post-project') }}" class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-tasks mr-2"></i>
                                     {{ __('startProject') }}
                                 </a>
-                                <a href="{{ route('post-contest') }}"
-                                    class="dropdown-item border-bottom border-light">
+                                <a href="{{ route('post-contest') }}" class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-hourglass-start mr-2"></i>
                                     {{ __('startContest') }}
                                 </a>
@@ -142,7 +140,11 @@
                         <li class="nav-item dropdown dropdown-hover">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-dollar mr-1" aria-hidden="true"></i>
-                                950.00
+                                @if (App\Models\User::walletAmt())
+                                {{ App\Models\User::walletAmt()->amt }}
+                                @else
+                                0.0
+                                @endif
                             </a>
 
                             <div class="dropdown-menu py-4">
@@ -154,12 +156,16 @@
 
                                 <div class="font-size-sm font-weight-medium text-white-75 text-uppercase py-1 px-4">
                                     <span class="text-white mr-2 pr-1">$</span>
-                                    92,488.05
+                                    @if (App\Models\User::walletAmt())
+                                    {{ App\Models\User::walletAmt()->amt }}
+                                    @else
+                                    0.0
+                                    @endif
                                 </div>
                                 <div
                                     class="font-size-sm font-weight-medium text-white-75 text-uppercase py-1 px-4 mb-2">
                                     <span class="text-white mr-2 pr-1">₩</span>
-                                    48,256.00
+                                    00.00
                                 </div>
 
                                 <div
@@ -168,20 +174,22 @@
                                     {{__('manage')}}
                                 </div>
 
-                                <a href="./deposit-funds.html" class="dropdown-item border-bottom border-light">
+                                <a href="{{ route('payment.deposit.paypal') }}"
+                                    class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-credit-card mr-2"></i>
                                     {{__('deposit')}}
                                 </a>
-                                <a href="#withdrawMoney" class="dropdown-item border-bottom border-light"
-                                    data-toggle="modal">
+                                <a href="{{route('withdraw')}}" class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-repeat mr-2"></i>
                                     {{__('withdraw')}}
                                 </a>
-                                <a href="./financial-dashboard.html" class="dropdown-item border-bottom border-light">
+                                <a href="{{route('financial-dashboard.employer')}}"
+                                    class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-th-large mr-2"></i>
                                     {{__('financialDashboard')}}
                                 </a>
-                                <a href="./transaction-history.html" class="dropdown-item border-bottom border-light">
+                                <a href="{{route('transaction-history.deposit')}}"
+                                    class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-clock-o mr-2"></i>
                                     {{__('transcation')}}
                                 </a>
@@ -203,8 +211,8 @@
                             <a href="{{ route('inbox') }}" target="_blank"
                                 class="nav-link dropdown-toggle no-caret position-relative">
                                 <i class="fa fa-comments font-size-lg" aria-hidden="true"></i>
-                                <span
-                                    class="badge badge-danger messageCount badge-notification badge-pill">{{ App\Models\ChatMessages::getUnseenMsg() }}</span>
+                                <span class="badge badge-danger messageCount badge-notification badge-pill">{{
+                                    App\Models\ChatMessages::getUnseenMsg() }}</span>
                             </a>
                         </li>
 
@@ -222,21 +230,20 @@
 
                                 <div class="overflow-auto" style="height: 15rem;">
                                     @if (App\Models\Notification::count())
-                                        @foreach (App\Models\Notification::orderByDesc('created_at')->get() as $item)
-                                            @if ($item->to == auth()->id())
-                                                <a href="#"
-                                                    class="dropdown-item border-top border-light position-relative px-3">
-                                                    <i class="fa fa-bell-o mr-2"></i>
-                                                    <small>(From
-                                                        {{ App\Models\User::find($item->from)->username }})</small>
-                                                    {{ $item->message }}
-                                                    <br>
-                                                    <small>{{ $item->created_at->format('M d, Y - H:i:s') }}</small>
-                                                </a>
-                                            @endif
-                                        @endforeach
+                                    @foreach (App\Models\Notification::orderByDesc('created_at')->get() as $item)
+                                    @if ($item->to == auth()->id())
+                                    <a href="#" class="dropdown-item border-top border-light position-relative px-3">
+                                        <i class="fa fa-bell-o mr-2"></i>
+                                        <small>(From
+                                            {{ App\Models\User::find($item->from)->username }})</small>
+                                        {{ $item->message }}
+                                        <br>
+                                        <small>{{ $item->created_at->format('M d, Y - H:i:s') }}</small>
+                                    </a>
+                                    @endif
+                                    @endforeach
                                     @else
-                                        <span>{{__('noNotification')}}</span>
+                                    <span>{{__('noNotification')}}</span>
                                     @endif
 
                                 </div>
@@ -257,16 +264,17 @@
 
                                 <div class="overflow-auto" style="height: 15rem;">
                                     @if (App\Models\Project::count())
-                                        @foreach (App\Models\Project::orderByDesc('created_at')->limit(10)->get(['project_id', 'title'])
-    as $item)
-                                            <a href="{{ route('project.show', $item->project_id) }}"
-                                                class="dropdown-item border-top border-light position-relative p-3">
-                                                <i class="fa fa-desktop font-size-lg align-middle mr-2"></i>
-                                                {{ $item->title }}
-                                            </a>
-                                        @endforeach
+                                    @foreach(App\Models\Project::orderByDesc('created_at')->limit(10)->get(['project_id',
+                                    'title'])
+                                    as $item)
+                                    <a href="{{ route('project.show', $item->project_id) }}"
+                                        class="dropdown-item border-top border-light position-relative p-3">
+                                        <i class="fa fa-desktop font-size-lg align-middle mr-2"></i>
+                                        {{ $item->title }}
+                                    </a>
+                                    @endforeach
                                     @else
-                                        <span class="text-danger">{{__('noProjectFeed')}}</span>
+                                    <span class="text-danger">{{__('noProjectFeed')}}</span>
                                     @endif
                                 </div>
                             </div>

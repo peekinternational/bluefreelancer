@@ -17,9 +17,13 @@ use App\Http\Controllers\ContestHandoverController;
 use App\Http\Controllers\ContestPublicForumController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmployerProjectController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\FinancialDashboardController;
 use App\Http\Controllers\FreelancerProjectController;
 use App\Http\Controllers\LangController;
 use App\Http\Controllers\MilestoneController;
+use App\Http\Controllers\Payment\DepositController;
+use App\Http\Controllers\PayoutController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\Project\ProjectManageController;
 use App\Http\Controllers\Project\ProposalController;
@@ -29,6 +33,7 @@ use App\Http\Controllers\ShowcaseController;
 use App\Http\Controllers\ShowcaseLikeController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\SupportController;
+use App\Http\Controllers\TransactionHistoryController;
 use App\Http\Controllers\User\SettingController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ExperienceController;
@@ -39,6 +44,7 @@ use App\Http\Controllers\User\ProfCertificationController;
 use App\Http\Controllers\User\PublicationController;
 use App\Http\Controllers\User\SkillController;
 use App\Models\Contest;
+use App\Models\Feedback;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Support\Facades\Crypt;
@@ -127,6 +133,13 @@ Route::middleware(['auth'])->group(function () {
         } else {
             $user = User::find(auth()->id());
         }
+
+        if ($request->view == 'client') {
+            $feedbacks = Feedback::where('type', 2)->where('user_to', auth()->id())->with('project')->get();
+        } else {
+            $feedbacks = Feedback::where('type', 1)->where('user_to', auth()->id())->with('project')->get();
+        }
+
         $experiences = App\Models\User::find($user->id)->experiences()->get();
         $education = App\Models\User::find($user->id)->education()->get();
         $certifications = App\Models\User::find($user->id)->certifications()->get();
@@ -139,6 +152,7 @@ Route::middleware(['auth'])->group(function () {
             'publications' => $publications,
             'portfolios' => $portfolios,
             'user' => $user,
+            'feedbacks' => $feedbacks,
         ]);
     })->name('profile');
     Route::post('/profile/hourly_rate', [ProfileController::class, 'hourlyRate'])->name('/profile/hourly_rate');
@@ -242,6 +256,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/project/my-project/{bid_id}/proposal/reject', [ProposalController::class, 'destory'])->name('proposal.destory');
     // Milestone deposit OR Reject
     Route::post('/milestone/depositOrReject/{id}', [MilestoneController::class, 'depositOrReject'])->name('milestone.depositOrReject');
+    // Milestone Release OR Refund OR Dispute
+    Route::post('/milestone/rrd/{id}', [MilestoneController::class, 'ReleaseRefundDispute'])->name('milestone.rrd');
     Route::post('/milestone/destory/{id}', [MilestoneController::class, 'destory'])->name('milestone.destory');
     Route::post('/milestone/deposit', [MilestoneController::class, 'deposit'])->name('milestone.deposit');
     Route::get('/inbox', function () {
@@ -311,13 +327,40 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/how-to-use', function () {
         return view('how-to-use');
     })->name('how-to-use');
-    // Paypal
+    // Payment
+    // => Paypal Deposit
+    Route::get('/payment/deposit/paypal', function () {
+        return view('payment.deposit.paypal');
+    })->name('payment.deposit.paypal');
+    // Route::post('/payment/deposit/paypal/store', [DepositController::class, 'PaypalDeposit'])->name('PaypalDeposit');
     Route::get('/paypal-demo', function () {
         return view('paypal-demo');
     })->name('paypal-demo');
-    Route::get('payment', [PayPalController::class,'payment'])->name('payment');
-    Route::get('cancel', [PayPalController::class,'cancel'])->name('payment.cancel');
-    Route::get('payment/success',[PayPalController::class,'success'])->name('payment.success');
+    Route::get('payment', [PayPalController::class, 'payment'])->name('payment');
+    Route::get('cancel', [PayPalController::class, 'cancel'])->name('payment.cancel');
+    Route::get('payment/success', [PayPalController::class, 'success'])->name('payment.success');
+    // => Payment Verification
+    Route::get('/payment/paypal/verify', function () {
+        return view('payment.verify');
+    })->name('payment.verify');
+    // Project feedback
+    Route::get('/project/{id}/feedback/{user}/{type}', function () {
+        return view('project.feedback');
+    })->name('project.feedback');
+    Route::post('/project/feedback/store', [FeedbackController::class, 'store'])->name('feedback.store');
+    Route::get('/project/feedback/show/{user}/{type}', [FeedbackController::class, 'show'])->name('feedback.show');
+    // Paypal Payouts 
+    Route::get('withdraw', function () {
+        return view('payout.index');
+    })->name('withdraw');
+    Route::get('payout', [PayoutController::class, 'payout'])->name('payout');
+    // Transaction History
+    Route::get('transaction-history/deposit', [TransactionHistoryController::class, 'deposit'])->name('transaction-history.deposit');
+    Route::get('transaction-history/withdraw', [TransactionHistoryController::class, 'withdraw'])->name('transaction-history.withdraw');
+    // Financial Dashboard
+    Route::get('financial-dashboard/employer', [FinancialDashboardController::class, 'employer'])->name('financial-dashboard.employer');
+    Route::get('financial-dashboard/freelancer', [FinancialDashboardController::class, 'freelancer'])->name('financial-dashboard.freelancer');
+
     // For Logout
     Route::get('/logout', [LogoutController::class, 'store'])->name('logout');
 });

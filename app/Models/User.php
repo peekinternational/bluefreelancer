@@ -42,6 +42,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'bids',
         'notify_all_freelancers',
         'notify_all_projects',
+        'paypal_email',
+        'paypal_verified',
+        'rating',
+        'on_time',
+        'on_budget',
     ];
 
     /**
@@ -98,5 +103,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public static function certTitle($id)
     {
         return ProfCertification::find($id);
+    }
+    public static function walletAmt()
+    {
+        return Wallet::where('user_id', auth()->id())->first();
     }
 }

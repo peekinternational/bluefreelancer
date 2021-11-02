@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
@@ -26,7 +27,11 @@ class TransactionController extends Controller
         ]);
 
         if ($trans) {
-            return true;
+            User::where('id', auth()->id())->update([
+                'paypal_email' => $trans->email,
+                'paypal_verified' => 1,
+            ]);
+            return $trans;
         }
     }
 }

@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bid;
+use App\Models\Escrow;
 use App\Models\Milestone;
 use App\Models\Notification;
 use App\Models\Project;
 use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Crypt;
@@ -20,20 +22,30 @@ class ProjectOfferController extends Controller
             'projOfferMsAmount' => 'required',
             'projOfferMsDescription' => 'required',
         ]);
+        // Getting Records
+        $walletAmt = Wallet::where('user_id', auth()->id())->first('amt');
+        // Check is Amount Exist or not
+        if ($walletAmt->amt < $request->projOfferMsAmount) {
+            return redirect()->back()->with('error', 'You have not enough amount in wallet kindly recharge your wallet!');
+        }
         $milestone = Milestone::create([
             'name' => $request->projOfferMsDescription,
             'amount' => $request->projOfferMsAmount,
             'bid_id' => $request->projOfferMsBidId,
             'project_id' => $request->projOfferMsProjectId,
             'user_id' => $request->projOfferMsUserId,
-            'status' => '2',
+            'status' => 2,
         ]);
-
-        if($milestone){
-            return response()->json([
-                'status' => true,
-                'project_id' => $request->projOfferMsProjectId,
-            ]);
+        // Create an escrow
+        $escrow = Escrow::create([
+            'from' => auth()->id(),
+            'to' => $request->projOfferMsUserId,
+            'amt' => $request->projOfferMsAmount,
+            'source_id' => $milestone->id,
+            'type' => 1,
+        ]);
+        if($milestone &&  $escrow){
+            return redirect()->back()->with('message', 'Project Offer Milestone Deposited Successfully!');
         }
     }
 
