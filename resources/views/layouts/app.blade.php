@@ -16,7 +16,7 @@
     <link rel="stylesheet" media="screen" href="{{ url('assets/css/select2.min.css') }}">
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <link rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js">
     <!-- Title -->
     <title>Bluefreelancer | Home</title>
 </head>

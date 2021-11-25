@@ -102,7 +102,7 @@
                                         <th class="text-nowrap" scope="col">{{ __('AWARDEDBIDS') }}</th>
                                         <th class="text-nowrap" scope="col">{{ __('DEADLINE') }}</th>
                                         <th class="text-nowrap" scope="col">{{ __('MILESTONE') }}</th>
-                                        <th class="text-nowrap" scope="col">{{ __('ACTION') }}</th>
+                                        {{-- <th class="text-nowrap" scope="col">{{ __('ACTION') }}</th> --}}
                                     </tr>
                                 </thead>
 
@@ -132,7 +132,7 @@
                                                 <td class="text-nowrap py-3">
                                                     {{ $item->milestones->count() }}
                                                 </td>
-                                                <td></td>
+                                                {{-- <td></td> --}}
                                             </tr>
                                         @endforeach
                                     @endif

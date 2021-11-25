@@ -45,6 +45,12 @@ class ProjectOfferController extends Controller
             'type' => 1,
         ]);
         if($milestone &&  $escrow){
+            Notification::create([
+                'from' => auth()->id(),
+                'to' => $request->projOfferMsUserId,
+                'message' => 'The Milestone is Deposited!',
+                'url' => '/project-details/'. $request->projOfferMsProjectId
+            ]);
             return redirect()->back()->with('message', 'Project Offer Milestone Deposited Successfully!');
         }
     }
@@ -90,6 +96,7 @@ class ProjectOfferController extends Controller
             'from' => auth()->id(),
             'to' => $user_id,
             'message' => 'You have been selected for the project. Please notify us to approve the project!',
+            'url' => '/project-details/'. $project->project_id
         ]);
         if ($project && $bid) {
             return response()->json([

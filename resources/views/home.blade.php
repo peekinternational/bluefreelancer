@@ -21,7 +21,7 @@
                             like this</a>
                     </div>
                     <div class="overlay-visible text-white p-3">
-                        <p class="font-size-sm font-weight-bold mb-4">Web site · Information · Software</p>
+                        <p class="font-size-sm font-weight-bold mb-4"> <a href="/project-listing?category=1" class="text-white"> Web site · Information · Software </a></p>
                     </div>
                     <div class="card-body text-white p-3">
                         <ul class="list-unstyled row font-size-xxs mb-0">
@@ -46,7 +46,7 @@
                             contest</a>
                     </div>
                     <div class="overlay-visible text-white p-3">
-                        <p class="font-size-sm font-weight-bold mb-4">Design · Media · Architecture</p>
+                        <p class="font-size-sm font-weight-bold mb-4"> <a href="/project-listing?category=3" class="text-white">Design · Media · Architecture </a></p>
                     </div>
                     <div class="card-body text-white p-3">
                         <ul class="list-unstyled row font-size-xxs mb-0">
@@ -71,7 +71,7 @@
                             like this</a>
                     </div>
                     <div class="overlay-visible text-white p-3">
-                        <p class="font-size-sm font-weight-bold mb-4">Product Sourcing · Manufacturing</p>
+                        <p class="font-size-sm font-weight-bold mb-4"><a href="/project-listing?category=8" class="text-white">Product Sourcing · Manufacturing</a></p>
                     </div>
                     <div class="card-body text-white p-3">
                         <ul class="list-unstyled row font-size-xxs mb-0">
@@ -96,7 +96,7 @@
                             like this</a>
                     </div>
                     <div class="overlay-visible text-white p-3">
-                        <p class="font-size-sm font-weight-bold mb-4">Mobile phone · computing</p>
+                        <p class="font-size-sm font-weight-bold mb-4"> <a href="/project-listing?category=2" class="text-white">Mobile phone · Computing</a> </p>
                     </div>
                     <div class="card-body text-white p-3">
                         <ul class="list-unstyled row font-size-xxs mb-0">
@@ -121,7 +121,7 @@
                             contest</a>
                     </div>
                     <div class="overlay-visible text-white p-3">
-                        <p class="font-size-sm font-weight-bold mb-4">Writing · Contents</p>
+                        <p class="font-size-sm font-weight-bold mb-4"><a href="/project-listing?category=4" class="text-white">Writing · Contents</a></p>
                     </div>
                     <div class="card-body text-white p-3">
                         <ul class="list-unstyled row font-size-xxs mb-0">
@@ -145,7 +145,7 @@
                             project like this</a>
                     </div>
                     <div class="overlay-visible text-white p-3">
-                        <p class="font-size-sm font-weight-bold mb-4">Data entry · Management</p>
+                        <p class="font-size-sm font-weight-bold mb-4"><a href="/project-listing?category=7" class="text-white">Data entry · Management</a></p>
                     </div>
                     <div class="card-body text-white p-3">
                         <ul class="list-unstyled row font-size-xxs mb-0">
@@ -169,7 +169,7 @@
                             project like this</a>
                     </div>
                     <div class="overlay-visible text-white p-3">
-                        <p class="font-size-sm font-weight-bold mb-4">Engineering · Science</p>
+                        <p class="font-size-sm font-weight-bold mb-4"><a href="/project-listing?category=5" class="text-white">Engineering · Science</a></p>
                     </div>
                     <div class="card-body text-white p-3">
                         <ul class="list-unstyled row font-size-xxs mb-0">
@@ -192,7 +192,7 @@
                         <a class="btn btn-sm btn-outline-light" href="/post-project">Post a project like this</a>
                     </div>
                     <div class="overlay-visible text-white p-3">
-                        <p class="font-size-sm font-weight-bold mb-4">Translation · Interpretation · Language</p>
+                        <p class="font-size-sm font-weight-bold mb-4"><a href="/project-listing?category=9" class="text-white">Translation · Interpretation · Language</a></p>
                     </div>
                     <div class="card-body text-white p-3">
                         <ul class="list-unstyled row font-size-xxs mb-0">

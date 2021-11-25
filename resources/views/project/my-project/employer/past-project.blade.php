@@ -113,7 +113,9 @@
                                 @foreach ($pastProjects as $item)
                                 <tr>
                                     <td class="text-nowrap py-3">
-                                        {{ $item->title }}
+                                        <a href="{{ route('project.manage.milestone', $item->project_id) }}">
+                                            {{ $item->title }}
+                                        </a>
                                     </td>
                                     <td class="text-nowrap py-3">
                                         {{ $item->bids->count() }}

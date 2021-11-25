@@ -27,7 +27,8 @@
                         <div class="h5 font-weight-bold text-primary mb-3">
                             {{ $project->currency == 'USD' ? '$' : '₩' }}
                             {{ App\Models\Bid::getBidAvgAmt($project->project_id) ?
-                            App\Models\Bid::getBidAvgAmt($project->project_id) : '0' }}
+                            number_format((float)App\Models\Bid::getBidAvgAmt($project->project_id), 2, '.', '') : '0'
+                            }}
                         </div>
                     </div>
 
@@ -61,6 +62,10 @@
                     <div class="h5 font-weight-bold text-success-alt mb-0">
                         {{ __('Awarded') }}
                     </div>
+                    @elseif($project->status == 3)
+                    <div class="h5 font-weight-bold text-success-alt mb-0">
+                        {{ __('Completedstatus') }}
+                    </div>
                     @endif
                 </div>
             </div>
@@ -80,7 +85,7 @@
                             <h5 class="card-title mb-3">{{ __('BID') }}:</h5>
 
                             <div class="row mb-2">
-                                <label class="col-md-6" for="bidPrice">{{ __('Paidtoyour') }}:</label>
+                                <label class="col-md-6" for="bidPrice">{{ __('YourBid') }}:</label>
 
                                 <div class="col-md-6">
                                     <div class="input-group">
@@ -99,7 +104,7 @@
                             </div>
 
                             <div class="row">
-                                <label class="col-md-6" for="bidPrice">{{ __('YourBid') }}:</label>
+                                <label class="col-md-6" for="bidPrice">{{ __('Paidtoyour') }}:</label>
                                 <div class="col-md-6">
                                     <div class="input-group align-items-center">
                                         <div class="input-group-prepend">
@@ -148,10 +153,7 @@
                             </div>
                             <div class="row justify-content-between mb-2">
                                 <div class="col-md-6">
-                                    <h5 class="card-title mb-3">{{ __('ProjectMilestone') }}:
-                                        <a href="javascript:void(0)" onclick="addMilestoneRow()"><i
-                                                class="fa fa-plus-circle"></i></a>
-                                    </h5>
+                                    <h5 class="card-title mb-3">{{ __('ProjectMilestone') }}:</h5>
                                 </div>
                             </div>
                             <div class="row container">
@@ -174,6 +176,8 @@
                                             id="milestone_amt" min="3" placeholder="For" onchange="addMilestoneAmt()">
                                     </div>
                                     <div class="col-md-1">
+                                        <a href="javascript:void(0)" onclick="addMilestoneRow()" class="text-dark"><i
+                                                class="fa fa-plus-circle"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -280,7 +284,8 @@
                                 Illuminate\Support\Str::of(App\Models\User::find($project->user->id)->rating)->explode('.');
                                 @endphp
                                 <div class="ratings">
-                                    @for ($i = 0; $i < 5; $i++) @if ($i < $stars[0]) <i class="fa fa-star mr-1"></i>
+                                    @for ($i = 0; $i < 5; $i++) @if ($i < $stars[0]) <i class="fa fa-star active mr-1">
+                                        </i>
                                         @else
                                         <i class="fa fa-star-o mr-1"></i>
                                         @endif
@@ -346,7 +351,7 @@
         </div>
 
         <div class="card-body">
-            @if ($bidsOnProject->count())
+            @if ($bidsSeleProjCount->count())
             @foreach ($bidsOnProject as $item)
             @if ($item->status > 1)
             <div class="row">
@@ -375,7 +380,7 @@
                         Illuminate\Support\Str::of(App\Models\User::find($item->user->id)->rating)->explode('.');
                         @endphp
                         <div class="ratings">
-                            @for ($i = 0; $i < 5; $i++) @if ($i < $stars[0]) <i class="fa fa-star mr-1"></i>
+                            @for ($i = 0; $i < 5; $i++) @if ($i < $stars[0]) <i class="fa fa-star active mr-1"></i>
                                 @else
                                 <i class="fa fa-star-o mr-1"></i>
                                 @endif
@@ -412,7 +417,7 @@
             </div>
             {{-- <div class="row"> --}}
 
-                @if ($project->status == 3)
+                @if ($project->status == 3 && $item->user_id == auth()->id())
                 @if (!App\Models\Feedback::isExist(auth()->id(), 2, $project->project_id))
                 <a href="{{route('project.feedback', ['id' => $project->project_id, 'user' => $project->user_id, 'type' => 2])}}"
                     class="btn btn-info btn-sm my-3">Give Feedback to Client</a>
@@ -476,6 +481,7 @@
                             @csrf
                             <input type="submit" name="refund" value="{{ __('Refund') }}" class="btn btn-dark mx-2"
                                 onclick="return confirm('Are you sure you want to refund this milestone?')">
+                            <input type="hidden" name="project_id" value="{{ request()->route('id') }}">
                             {{-- <input type="submit" value="{{ __('Dispute') }}" class="btn btn-danger mx-2"> --}}
                         </form>
                         @endif
@@ -493,7 +499,7 @@
             @endif
             @endforeach
             @else
-            <span class="text-danger">{{ __('notFound') }}</span>
+            <span class="text-danger">{{ __('projSelecExist') }}</span>
             @endif
         </div>
     </div>
@@ -548,7 +554,7 @@
                         Illuminate\Support\Str::of(App\Models\User::find($item->user->id)->rating)->explode('.');
                         @endphp
                         <div class="ratings">
-                            @for ($i = 0; $i < 5; $i++) @if ($i < $stars[0]) <i class="fa fa-star mr-1"></i>
+                            @for ($i = 0; $i < 5; $i++) @if ($i < $stars[0]) <i class="fa fa-star active mr-1"></i>
                                 @else
                                 <i class="fa fa-star-o mr-1"></i>
                                 @endif
@@ -582,7 +588,7 @@
             @endforeach
             @else
             <div class="row">
-                <span class="text-danger">{{ __('notFound') }}</span>
+                <span class="text-danger">{{ __('projBidExist') }}</span>
             </div>
             @endif
         </div>

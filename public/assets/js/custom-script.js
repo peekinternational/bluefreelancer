@@ -20,18 +20,24 @@ if (imgInp) {
 
 var milestoneCount = 1;
 function addMilestoneRow() {
+    let amtLeft = Number($('#bidPriceAmt').html()) - Number($('#milestoneAmt').html());
     $('#milestoneInputBlock').append(
-        '<div class="row col-md-12 mb-2" id="milstoneRow_' + milestoneCount + '"><div class="col-md-6 my-2"><input type="text" placeholder="Project Milestone | 프로젝트 이정표" name="milestone_name[]" id="milestone_name_' + milestoneCount + '" class="form-control"></div><div class="col-md-5 my-2"><input type="number" class="form-control bidAmtItems" name="milestone_amt[]" id="milestone_amt_' + milestoneCount + '" placeholder="For | 을위한" min="3" onchange="addMilestoneAmt()"></div><div class="col-md-1"><a href="javascript:void(0)" class="text-danger milestone_remove" id="' + milestoneCount + '"><i class="fa fa-times-circle"></i></a></div></div>'
+        '<div class="row col-md-12 mb-2" id="milstoneRow_' + milestoneCount + '"><div class="col-md-6 my-2"><input type="text" placeholder="Project Milestone | 프로젝트 이정표" name="milestone_name[]" id="milestone_name_' + milestoneCount + '" class="form-control"></div><div class="col-md-5 my-2"><input type="number" class="form-control bidAmtItems" name="milestone_amt[]" id="milestone_amt_' + milestoneCount + '" placeholder="For | 을위한" min="3" onchange="addMilestoneAmt(this)" value="' + amtLeft + '"></div><div class="col-md-1"><a href="javascript:void(0)" class="text-danger milestone_remove" id="' + milestoneCount + '"><i class="fa fa-times-circle"></i></a></div></div>'
     );
     milestoneCount++;
+    calcSum();
 }
 function bidPriceFun() {
-    $('#bidPriceAmt').html($('#bidPrice').val());
+    let percentage = Number($('#bidPrice').val()) / 10;
+    let amt = Number($('#bidPrice').val()) - percentage;
+    $('#bidPriceAmt').html(amt);
+    $('#milestone_amt').val(amt);
+    $('#milestoneAmt').html(amt);
 }
 function PaypalFeeFun() {
     var amt = $('#paypal_deposit_amt').val();
-    var fee = (Number(amt)*0.0359)/(1+0.0359);
-    var net = Number(amt)/(1+0.0359);
+    var fee = (Number(amt) * 0.0359) / (1 + 0.0359);
+    var net = Number(amt) / (1 + 0.0359);
     $('#Paypal_fee').html(fee.toFixed(2));
     $('#Paypal_final_amt').html(net.toFixed(2));
 }
@@ -47,6 +53,13 @@ function calcSum() {
     });
     $('#milestoneAmt').html(sum);
     TotalMilestoneAmt = Number(sum);
+    if (Number($('#bidPriceAmt').html()) < TotalMilestoneAmt) {
+        // console.log("asdasd");
+        $('#milestoneError').html("You Reached Your Actual Bid Amount Kindly reduced it. | 실제 입찰 금액에 도달했습니다.");
+        $('#milestoneError').css('display', 'inline');
+    }else{
+        $('#milestoneError').css('display', 'none');
+    }
 }
 
 $(document).on('click', '.milestone_remove', function () {
@@ -55,17 +68,11 @@ $(document).on('click', '.milestone_remove', function () {
 });
 function addMilestoneAmt() {
     calcSum();
-    if (Number(TotalMilestoneAmt) > Number($('#bidPrice').val())) {
-        alert("You Reached Your Actual Bid Amount Kindly reduced it. | 실제 입찰 금액에 도달했습니다.");
-    } else {
-        if (!$('#bidPrice').val() <= 0) {
-            // calcSum();
-            $('#milestoneError').css('display', 'none');
-        } else {
-            $('#milestoneError').html("Kindly first add the Bid Amount! | 먼저 입찰 금액을 추가하십시오!")
-        }
-    }
-
+    // if ($('#bidPrice').val() == '') {
+    //     $('#milestoneError').html("Kindly first add the Bid Amount! | 먼저 입찰 금액을 추가하십시오!");
+    // } else {
+    //     $('#milestoneError').css('display', 'none');
+    // }
 };
 // $("#bidForm").on("submit", function () {
 //     alert("Submitted");

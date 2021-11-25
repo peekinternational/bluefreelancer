@@ -36,22 +36,26 @@
                                 @if (session()->has('status'))
                                     <div class="text-danger">{{ session('status') }}</div>
                                 @endif
+                                
+                                @error('username')
+                                    <span class="text-danger">{{ $message }}</span>
+                                @enderror
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="username" name="username"
-                                        placeholder="{{ __('RegUserName') }}" required>
+                                        placeholder="{{ __('RegUserName') }}" required value="{{ old('username') }}">
                                 </div>
-                                @error('username')
+                                
+
+                                @error('password')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                                 <div class="form-group">
                                     <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('RegPwd') }}" required>
                                 </div>
-                                @error('password')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                                <div class="form-group">
+                                
+                                {{-- <div class="form-group">
                                     <a href="forgot.html"><i class="fa fa-lock mr-2"></i> {{ __('forgetPassword') }}?</a>
-                                </div>
+                                </div> --}}
 
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-secondary btn-block"><span translate="signin"

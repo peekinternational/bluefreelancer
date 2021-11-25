@@ -59,16 +59,16 @@
                                 @if ($regShowcases->count())
                                     @foreach ($regShowcases as $item)
                                         <div class="col-md-3">
-                                            <div class="card card-overlay shadow rounded-xl mb-4">
+                                            <div class="card shadow rounded-xl mb-4">
                                                 <div class="card-img-top position-relative overflow-hidden">
                                                     <img style="width: 100%;height: 15rem;"
                                                         src="{{ url('uploads/showcases/' . $item->img) }}"
                                                         alt="Showcase thumbnail">
-                                                    <a class="overlay-hidden d-flex justify-content-center align-items-center"
+                                                    {{-- <a class="overlay-hidden d-flex justify-content-center align-items-center"
                                                         href="#quikViewModal" data-toggle="modal">
                                                         <span href="#"
                                                             class="btn btn-sm btn-primary">{{ __('ViewDetails') }}</span>
-                                                    </a>
+                                                    </a> --}}
                                                 </div>
                                                 <div class="card-body">
                                                     <h5 class="card-title mb-0">{{ $item->title }}</h5>
@@ -111,17 +111,17 @@
                             @if ($approveShowcases->count())
                                 @foreach ($approveShowcases as $item)
                                     <div class="col-md-3">
-                                        <div class="card card-overlay shadow rounded-xl mb-4">
+                                        <div class="card shadow rounded-xl mb-4">
                                             <div class="card-img-top position-relative overflow-hidden">
                                                 <img style="width: 100%;height: 15rem;"
                                                     src="{{ url('uploads/showcases/' . $item->img) }}"
                                                     alt="Showcase thumbnail">
-                                                <a class="overlay-hidden d-flex justify-content-center align-items-center"
+                                                {{-- <a class="overlay-hidden d-flex justify-content-center align-items-center"
                                                     href="#quikViewModal" data-toggle="modal">
                                                     <span href="#"
                                                         class="btn btn-sm btn-primary">{{ __('ViewDetails') }}</span>
 
-                                                </a>
+                                                </a> --}}
                                             </div>
                                             <div class="card-body">
                                                 <h5 class="card-title mb-0">{{ $item->title }}</h5>
@@ -165,16 +165,16 @@
                             @if ($rejectedShowcases->count())
                                 @foreach ($rejectedShowcases as $item)
                                     <div class="col-md-3">
-                                        <div class="card card-overlay shadow rounded-xl mb-4">
+                                        <div class="card shadow rounded-xl mb-4">
                                             <div class="card-img-top position-relative overflow-hidden">
                                                 <img style="width: 100%;height: 15rem;"
                                                     src="{{ url('uploads/showcases/' . $item->img) }}"
                                                     alt="Showcase thumbnail">
-                                                <a class="overlay-hidden d-flex justify-content-center align-items-center"
+                                                {{-- <a class="overlay-hidden d-flex justify-content-center align-items-center"
                                                     href="#quikViewModal" data-toggle="modal">
                                                     <span href="#"
                                                         class="btn btn-sm btn-primary">{{ __('ViewDetails') }}</span>
-                                                </a>
+                                                </a> --}}
                                             </div>
                                             <div class="card-body">
                                                 <h5 class="card-title mb-0">{{ $item->title }}</h5>

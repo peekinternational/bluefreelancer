@@ -17,6 +17,9 @@ class ProjectController extends Controller
         if ($request->has('search_project_by_title') || $request->has('search_project_by_skills')) {
             $projects = $projects->where('title', 'like', '%' . $request->search_project_by_title . '%')->where('skills', 'like', '%' . $request->search_project_by_skills . '%')
                 ->orderByDesc('created_at')->paginate(5);
+        }elseif($request->has('category')){
+            $projects = $projects->where('main_category', $request->category)
+                ->orderByDesc('created_at')->paginate(5);
         } else {
             $projects = $projects->orderByDesc('created_at')->paginate(5);
         }
@@ -61,7 +64,7 @@ class ProjectController extends Controller
         ]);
 
         if ($project) {
-            return redirect()->route('project.show', $project->project_id)->with('message', 'Project Posted Successfully!');
+            return redirect()->route('project.manage', $project->project_id)->with('message', 'Project Posted Successfully!');
         }
     }
 
@@ -85,14 +88,14 @@ class ProjectController extends Controller
     {
         $project = Project::where('project_id', $id)->with('user')->first();
         $bidsOnProject = Bid::where('project_id', $id)->with(['user', 'milestones'])->get();
-        // $bidsSeleProjCount = Bid::where('project_id', $id)->orWhere('status', '=', 2)->orWhere('status', '=', 3)->get();
+        $bidsSeleProjCount = Bid::where('project_id', $id)->where('status', '>', 1)->get();
         $bidsOnProjCount = Bid::where('project_id', $id)->where('status', 1)->with('user')->count();
-        // dd($bidsOnProject);
+        // dd($bidsSeleProjCount);
         return view('project.project-details', [
             'project' => $project,
             'bidsOnProject' => $bidsOnProject,
             'bidsOnProjCount' => $bidsOnProjCount,
-            // 'bidsSeleProjCount' => $bidsSeleProjCount,
+            'bidsSeleProjCount' => $bidsSeleProjCount,
         ]);
     }
 

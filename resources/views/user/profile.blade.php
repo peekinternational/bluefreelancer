@@ -60,12 +60,14 @@
             </div>
 
             <div class="col-md-2 text-center mb-4">
-                <h2 class="font-weight-bold text-white">{{$user->on_budget ? Illuminate\Support\Str::of($user->on_budget)->before('.'): '0'}}%</h2>
+                <h2 class="font-weight-bold text-white">{{$user->on_budget ?
+                    Illuminate\Support\Str::of($user->on_budget)->before('.'): '0'}}%</h2>
                 <p class="font-weight-bold text-white mb-0">{{ __('BudgetCompletionRate') }}</p>
             </div>
 
             <div class="col-md-2 text-center mb-4">
-                <h2 class="font-weight-bold text-white">{{ $user->on_time ? Illuminate\Support\Str::of($user->on_time)->before('.'): '0' }}%</h2>
+                <h2 class="font-weight-bold text-white">{{ $user->on_time ?
+                    Illuminate\Support\Str::of($user->on_time)->before('.'): '0' }}%</h2>
                 <p class="font-weight-bold text-white mb-0">{{ __('WorkingPeriodCompRate') }}</p>
             </div>
 
@@ -133,7 +135,8 @@
                                         Illuminate\Support\Str::of(App\Models\User::find($user->id)->rating)->explode('.');
                                         @endphp
                                         <div class="ratings mr-3">
-                                            @for ($i = 0; $i < 5; $i++) @if ($i < $stars[0]) <i class="fa fa-star mr-1">
+                                            @for ($i = 0; $i < 5; $i++) @if ($i < $stars[0]) <i
+                                                class="fa fa-star active mr-1">
                                                 </i>
                                                 @else
                                                 <i class="fa fa-star-o mr-1"></i>
@@ -215,6 +218,7 @@
                     @if ($feedbacks->count())
                     <ul class="list-inline">
                         @foreach ($feedbacks as $item)
+                        @if (App\Models\Feedback::isBothExist($item->project_id))
                         <li class="list-inline-item" style="width:100%">
                             <h5 class="text-bold">{{$item->project->title}}</h5>
                             <p class="p-0">{{$item->comments}}</p>
@@ -242,7 +246,8 @@
                                 <span class="badge bg-warning text-white mr-2">{{$totalRating}}</span>
 
                                 <div class="ratings">
-                                    @for ($i = 0; $i < 5; $i++) @if ($i < $stars[0]) <i class="fa fa-star mr-1"></i>
+                                    @for ($i = 0; $i < 5; $i++) @if ($i < $stars[0]) <i class="fa fa-star active mr-1">
+                                        </i>
                                         @else
                                         <i class="fa fa-star-o mr-1"></i>
                                         @endif
@@ -251,10 +256,12 @@
                             </div>
                             <hr class="px-4">
                         </li>
+                        @endif
+
                         @endforeach
                     </ul>
                     @else
-                    {{__('notFound')}}
+                    {{__('feedbackNotExist')}}
                     @endif
 
                 </div>
@@ -285,7 +292,7 @@
                         </li>
                         @endforeach
                         @else
-                        <li> <span>{{ __('notFound') }}</span>
+                        <li> <span>{{ __('portfolioNotExist') }}</span>
                         </li>
                         @endif
 
@@ -307,7 +314,7 @@
                 <x-user_experience :exp="$exp" />
                 @endforeach
                 @else
-                <span>{{ __('notFound') }}</span>
+                <span class="p-4">{{ __('expNotExist') }}</span>
                 @endif
             </div>
 
@@ -325,7 +332,7 @@
                 <x-user_education :edu="$edu" />
                 @endforeach
                 @else
-                <span>{{ __('notFound') }}</span>
+                <span class="p-4">{{ __('eduNotExist') }}</span>
                 @endif
             </div>
 
@@ -343,7 +350,7 @@
                 <x-user_certification :cert="$cert" />
                 @endforeach
                 @else
-                <span>{{ __('notFound') }}</span>
+                <span class="p-4">{{ __('certNotExist') }}</span>
                 @endif
             </div>
 
@@ -361,7 +368,7 @@
                 <x-user_publication :pub="$pub" />
                 @endforeach
                 @else
-                <span>{{ __('notFound') }}</span>
+                <span class="p-4">{{ __('pubNotExist') }}</span>
                 @endif
             </div>
 
@@ -418,25 +425,27 @@
                     @if (!request('edit_profile'))
 
                     <form action="{{ route('profile') }}" method="get">
-                        <input type="submit" value="Edit Profile" class="btn btn-sm btn-dark btn-block">
+                        <input type="submit" value="Edit Profile" class="btn btn-sm btn-dark btn-block m-2">
                         <input type="hidden" value="1" name="edit_profile">
                     </form>
 
                     @else
                     <form action="{{ route('profile') }}" method="get">
-                        <input type="submit" value="View Profile" class="btn btn-sm btn-dark btn-block">
+                        <input type="submit" value="View Profile" class="btn btn-sm btn-dark btn-block m-2">
                     </form>
                     @endif
                     @endif
 
                     @if (request('view') != 'client')
                     <form action="{{ route('profile') }}" method="get">
-                        <input type="submit" value="{{ __('ClientViewer') }}" class="btn btn-sm btn-dark btn-block">
+                        <input type="submit" value="{{ __('ClientViewer') }}"
+                            class="btn btn-sm btn-secondary btn-block m-2">
                         <input type="hidden" value="client" name="view">
                     </form>
                     @else
                     <form action="{{ route('profile') }}" method="get">
-                        <input type="submit" value="{{ __('FreelanceViewer') }}" class="btn btn-sm btn-dark btn-block">
+                        <input type="submit" value="{{ __('FreelanceViewer') }}"
+                            class="btn btn-sm btn-secondary btn-block m-2">
                         <input type="hidden" value="freelancer" name="view">
                     </form>
                     @endif
@@ -589,11 +598,13 @@
                         @endforeach
                     </ul>
                     @else
-                    <span>{{ __('notFound') }}</span>
+                    <span>{{ __('skillsNotExist') }}</span>
                     @endif
                     <div id="skill_select_block" style="display: none;">
                         <button class="btn btn-info btn-sm" onclick="saveFun()">{{ __('Save') }}</button>
-                        <select class="js-skills-tags form-control select2 select2-container select2-container--default"
+                        <br>
+                        <select
+                            class="js-skills-tags form-control select2 select2-container select2-container--default mt-2"
                             id="select_top_skills" multiple="multiple">
                             @if ($user->skills)
                             <ul class="list-inline">
@@ -625,11 +636,13 @@
                         @endforeach
                     </ul>
                     @else
-                    <span>{{ __('notFound') }}</span>
+                    <span>{{ __('topCertNotExist') }}</span>
                     @endif
                     <div id="cert_select_block" style="display: none;">
                         <button class="btn btn-info btn-sm" onclick="saveFun()">{{ __('Save') }}</button>
-                        <select class="js-certs-tags form-control select2 select2-container select2-container--default"
+                        <br>
+                        <select
+                            class="js-certs-tags form-control select2 select2-container select2-container--default mt-2"
                             id="select_top_certs" multiple="multiple">
                             @if ($user->certs)
                             <ul class="list-inline">
@@ -838,7 +851,6 @@
 
                     <label for="summary">{{__('BusinessorDevelopmentContent')}}:</label>
                     <textarea name="summary" class="form-control" id="summary" cols="30" rows="10"></textarea>
-
                 </form>
             </div>
             <div class="modal-footer">

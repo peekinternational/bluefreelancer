@@ -1,10 +1,10 @@
 @extends('layouts.app')
 <style>
-    .btn-primary:not(:disabled):not(.disabled):active,
-    .btn-check:checked+.btn-primary {
+    .btn-outline-primary:not(:disabled):not(.disabled):active,
+    .btn-check:checked+.btn-outline-primary {
         color: #fff;
-        background-color: #5a5d61 !important;
-        border-color: #5a5d61 !important;
+        background-color: #007bff !important;
+        border-color: #007bff !important;
     }
 
 </style>
@@ -46,13 +46,17 @@
                             action="{{ route('register') }}" method="post">
                             @csrf
                             <fieldset>
+                                @error('name')
+                                    <span class="text-danger ml-3">{{ $message }}</span>
+                                @enderror
                                 <div class="form-group d-flex align-items-center">
                                     <div class="h5 font-weight-bold text-danger mr-2 mb-0">*</div>
                                     <input type="text" class="form-control" id="name" name="name"
                                         placeholder="{{ __('RegEnterName') }}" required value="{{ old('name') }}">
                                 </div>
-                                @error('name')
-                                    <span class="text-danger">{{ $message }}</span>
+
+                                @error('companyname')
+                                    <span class="text-danger ml-3">{{ $message }}</span>
                                 @enderror
                                 <div class="form-group d-flex align-items-center">
                                     <div class="h5 font-weight-bold text-danger mr-2 mb-0">*</div>
@@ -60,8 +64,9 @@
                                         placeholder="{{ __('RegCompanyName') }}" required
                                         value="{{ old('companyname') }}">
                                 </div>
-                                @error('companyname')
-                                    <span class="text-danger">{{ $message }}</span>
+
+                                @error('business_reg_num')
+                                    <span class="text-danger ml-3">{{ $message }}</span>
                                 @enderror
                                 <div class="form-group d-flex align-items-center">
                                     <div class="h5 font-weight-bold text-danger mr-2 mb-0">*</div>
@@ -69,33 +74,34 @@
                                         placeholder="{{ __('RegBusinessName') }}" required
                                         value="{{ old('business_reg_num') }}">
                                 </div>
-                                @error('business_reg_num')
-                                    <span class="text-danger">{{ $message }}</span>
+                                
+                                @error('email')
+                                    <span class="text-danger ml-3">{{ $message }}</span>
                                 @enderror
                                 <div class="form-group d-flex align-items-center">
                                     <div class="h5 font-weight-bold text-danger mr-2 mb-0">*</div>
                                     <input type="text" class="form-control" id="email" name="email"
                                         placeholder="{{ __('RegEmail') }}" required value="{{ old('email') }}">
                                 </div>
-                                @error('email')
-                                    <span class="text-danger">{{ $message }}</span>
+                                
+                                @error('username')
+                                    <span class="text-danger ml-3">{{ $message }}</span>
                                 @enderror
                                 <div class="form-group d-flex align-items-center">
                                     <div class="h5 font-weight-bold text-danger mr-2 mb-0">*</div>
                                     <input type="text" class="form-control" id="username" name="username"
                                         placeholder="{{ __('RegUserName') }}" required value="{{ old('username') }}">
                                 </div>
-                                @error('username')
-                                    <span class="text-danger">{{ $message }}</span>
+                                
+                                @error('password')
+                                    <span class="text-danger ml-3">{{ $message }}</span>
                                 @enderror
                                 <div class="form-group d-flex align-items-center">
                                     <div class="h5 font-weight-bold text-danger mr-2 mb-0">*</div>
                                     <input type="password" class="form-control" id="password" name="password"
                                         placeholder="{{ __('RegPwd') }}" required>
                                 </div>
-                                @error('password')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                                
                                 <div class="form-group d-flex align-items-center">
                                     <div class="h5 font-weight-bold text-danger mr-2 mb-0">*</div>
                                     <input type="password" class="form-control" id="confirmPassword"
@@ -111,7 +117,7 @@
                                             <div>
                                                 <input type="radio" class="btn-check" name="usertype" id="hire"
                                                     value="2">
-                                                <label class="btn btn-primary btn-block"
+                                                <label class="btn btn-outline-primary btn-block"
                                                     for="hire">{{ __('hire') }}</label>
                                             </div>
                                             <div class="text-center">{{ __('RegisteredOnly') }}</div>
@@ -125,7 +131,7 @@
                                             <div>
                                                 <input type="radio" class="btn-check" name="usertype" id="work"
                                                     value="3">
-                                                <label class="btn btn-primary btn-block"
+                                                <label class="btn btn-outline-primary btn-block"
                                                     for="work">{{ __('work') }}</label>
                                             </div>
                                             <div class="text-center">{{ __('ApplicantOnly') }}</div>

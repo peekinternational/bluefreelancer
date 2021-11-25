@@ -76,7 +76,7 @@
                                             @endphp
                                             <div class="ratings mr-3">
                                                 @for ($i = 0; $i < 5; $i++) @if ($i < $stars[0]) <i
-                                                    class="fa fa-star mr-1"></i>
+                                                    class="fa fa-star active mr-1"></i>
                                                     @else
                                                     <i class="fa fa-star-o mr-1"></i>
                                                     @endif

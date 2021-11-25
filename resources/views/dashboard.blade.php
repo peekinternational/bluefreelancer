@@ -102,12 +102,12 @@
                         </div>
                     </div>
 
-                    <h5 class="font-size-lg font-weight-bold pt-4 pb-4">{{__('SetupYourAccount')}}</h5>
-                    <div class="progress mb-2">
+                    {{-- <h5 class="font-size-lg font-weight-bold pt-4 pb-4">{{__('SetupYourAccount')}}</h5> --}}
+                    {{-- <div class="progress mb-2">
                         <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75"
                             aria-valuemin="0" aria-valuemax="100">75%</div>
-                    </div>
-                    <a class="font-size-sm" href="#">+ Verify Payment Method 25%</a>
+                    </div> --}}
+                    {{-- <a class="font-size-sm" href="#">+ Verify Payment Method 25%</a> --}}
                 </div>
 
                 <div class="card card-bordered card-body font-size-sm rounded-xl mb-4">

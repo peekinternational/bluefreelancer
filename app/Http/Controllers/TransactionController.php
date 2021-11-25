@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Transaction;
+use App\Models\TransactionHistory;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -30,6 +31,13 @@ class TransactionController extends Controller
             User::where('id', auth()->id())->update([
                 'paypal_email' => $trans->email,
                 'paypal_verified' => 1,
+            ]);
+            TransactionHistory::create([
+                'user_id' => auth()->id(),
+                'transaction' => 'You Deposit the amount in your E-Wallet',
+                'amount' => $trans->net_amt,
+                'type' => 1,
+                'status' => 1,
             ]);
             return $trans;
         }

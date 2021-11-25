@@ -5,13 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Notification extends Model
+class TransactionHistory extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-        'from',
-        'to',
-        'message',
-        'url',
+        'user_id',
+        'transaction',
+        'amount',
+        'type',
+        'status',
     ];
 }

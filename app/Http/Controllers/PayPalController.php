@@ -36,9 +36,12 @@ class PayPalController extends Controller
 
     public function payment(Request $req)
     {
-        if (!auth()->user()->paypal_email) {
-            return redirect()->back()->with('error', 'Your Paypal is not verify kindly verify it first!');
+        if ($req->paypal_deposit_amt > 1) {
+            if (!auth()->user()->paypal_email) {
+                return redirect()->back()->with('error', 'Your Paypal is not verify kindly verify it first!');
+            }
         }
+
         $amt = $req->paypal_deposit_amt;
         $request = new OrdersCreateRequest();
         $request->headers["prefer"] = "return=representation";

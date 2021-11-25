@@ -250,6 +250,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/project/my-project/{project_id}/proposal', [ProposalController::class, 'index'])->name('my-project.proposal');
     // ===> Send Request to Freelancer of Proposal
     Route::post('/project/my-project/{project_id}/proposal/send-request', [ProposalController::class, 'store'])->name('my-project.send-request');
+    Route::post('/project/conversation', [ProposalController::class, 'conversation'])->name('my-project.conversation');
     // ===> Proposal Approved by Freelancer
     Route::get('/project/my-project/{bid_id}/proposal/approve', [ProposalController::class, 'update'])->name('proposal.update');
     // ===> Proposal Rejected by Freelancer
@@ -355,8 +356,8 @@ Route::middleware(['auth'])->group(function () {
     })->name('withdraw');
     Route::get('payout', [PayoutController::class, 'payout'])->name('payout');
     // Transaction History
-    Route::get('transaction-history/deposit', [TransactionHistoryController::class, 'deposit'])->name('transaction-history.deposit');
-    Route::get('transaction-history/withdraw', [TransactionHistoryController::class, 'withdraw'])->name('transaction-history.withdraw');
+    Route::get('transaction-history', [TransactionHistoryController::class, 'index'])->name('transaction-history.index');
+    // Route::post('transaction-history/store', [TransactionHistoryController::class, 'store'])->name('transaction-history.store');
     // Financial Dashboard
     Route::get('financial-dashboard/employer', [FinancialDashboardController::class, 'employer'])->name('financial-dashboard.employer');
     Route::get('financial-dashboard/freelancer', [FinancialDashboardController::class, 'freelancer'])->name('financial-dashboard.freelancer');

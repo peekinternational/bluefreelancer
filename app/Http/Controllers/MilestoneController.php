@@ -6,7 +6,9 @@ use App\Models\Bid;
 use App\Models\Escrow;
 use App\Models\Feedback;
 use App\Models\Milestone;
+use App\Models\Notification;
 use App\Models\Project;
+use App\Models\TransactionHistory;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
 
@@ -19,6 +21,10 @@ class MilestoneController extends Controller
             $walletAmt = Wallet::where('user_id', auth()->id())->first('amt');
             $milestone = Milestone::where('id', $id)->first();
             $to = Bid::where('id', $milestone->bid_id)->first('user_id');
+            // Check Wallet exsist or not!
+            if (!$walletAmt) {
+                return redirect()->back()->with('error', 'Kindly verify your paypal account and deposit the amount first!');
+            }
             // Check is Amount Exist or not
             if ($walletAmt->amt < $milestone->amount) {
                 return redirect()->back()->with('error', 'You have not enough amount in wallet kindly recharge your wallet!');
@@ -40,11 +46,31 @@ class MilestoneController extends Controller
             $status = $milestone->update(['status' => 2]);
 
             if ($status) {
+                Notification::create([
+                    'from' => auth()->id(),
+                    'to' => $to->user_id,
+                    'message' => 'The Milestone is Deposited!',
+                    'url' => '/project-details/'. $request->project_id
+                ]);
+                TransactionHistory::create([
+                    'user_id' => auth()->id(),
+                    'transaction' => 'You Deposit the Milestone from your E-Wallet',
+                    'amount' => $milestone->amount,
+                    'type' => 3,
+                    'status' => 2,
+                ]);
                 return redirect()->back()->with('message', 'Milestone Deposit Successfully!');
             }
         } elseif ($request->reject) {
-            $status = Milestone::where('id', $id)->update(['status' => 3]);
+            $ms = Milestone::where('id', $id)->first();
+            $status = $ms->update(['status' => 3]);
             if ($status) {
+                Notification::create([
+                    'from' => auth()->id(),
+                    'to' => $ms->user_id,
+                    'message' => 'The Milestone is Rejected!',
+                    'url' => '/project-details/'. $request->project_id
+                ]);
                 return redirect()->back()->with('message', 'Milestone Rejected Successfully!');
             }
         }
@@ -58,6 +84,10 @@ class MilestoneController extends Controller
         ]);
         // Getting Records
         $walletAmt = Wallet::where('user_id', auth()->id())->first('amt');
+        // Check Wallet exsist or not!
+        if (!$walletAmt) {
+            return redirect()->back()->with('error', 'Kindly verify your paypal account and deposit the amount first!');
+        }
         // $milestone = Milestone::where('id', $id)->first();
         $to = Bid::where('id', $request->deposit_bid_id)->first('user_id');
         // Check is Amount Exist or not
@@ -85,12 +115,27 @@ class MilestoneController extends Controller
         ]);
 
         if ($milestone && $escrow) {
+            Notification::create([
+                'from' => auth()->id(),
+                'to' => $to->user_id,
+                'message' => 'The Milestone is Deposited!',
+                'url' => '/project-details/'. $request->deposit_project_id
+            ]);
+
+            TransactionHistory::create([
+                'user_id' => auth()->id(),
+                'transaction' => 'You Deposit the Milestone from your E-Wallet',
+                'amount' => $request->deposit_amount,
+                'type' => 3,
+                'status' => 2,
+            ]);
             return redirect()->back()->with('message', 'Milestone Deposit Successfully!');
         }
     }
 
     public function ReleaseRefundDispute(Request $request, $id)
     {
+        // dd($request);
         // Get Escrow
         $escrow = Escrow::where('source_id', $id)->where('type', 1)->first();
         // Get Milestone
@@ -130,13 +175,34 @@ class MilestoneController extends Controller
             $ms->update(['status' => 4]);
             // Project Completion when Milestones are paid according to Project's Budget
             $msAmt = Milestone::where('project_id', $request->project_id)->where('status', 4)->sum('amount');
+            
+            Notification::create([
+                'from' => auth()->id(),
+                'to' => $toUser->user_id,
+                'message' => 'The Milestone is Released!',
+                'url' => '/project-details/'. $request->project_id
+            ]);
+            
             if ($msAmt >= $bid->budget && !Feedback::isExist(auth()->id(), 1, $request->project_id)) {
                 $bid->update(['status' => 4]);
                 Project::where('project_id', $request->project_id)->update(['status' => 3]);
                 return redirect()->route('project.feedback', ['id' => $request->project_id, 'user' => $bid->user_id, 'type' => 1])->with('message', 'Milestone Amount Released, and project also completed now you can give feedback!');
             }
+
+            TransactionHistory::create([
+                'user_id' => $toUser->user_id,
+                'transaction' => 'You received the Milestone amount in your E-Wallet',
+                'amount' => $escrow->amt,
+                'type' => 3,
+                'status' => 1,
+            ]);
+
             return redirect()->back()->with('message', 'Milestone Amount Released Successfully!');
         } elseif ($request->refund) {
+            // Chk if Amount exist
+            if ($toUser->amt < $ms->amount) {
+                return redirect()->back()->with('error', 'You have not enough amount in wallet!');
+            }
             // Subtract from User Who Refund
             $toUserAmount =  $toUser->amt - $ms->amount;
             $toUser->update([
@@ -155,6 +221,22 @@ class MilestoneController extends Controller
             $escrow->update([
                 'status' => 1
             ]);
+
+            Notification::create([
+                'from' => auth()->id(),
+                'to' => $fromUser->user_id,
+                'message' => 'The Milestone is Refuned!',
+                'url' => '/project/'. $request->project_id.'/manage/milestone-manage/'
+            ]);
+
+            TransactionHistory::create([
+                'user_id' => $fromUser->user_id,
+                'transaction' => 'Your Milestone amount is refunded in your E-Wallet',
+                'amount' => $ms->amount,
+                'type' => 3,
+                'status' => 1,
+            ]);
+
             return redirect()->back()->with('message', 'Milestone Amount Refunded Successfully!');
         }
     }

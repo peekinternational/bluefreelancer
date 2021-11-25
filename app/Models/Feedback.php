@@ -29,6 +29,16 @@ class Feedback extends Model
         return Feedback::where('user_from', $user_from)->where('type', $type)->where('project_id', $project_id)->count();
     }
 
+    public static function isBothExist($project_id)
+    {
+        $feedback = Feedback::where('project_id', $project_id)->count();
+        if($feedback > 1){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public static function reviews($user)
     {
         return Feedback::where('user_to', $user)->count();

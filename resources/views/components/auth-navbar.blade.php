@@ -100,7 +100,7 @@
                                     <i class="fa fa-th-large mr-2"></i>
                                     {{ __('dashboard') }}
                                 </a>
-                                <a href="{{ route('inbox') }}" target="_blank" class="dropdown-item">
+                                <a href="{{ route('inbox') }}" class="dropdown-item">
                                     <i class="fa fa-envelope mr-2"></i>
                                     {{ __('inbox') }}
                                 </a>
@@ -188,12 +188,12 @@
                                     <i class="fa fa-th-large mr-2"></i>
                                     {{__('financialDashboard')}}
                                 </a>
-                                <a href="{{route('transaction-history.deposit')}}"
+                                <a href="{{route('transaction-history.index')}}"
                                     class="dropdown-item border-bottom border-light">
                                     <i class="fa fa-clock-o mr-2"></i>
                                     {{__('transcation')}}
                                 </a>
-                                <a href="./verify-payment.html" class="dropdown-item">
+                                <a href="{{route('payment.verify')}}" class="dropdown-item">
                                     <i class="fa fa-shield mr-2"></i>
                                     {{__('verifyPayment')}}
                                 </a>
@@ -208,7 +208,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="{{ route('inbox') }}" target="_blank"
+                            <a href="{{ route('inbox') }}"
                                 class="nav-link dropdown-toggle no-caret position-relative">
                                 <i class="fa fa-comments font-size-lg" aria-hidden="true"></i>
                                 <span class="badge badge-danger messageCount badge-notification badge-pill">{{
@@ -232,7 +232,7 @@
                                     @if (App\Models\Notification::count())
                                     @foreach (App\Models\Notification::orderByDesc('created_at')->get() as $item)
                                     @if ($item->to == auth()->id())
-                                    <a href="#" class="dropdown-item border-top border-light position-relative px-3">
+                                    <a href="{{$item->url}}" class="dropdown-item border-top border-light position-relative px-3">
                                         <i class="fa fa-bell-o mr-2"></i>
                                         <small>(From
                                             {{ App\Models\User::find($item->from)->username }})</small>

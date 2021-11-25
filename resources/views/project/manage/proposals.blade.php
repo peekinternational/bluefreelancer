@@ -73,21 +73,23 @@
                                             </div>
                                             <div class="mr-2 mb-3">
                                                 <span
-                                                    class="badge bg-success-alt text-white mr-2 px-2 py-1">{{App\Models\User::find($item->user->id)->rating ? App\Models\User::find($item->user->id)->rating : '0.00'}}</span>
+                                                    class="badge bg-success-alt text-white mr-2 px-2 py-1">{{App\Models\User::find($item->user->id)->rating
+                                                    ? App\Models\User::find($item->user->id)->rating : '0.00'}}</span>
                                                 @php
                                                 $stars =
                                                 Illuminate\Support\Str::of(App\Models\User::find($item->user->id)->rating)->explode('.');
                                                 @endphp
                                                 <div class="ratings">
                                                     @for ($i = 0; $i < 5; $i++) @if ($i < $stars[0]) <i
-                                                        class="fa fa-star mr-1"></i>
+                                                        class="fa fa-star active mr-1"></i>
                                                         @else
                                                         <i class="fa fa-star-o mr-1"></i>
                                                         @endif
                                                         @endfor
                                                 </div>
                                             </div>
-                                            <h5 class="h6 text-muted">{{App\Models\Feedback::reviews($item->user->id)}} Review</h5>
+                                            <h5 class="h6 text-muted">{{App\Models\Feedback::reviews($item->user->id)}}
+                                                Review</h5>
                                         </div>
                                         <p>{{ __('CompinDays') }} {{ $item->day }} {{ __('days') }}
                                         </p>
@@ -106,28 +108,39 @@
                                         @elseif($item->status == 0)
                                         <button class="disabled btn btn-danger btn-sm">{{ __('Rejected') }}</button>
                                         @endif
-                                        <a href="#" class="btn btn-secondary">화상 채팅</a>
+                                        <form action="{{ route('my-project.conversation') }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-secondary btn-sm">
+                                                <i class="fa fa-comment"></i>
+                                                {{__('chat')}}
+                                            </button>
+                                            <input type="hidden" name="project_id"
+                                                value="{{ request()->route('id') }}">
+                                            <input type="hidden" name="receiver_id" value="{{ $item->user->id }}">
+                                        </form>
                                     </div>
                                     <div class="col-xs-6 col-md-4 d-none d-lg-block">
                                         <p><strong class="ng-binding">{{ $project->currency == 'USD' ? '$' : '₩' }}
                                                 {{ $item->budget }}</strong></p>
-                                                <div class="mr-2 mb-3">
-                                                    <span
-                                                        class="badge bg-success-alt text-white mr-2 px-2 py-1">{{App\Models\User::find($item->user->id)->rating ? App\Models\User::find($item->user->id)->rating : '0.00'}}</span>
-                                                    @php
-                                                    $stars =
-                                                    Illuminate\Support\Str::of(App\Models\User::find($item->user->id)->rating)->explode('.');
-                                                    @endphp
-                                                    <div class="ratings">
-                                                        @for ($i = 0; $i < 5; $i++) @if ($i < $stars[0]) <i
-                                                            class="fa fa-star mr-1"></i>
-                                                            @else
-                                                            <i class="fa fa-star-o mr-1"></i>
-                                                            @endif
-                                                            @endfor
-                                                    </div>
-                                                </div>
-                                                <h5 class="h6 text-muted">{{App\Models\Feedback::reviews($item->user->id)}} Review</h5>
+                                        <div class="mr-2 mb-3">
+                                            <span
+                                                class="badge bg-success-alt text-white mr-2 px-2 py-1">{{App\Models\User::find($item->user->id)->rating
+                                                ? App\Models\User::find($item->user->id)->rating : '0.00'}}</span>
+                                            @php
+                                            $stars =
+                                            Illuminate\Support\Str::of(App\Models\User::find($item->user->id)->rating)->explode('.');
+                                            @endphp
+                                            <div class="ratings">
+                                                @for ($i = 0; $i < 5; $i++) @if ($i < $stars[0]) <i
+                                                    class="fa fa-star active mr-1"></i>
+                                                    @else
+                                                    <i class="fa fa-star-o mr-1"></i>
+                                                    @endif
+                                                    @endfor
+                                            </div>
+                                        </div>
+                                        <h5 class="h6 text-muted">{{App\Models\Feedback::reviews($item->user->id)}}
+                                            Review</h5>
                                     </div>
                                 </div>
                             </div>

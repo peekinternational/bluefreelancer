@@ -15,7 +15,6 @@ class PayoutController extends Controller
 
     function __construct()
     {
-
         $environment = new SandboxEnvironment(env('PAYPAL_SANDBOX_CLIENT_ID'), env('PAYPAL_SANDBOX_CLIENT_SECRET'));
         $this->client = new PayPalHttpClient($environment);
         // dd($this->client);
@@ -60,13 +59,15 @@ class PayoutController extends Controller
         $request->body = $body;
         $response = $this->client->execute($request);
         // dd($response);
-        if ($response->statusCode == 201) {
+        if ($response->statusCode == 201 || $response->statusCode == 200) {
             $request = new PayoutsGetRequest($response->result->batch_header->payout_batch_id);
             $response = $this->client->execute($request);
-            if ($response->result->batch_header->batch_status == 'SUCCESS') {
+        // dd($response);
+
+            if ($response->statusCode == 201 || $response->statusCode == 200) {
                 $withdraw = WithdrawController::store($response);
                 if ($withdraw) {
-                    return redirect()->route('withdraw')->with('message', 'Amount Withdrawal Successfully!');
+                    return redirect()->route('withdraw')->with('message', 'Amount Withdrawal Successfully!')->with('withdrawMessage', 'Thank you! you can withdraw the payment again from here.');
                 }
             }
         } else {

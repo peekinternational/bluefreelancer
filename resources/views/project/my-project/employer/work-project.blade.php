@@ -124,7 +124,7 @@
                                         @foreach ($workProjects as $item)
                                             <tr>
                                                 <td class="text-nowrap py-3">
-                                                    <a href="{{ route('project.show', $item->project_id) }}">
+                                                    <a href="{{ route('project.manage.milestone', $item->project_id) }}">
                                                         {{ $item->title }}
                                                     </a>
                                                 </td>

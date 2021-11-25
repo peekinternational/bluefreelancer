@@ -45,6 +45,7 @@ class ContestEntryController extends Controller
                 'from' => auth()->id(),
                 'to' => $contest_user_id->user_id,
                 'message' => 'New Participant in your Contest!',
+                'url' => '/contest-details/'. $request->entry_contest_id
             ]);
             NewFeedController::store(auth()->id(), 'You have submitted your application and files to the  ' . Contest::where('contest_id', $request->entry_contest_id)->first('title')->title . ' contest.');
 
@@ -83,6 +84,7 @@ class ContestEntryController extends Controller
                 'from' => auth()->id(),
                 'to' => $user_id,
                 'message' => 'Congrats! You have been selected in contest.',
+                'url' => '/contest-details/'. $contest_id
             ]);
             return redirect()->route('contest-details', $contest_id)->with('message', 'Participant Successfully Selected!');
         }

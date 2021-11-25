@@ -28,19 +28,22 @@ class ProposalController extends Controller
             'from' => auth()->id(),
             'to' => $request->proposal_user_id,
             'message' => 'You have been selected for the project. Please notify us to approve the project!',
+            'url' => '/project-details/'. $request->proposal_project_id
         ]);
-        $conversation = ChatFriends::create([
-            'sender_id' => auth()->id(),
-            'receiver_id' => $request->proposal_user_id,
-            'project_id' => $request->proposal_project_id,
-            'conversation_id' => time() . Str::random(9),
-            'message_id' => '0',
-        ]);
-
+        $chat = ChatFriends::where('sender_id', auth()->id())->where('receiver_id', $request->proposal_user_id)->where('project_id', $request->proposal_project_id)->first();
+        if (!$chat) {
+            $chat = ChatFriends::create([
+                'sender_id' => auth()->id(),
+                'receiver_id' => $request->proposal_user_id,
+                'project_id' => $request->proposal_project_id,
+                'conversation_id' => time() . Str::random(9),
+                'message_id' => '0',
+            ]);
+        }
         if ($proposal_status) {
             NewFeedController::store($request->proposal_user_id, 'You have been selected to awarded the ' . Project::where('project_id', $request->proposal_project_id)->first('title')->title . ' please let me know if it is approved. After accepting the project and consulting with the client, if the deposit amount requested by the client is confirmed, the outsourcing will paid the amount to client through the escrow security settlement system according to the contract conditions.');
 
-            return redirect('/inbox?conversation=' . $conversation->conversation_id)->with('message', 'Request Send Successfully!');
+            return redirect('/inbox?conversation=' . $chat->conversation_id)->with('message', 'Request Send Successfully!');
         }
     }
     public function update($id)
@@ -53,6 +56,8 @@ class ProposalController extends Controller
             'from' => auth()->id(),
             'to' => $project->user_id,
             'message' => 'Approved your Project Selection Request!',
+            'url' => '/project-details/'. $proposal->project_id
+
         ]);
         if ($proposal) {
             return response()->json([
@@ -70,11 +75,28 @@ class ProposalController extends Controller
             'from' => auth()->id(),
             'to' => $project->user_id,
             'message' => 'Rejected your Project Selection Request!',
+            'url' => '/project-details/'. $proposal->project_id
+
         ]);
         if ($proposal) {
             return response()->json([
                 'message' => 'Successfully Rejected!',
             ]);
         }
+    }
+
+    public function conversation(Request $request)
+    {
+        $chat = ChatFriends::where('sender_id', auth()->id())->where('receiver_id', $request->receiver_id)->where('project_id', $request->project_id)->first();
+        if (!$chat) {
+            $chat = ChatFriends::create([
+                'sender_id' => auth()->id(),
+                'receiver_id' => $request->receiver_id,
+                'project_id' => $request->project_id,
+                'conversation_id' => time() . Str::random(9),
+                'message_id' => '0',
+            ]);
+        }
+        return redirect('/inbox?conversation=' . $chat->conversation_id);
     }
 }

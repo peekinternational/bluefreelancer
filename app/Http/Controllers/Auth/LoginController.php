@@ -16,6 +16,6 @@ class LoginController extends Controller
             return back()->with('status', 'Invalid login details');
         }
 
-        return redirect()->route('home')->with('message', 'Welcome Back!');
+        return redirect()->intended('dashboard')->with('message', 'Welcome Back!');
     }
 }

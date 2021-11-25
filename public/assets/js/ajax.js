@@ -143,6 +143,7 @@ jQuery(document).ready(function ($) {
         if (jQuery('#completion_at_update').val()) {
             document.getElementById("work_status_update").value = null;
         }
+        // console.log(jQuery('#started_at_update').val());
         var formData = {
             id: jQuery('#exp_id').val(),
             title: jQuery('#title_update').val(),
@@ -193,7 +194,7 @@ jQuery(document).ready(function ($) {
             addmission_year: jQuery('#addmission_year').val(),
             grad_year: jQuery('#grad_year').val(),
         };
-        console.log(formData);
+        // console.log(formData);
         $.ajax({
             type: 'POST',
             url: '/profile/education',
@@ -549,19 +550,23 @@ jQuery(document).ready(function ($) {
     $('body').on('click', '#exp_UpModal_btn', function () {
         var exp_id = $(this).data('id');
         $.get('/profile/experience/edit/' + exp_id, function (data) {
-            // const date = new Date(data.started_at)
-            // console.log(date.toLocaleString(['af'], { year: 'numeric', month: '2-digit', day: 'numeric' }));
-            // let started_at_date = date.toLocaleString(['af'], { year: 'numeric', month: '2-digit', day: 'numeric' });
+            let startedDate = new Date(data.started_at);
+            const started_at_date = startedDate.getFullYear() + '-' + ("0" + (startedDate.getMonth() + 1)).slice(-2) + '-' + ("0" + startedDate.getDate()).slice(-2);
+
             $('#exp_id').val(data.id);
             $('#title_update').val(data.title);
             $('#companyname_update').val(data.companyname);
-            $('#started_at_update').val(data.started_at);
-            $('#completion_at_update').val(data.completion_at);
-            $('#summary_update').val(data.summary);
+            $('#started_at_update').val(started_at_date);
             if (data.work_status) {
                 $('#work_status_update').attr('checked', 'checked');
                 $('#completion_at_row_update').css('display', 'none');
             }
+            if (data.completion_at) {
+                let completionDate = new Date(data.completion_at);
+                const completion_at_date = completionDate.getFullYear() + '-' + ("0" + (completionDate.getMonth() + 1)).slice(-2) + '-' + ("0" + completionDate.getDate()).slice(-2);
+                $('#completion_at_update').val(completion_at_date);
+            }
+            $('#summary_update').val(data.summary);
             $('#exp_update_modal').modal('show');
         })
     });
@@ -584,11 +589,14 @@ jQuery(document).ready(function ($) {
         var cert_id = $(this).data('id');
         $.get('/profile/certification/edit/' + cert_id, function (data) {
             // console.log(data);
+            let issuedDate = new Date(data.issue_date);
+            const issued_date = issuedDate.getFullYear() + '-' + ("0" + (issuedDate.getMonth() + 1)).slice(-2) + '-' + ("0" + issuedDate.getDate()).slice(-2);
+
             $('#cert_id').val(data.id);
             $('#cert_name_update').val(data.name);
             $('#organization_update').val(data.organization);
             $('#description_update').val(data.description);
-            $('#issue_date_update').val(data.issue_date);
+            $('#issue_date_update').val(issued_date);
             $('#certification_update_modal').modal('show');
         })
     });
@@ -855,7 +863,7 @@ jQuery(document).ready(function ($) {
 
     $("#account-notify-freelancer").change(function (e) {
         $.get('/setting/account/notify-all-freelancer', function (data) {
-            if(data.status == true){
+            if (data.status == true) {
                 toastr.success('Notification set Successfully!');
             }
         })
@@ -863,7 +871,7 @@ jQuery(document).ready(function ($) {
 
     $("#notifications-notify-projects").change(function (e) {
         $.get('/setting/account/notify-all-projects', function (data) {
-            if(data.status == true){
+            if (data.status == true) {
                 toastr.success('Notification set Successfully!');
             }
         })

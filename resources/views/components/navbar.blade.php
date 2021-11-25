@@ -22,7 +22,7 @@
                     </a>
                 </li>
                 <li class="nav-item d-none d-lg-block">
-                    <a href="{{ url('/login') }}"
+                    <a href="{{ route('post-project') }}"
                         class="nav-link font-size-sm text-white bg-primary rounded-sm py-2 px-3">
                         <i class="fa fa-file mr-2" aria-hidden="true"></i>
                         {{ __('postAProject') }}

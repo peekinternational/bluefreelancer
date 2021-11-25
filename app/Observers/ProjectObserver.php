@@ -26,6 +26,7 @@ class ProjectObserver
                     'from' => $project->user_id,
                     'to' => $key->id,
                     'message' => 'Project Posted! "' . $project->title . '" if you wanna bid on this project check on Browse Project listing.',
+                    'url' => '/project-details/'. $project->project_id
                 ]);
             }
         }
@@ -37,6 +38,7 @@ class ProjectObserver
                         'from' => $project->user_id,
                         'to' => $key->id,
                         'message' => 'Recently Project Posted which matches with your expertise!, "' . $project->title . '". If you wanna bid on this project check on Browse Project listing.',
+                        'url' => '/project-details/'. $project->project_id
                     ]);
                 }
             }

@@ -33,6 +33,6 @@ class RegisterController extends Controller
 
         auth()->attempt($request->only('username','email', 'password'));
 
-        return redirect()->route('home')->with('message', 'Congratulations you are now part of Blue Freelancer!');
+        return redirect()->route('dashboard')->with('message', 'Congratulations you are now part of Blue Freelancer!');
     }
 }

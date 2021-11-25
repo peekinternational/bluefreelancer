@@ -1,5 +1,19 @@
 {
   "notFound": "Ops! 404 not found",
+
+  "skillsNotExist": "No Top Skills Exist",
+  "topCertNotExist": "No Top Certifications Exist",
+  "feedbackNotExist": "No Work History & Review Exist",
+  "portfolioNotExist": "No Portfolio Exist",
+  "expNotExist": "No Experience Exist",
+  "eduNotExist": "No Education Exist",
+  "certNotExist": "No Certification Exist",
+  "pubNotExist": "No Publication Exist",
+
+  "projSelecExist": "The Freelancer/s not yet Selected",
+  "projBidExist": "No Bid Exists",
+
+
   "file": "File",
   "fileOld": "Old File",
   "fileValid": "(Uploadable files: JPG, PNG, GIF, maximum file size 2MB)",

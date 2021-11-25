@@ -74,6 +74,12 @@
                                                 {{ $item->day }} {{ __('days') }}</p>
                                         </div>
                                     </div>
+                                    @if (!App\Models\Feedback::isExist(auth()->id(), 1, $project->project_id))
+                                        <a href="{{route('project.feedback', ['id' => $project->project_id, 'user' => $item->user_id, 'type' => 1])}}"
+                                            class="btn btn-info btn-sm my-3">Give Feedback to Freelancer</a> 
+                                        @else
+                                        <span class="btn btn-success btn-sm disabled my-3">Feedback Submitted</span>
+                                        @endif
                                 </div>
 
                                 <form action="{{ route('milestone.deposit') }}" method="post" class="my-4">
