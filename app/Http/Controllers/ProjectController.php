@@ -64,7 +64,7 @@ class ProjectController extends Controller
         ]);
 
         if ($project) {
-            return redirect()->route('project.manage', $project->project_id)->with('message', 'Project Posted Successfully!');
+            return redirect()->route('project.manage.proposals', $project->project_id)->with('message', 'Project Posted Successfully!');
         }
     }
 

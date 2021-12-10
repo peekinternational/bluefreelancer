@@ -16,6 +16,9 @@ use App\Http\Controllers\ContestEntryController;
 use App\Http\Controllers\ContestHandoverController;
 use App\Http\Controllers\ContestPublicForumController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DisputeArbitrationController;
+use App\Http\Controllers\DisputeController;
+use App\Http\Controllers\DisputeConversationController;
 use App\Http\Controllers\EmployerProjectController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\FinancialDashboardController;
@@ -361,7 +364,20 @@ Route::middleware(['auth'])->group(function () {
     // Financial Dashboard
     Route::get('financial-dashboard/employer', [FinancialDashboardController::class, 'employer'])->name('financial-dashboard.employer');
     Route::get('financial-dashboard/freelancer', [FinancialDashboardController::class, 'freelancer'])->name('financial-dashboard.freelancer');
-
+    // Dispute
+    Route::get('dispute/stage-one/{to}/{milestone_id}', [DisputeController::class, 'stageOne'])->name('dispute.stage-one');
+    Route::get('dispute/stage-two/{id}', [DisputeController::class, 'stageTwo'])->name('dispute.stage-two');
+    Route::get('dispute/stage-three/{id}', [DisputeController::class, 'stageThree'])->name('dispute.stage-three');
+    Route::get('dispute/stage-four', function ()
+    {
+        return view('dispute.stage-four');
+    })->name('dispute.stage-four');
+    Route::post('dispute/store', [DisputeController::class, 'store'])->name('dispute.store');
+    Route::post('dispute/new-offer', [DisputeController::class, 'newOffer'])->name('dispute.new-offer');
+    Route::post('dispute/offer-accept', [DisputeController::class, 'acceptOffer'])->name('dispute.offer-accept');
+    Route::post('dispute/cancel/{id}', [DisputeController::class, 'cancel'])->name('dispute.cancel');
+    Route::post('dispute/conversation/store', [DisputeConversationController::class, 'store'])->name('dispute.conversation.store');
+    Route::get('dispute/arbitration/store/{id}', [DisputeArbitrationController::class, 'store'])->name('dispute.arbitration.store');
     // For Logout
     Route::get('/logout', [LogoutController::class, 'store'])->name('logout');
 });

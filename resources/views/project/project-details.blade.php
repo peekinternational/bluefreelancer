@@ -472,10 +472,14 @@
                                 onclick="return confirm('Are you sure you want to cancel this milestone?')">
                         </form>
                         @elseif ($milestone->status == 2)
-                        <form action="{{ route('milestone.rrd',  $milestone->id)}}" method="POST">
+                        {{-- <form action="{{ route('milestone.rrd',  $milestone->id)}}" method="POST">
                             @csrf
                             <input type="submit" value="{{ __('Dispute') }}" class="btn btn-danger mx-2">
-                        </form>
+                        </form> --}}
+                        <a href="{{route('dispute.stage-one', [
+                            'to' => base64_encode($project->user_id),
+                            'milestone_id' => base64_encode($milestone->id)])}}"
+                            class="btn btn-danger mx-2">{{ __('Dispute') }}</a>
                         @elseif ($milestone->status == 4)
                         <form action="{{ route('milestone.rrd',  $milestone->id)}}" method="POST">
                             @csrf

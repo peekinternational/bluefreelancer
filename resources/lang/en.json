@@ -12,6 +12,8 @@
 
   "projSelecExist": "The Freelancer/s not yet Selected",
   "projBidExist": "No Bid Exists",
+  "projPropExist": "No Proposal Exists",
+  "projMSExist": "First you have to Accept the proposal!",
 
 
   "file": "File",

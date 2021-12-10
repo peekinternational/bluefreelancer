@@ -12,6 +12,10 @@
 
   "projSelecExist": "아직 선택되지 않은 프리랜서",
   "projBidExist": "입찰가가 없습니다.",
+  "projPropExist": "제안이 없습니다.",
+  "projMSExist": "먼저 제안을 수락해야 합니다!",
+
+
 
   
   "file": "파일",

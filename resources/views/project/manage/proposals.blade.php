@@ -202,7 +202,7 @@
                     </li>
                     @endforeach
                     @else
-                    <span class="text-danger">{{ __('notFound') }}</span>
+                    <span class="text-danger">{{ __('projPropExist') }}</span>
                     @endif
                 </ul>
             </div>

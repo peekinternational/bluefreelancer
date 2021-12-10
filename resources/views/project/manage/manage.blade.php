@@ -190,6 +190,8 @@
                         </li>
                         @endif
                         @endforeach
+                        @else
+                    <span class="text-danger">{{ __('projMSExist') }}</span>
                         @endif
                     </ul>
                 </div>
