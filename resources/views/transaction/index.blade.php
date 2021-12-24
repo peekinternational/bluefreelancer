@@ -105,7 +105,9 @@
                         </tr>
                         @endforeach
                         @else
-                        {{__('notFound')}}
+                        <tr>
+                            <td>{{__('notFound')}}</td>
+                        </tr>
                         @endif
 
                     </tbody>

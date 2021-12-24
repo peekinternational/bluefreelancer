@@ -32,9 +32,9 @@ class Feedback extends Model
     public static function isBothExist($project_id)
     {
         $feedback = Feedback::where('project_id', $project_id)->count();
-        if($feedback > 1){
+        if ($feedback > 1) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -42,7 +42,6 @@ class Feedback extends Model
     public static function reviews($user)
     {
         return Feedback::where('user_to', $user)->count();
-
     }
     public function project()
     {

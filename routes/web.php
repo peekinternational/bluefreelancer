@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\ForgotController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -84,6 +85,13 @@ Route::middleware(['guest'])->group(function () {
         return view('auth.register');
     })->name('register');
     Route::post('/register', [RegisterController::class, 'store']);
+    // Forgot Password
+    Route::get('/forgot', [ForgotController::class, 'index']);
+    Route::get('/forgot-password', function () {
+        return view('auth.forgot-password');
+    });
+    Route::post('/forgot-email', [ForgotController::class, 'email'])->name('forgot.email');
+    Route::post('/forgot-store', [ForgotController::class, 'store'])->name('forgot.store');
 });
 
 // For Mail 

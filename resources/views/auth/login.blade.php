@@ -53,9 +53,9 @@
                                     <input type="password" class="form-control" id="password" name="password" placeholder="{{ __('RegPwd') }}" required>
                                 </div>
                                 
-                                {{-- <div class="form-group">
-                                    <a href="forgot.html"><i class="fa fa-lock mr-2"></i> {{ __('forgetPassword') }}?</a>
-                                </div> --}}
+                                <div class="form-group">
+                                    <a href="/forgot"><i class="fa fa-lock mr-2"></i> {{ __('forgetPassword') }}?</a>
+                                </div>
 
                                 <div class="form-group">
                                     <button type="submit" class="btn btn-secondary btn-block"><span translate="signin"

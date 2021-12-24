@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bid;
 use App\Models\Milestone;
+use App\Models\Notification;
 use App\Models\Project;
 use Illuminate\Http\Request;
 
@@ -52,6 +53,12 @@ class BidController extends Controller
             }
             NewFeedController::store(auth()->id(), 'You have Bidded on ' . Project::where('project_id', $request->project_id)->first('title')->title . ' uploaded Project. There is a high possibility that you can contract with your client if you provide a reasonable cost, proposal.');
             if ($bid) {
+                Notification::create([
+                    'from' => auth()->id(),
+                    'to' => Project::where('project_id', $request->project_id)->first()->user_id,
+                    'message' => 'New Bid on your project',
+                    'url' => '/project/' . $request->project_id . '/manage/proposals/',
+                ]);
                 return redirect()->route('project.show', $request->project_id)->with('message', 'Bid Placed Successfully!');
             }
         } else {

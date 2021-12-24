@@ -16,7 +16,7 @@ class DisputeArbitrationController extends Controller
 {
     public function store($id)
     {
-        $wallet = Wallet::where('id', auth()->id())->first();
+        $wallet = Wallet::where('user_id', auth()->id())->first();
         if ($wallet->amt < 25) {
             return redirect()->back()->with('error', 'You dont have enough amount in your wallet for arbitration fee!');
         }

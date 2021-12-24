@@ -114,8 +114,7 @@
                                                 <i class="fa fa-comment"></i>
                                                 {{__('chat')}}
                                             </button>
-                                            <input type="hidden" name="project_id"
-                                                value="{{ request()->route('id') }}">
+                                            <input type="hidden" name="project_id" value="{{ request()->route('id') }}">
                                             <input type="hidden" name="receiver_id" value="{{ $item->user->id }}">
                                         </form>
                                     </div>
@@ -184,6 +183,8 @@
                                                     {{ __('RejectedByProjectOwner') }}
                                                     @elseif($milestone->status == 4)
                                                     {{ __('Paid') }}
+                                                    @elseif($milestone->status == 5)
+                                                    Dispute
                                                     @endif
                                                 </span>
                                             </div>
@@ -193,10 +194,8 @@
                                         @else
                                         <span class="text-danger">{{ __('notFound') }}</span>
                                         @endif
-
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </li>
@@ -207,8 +206,6 @@
                 </ul>
             </div>
         </div>
-
     </div>
 </section>
-
 @endsection

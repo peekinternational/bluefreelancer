@@ -422,7 +422,7 @@ jQuery(document).ready(function ($) {
             title: jQuery('#pub_title_update').val(),
             summary: jQuery('#pub_summary_update').val(),
         };
-        console.log(formData);
+        // console.log(formData);
         $.ajax({
             type: 'POST',
             url: '/profile/publication/update',

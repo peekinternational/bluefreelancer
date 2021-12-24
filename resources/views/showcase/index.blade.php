@@ -84,10 +84,10 @@
                                 <hr>
                                 <div class="d-flex justify-content-between font-size-sm">
                                     <span>{{ $item->currency == 'USD' ? '$' : '₩' }} {{ $item->amt }}</span>
-                                    <span>
+                                    {{-- <span>
                                         <i class="fa fa-heart mr-1"></i>
                                         {{ $item->showcaseLikes->count() }}
-                                    </span>
+                                    </span> --}}
                                 </div>
                             </div>
                         </div>

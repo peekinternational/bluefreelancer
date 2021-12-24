@@ -26,7 +26,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('dispute:otherParty')->daily();
+        $schedule->command('dispute:partyRespond')->daily();
         $schedule->command('dispute:arbitration')->daily();
     }
 

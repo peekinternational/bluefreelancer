@@ -461,6 +461,8 @@
                             {{ __('RejectedByProjectOwner') }}
                             @elseif($milestone->status == 4)
                             {{ __('Paid') }}
+                            @elseif($milestone->status == 5)
+                            Dispute
                             @endif
                         </span>
                     </div>
@@ -478,8 +480,8 @@
                         </form> --}}
                         <a href="{{route('dispute.stage-one', [
                             'to' => base64_encode($project->user_id),
-                            'milestone_id' => base64_encode($milestone->id)])}}"
-                            class="btn btn-danger mx-2">{{ __('Dispute') }}</a>
+                            'milestone_id' => base64_encode($milestone->id)])}}" class="btn btn-danger mx-2">{{
+                            __('Dispute') }}</a>
                         @elseif ($milestone->status == 4)
                         <form action="{{ route('milestone.rrd',  $milestone->id)}}" method="POST">
                             @csrf

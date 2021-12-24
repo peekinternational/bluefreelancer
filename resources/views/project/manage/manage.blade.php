@@ -75,11 +75,11 @@
                                         </div>
                                     </div>
                                     @if (!App\Models\Feedback::isExist(auth()->id(), 1, $project->project_id))
-                                        <a href="{{route('project.feedback', ['id' => $project->project_id, 'user' => $item->user_id, 'type' => 1])}}"
-                                            class="btn btn-info btn-sm my-3">Give Feedback to Freelancer</a> 
-                                        @else
-                                        <span class="btn btn-success btn-sm disabled my-3">Feedback Submitted</span>
-                                        @endif
+                                    <a href="{{route('project.feedback', ['id' => $project->project_id, 'user' => $item->user_id, 'type' => 1])}}"
+                                        class="btn btn-info btn-sm my-3">Give Feedback to Freelancer</a>
+                                    @else
+                                    <span class="btn btn-success btn-sm disabled my-3">Feedback Submitted</span>
+                                    @endif
                                 </div>
 
                                 <form action="{{ route('milestone.deposit') }}" method="post" class="my-4">
@@ -141,6 +141,8 @@
                                                 {{ __('RejectedByProjectOwner') }}
                                                 @elseif($milestone->status == 4)
                                                 {{ __('Paid') }}
+                                                @elseif($milestone->status == 5)
+                                                Dispute
                                                 @endif
                                             </td>
                                             <td>
@@ -156,16 +158,24 @@
                                                         value="{{ __('Reject') }}">
                                                 </form>
                                                 @elseif($milestone->status == 2)
-                                                <form action="{{ route('milestone.rrd', $milestone->id) }}"
-                                                    method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="project_id"
-                                                        value="{{ request()->route('id') }}">
-                                                    <input type="submit" class="btn btn-success bt-xs"
-                                                        name="amount_release" value="{{ __('AmountRelease') }}">
-                                                    <input type="submit" class="btn btn-danger bt-xs" name="dispute"
-                                                        value="{{ __('Dispute') }}">
-                                                </form>
+                                                <div class="d-flex">
+                                                    <form action="{{ route('milestone.rrd', $milestone->id) }}"
+                                                        method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="project_id"
+                                                            value="{{ request()->route('id') }}">
+                                                        <input type="submit" class="btn btn-success bt-xs"
+                                                            name="amount_release" value="{{ __('AmountRelease') }}">
+                                                        {{-- <input type="submit" class="btn btn-danger bt-xs"
+                                                            name="dispute" value="{{ __('Dispute') }}"> --}}
+                                                    </form>
+                                                    <a href="{{route('dispute.stage-one', [
+                                                    'to' => base64_encode($item->user_id),
+                                                    'milestone_id' => base64_encode($milestone->id)])}}"
+                                                        class="btn btn-danger mx-2">{{
+                                                        __('Dispute') }}</a>
+                                                </div>
+
                                                 @endif
                                             </td>
                                         </tr>
@@ -191,7 +201,7 @@
                         @endif
                         @endforeach
                         @else
-                    <span class="text-danger">{{ __('projMSExist') }}</span>
+                        <span class="text-danger">{{ __('projMSExist') }}</span>
                         @endif
                     </ul>
                 </div>

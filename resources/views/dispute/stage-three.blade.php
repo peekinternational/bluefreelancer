@@ -114,7 +114,16 @@
                     {{-- <span><b>Result: </b>$0 paid</span> --}}
                 </div>
                 <div class="d-flex justify-content-center">
+                    @if ($dispute->status == 3)
+                    <div class="d-flex justify-content-center">
+                        <span class="text-success font-weight-bold"> Dispute has been resolved </span>
+                    </div>
+                    @elseif($dispute->status == 4)
                     <span class="text-danger"><b>IN ARBITRATION</b></span>
+                    @endif
+                    {{-- <div class="d-flex justify-content-center">
+                        <span class="text-success font-weight-bold"> Dispute has been resolved </span>
+                    </div> --}}
                     {{-- <span class="text-danger"><b>RESOLVED. DISPUTE CLOSED</b></span> --}}
                 </div>
             </div>
